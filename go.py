@@ -55,13 +55,13 @@ Mon May  1 11:50:48 CDT 2023
 
 chz = list(chr(u)for u in range(32,128))
 
-from PIL import Image,ImageDraw,ImageFont
+from PIL import Image, ImageDraw, ImageFont
 import numpy as np
 
 
 # 1. Make Template
 sqr = np.zeros((64,64,3))
-print(sqr)
+# print(sqr)
 i = Image.fromarray(sqr, 'RGB')
 i.save('myly.png')
 i.show()
@@ -70,9 +70,29 @@ i.show()
 img = Image.open('myly.png')
 fnt = ImageFont.truetype("Poppins-Medium.ttf", 32)
 i1 = ImageDraw.Draw(img)
-i1 = i1.text((8,8,), "X", anchor="mb",font=fnt, fill = (255, 0, 0,))
-img.show()
-img.save("tru.png")
+for o in range(65,123):
+	anch = 'la'
+	i1 = i1.text((16,16,), o, anchor=anch,font=fnt, fill = (255, 0, 0,))
+	img.show()
+	img.save("anchis_"+anch+"__charis_"+o+".png")
+
+# for a in range(65, 65+52):
+# 	for b in range(65, 65+52):
+# 		for c in range(65, 66):
+# 			anch = chr(a) + chr(b) #+ chr(c)
+# 			print(anch)
+# 			try:
+# 				i1 = i1.text((32,32,), "X", anchor=anch,font=fnt, fill = (255, 0, 0,))
+# 				img.show()
+# 				img.save("tru"+anch+".png")
+# 			except ValueError as ve:
+# 				# print(anch, 'no good')
+# 				pass
+# 			except TypeError as te:
+# 				pass
+
+
+
 # 3. Analyze RGB of Templates -> Produce Text Mask
 
 # 4. Print Text Mask interleaved with regex

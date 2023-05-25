@@ -11,6 +11,13 @@ Features:
 -[ ] 20+ coding languages supported
 
 
+
+Plan:
+-[ ] Target font to text center
+-[ ] Convert image to two-tone rgb map
+-[ ] Convert to text, regex style
+
+
 Examples:
 ---J. Henny did it to 'em
 
