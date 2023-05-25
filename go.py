@@ -67,15 +67,17 @@ i.save('myly.png')
 i.show()
 
 # 2. Print out Templates
-img = Image.open('myly.png')
-fnt = ImageFont.truetype("Poppins-Medium.ttf", 32)
-i1 = ImageDraw.Draw(img)
+
 for o in range(65,123):
+	o = chr(o)
+	img = Image.open('myly.png')
+	fnt = ImageFont.truetype("Poppins-Medium.ttf", 32)
+	i1 = ImageDraw.Draw(img)
 	anch = 'la'
 	i1 = i1.text((16,16,), o, anchor=anch,font=fnt, fill = (255, 0, 0,))
 	img.show()
 	img.save("anchis_"+anch+"__charis_"+o+".png")
-
+	# break
 # for a in range(65, 65+52):
 # 	for b in range(65, 65+52):
 # 		for c in range(65, 66):
