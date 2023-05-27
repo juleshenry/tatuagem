@@ -1,5 +1,5 @@
-#-[ ] Regex-styled, regimented text backsplash
-#-[ ] Multiple ASCII style font suites
+# -[ ] Regex-styled, regimented text backsplash
+# -[ ] Multiple ASCII style font suites
 """
 ---J. Henny did it to 'em
 
@@ -52,50 +52,77 @@ Mon May  1 11:50:48 CDT 2023
 *;*;*;*;*;*;*;*;*;*;*;*;*;*;*;*;*;*;*;*;*;*;*;*;*;*;*;*;*;*;*;*;*;*;*;*;*;*;*;*;*;*;*;*;*;*;*;*;*;*;*;*;*;*;*;*;*;*;*;*;*;*;*;*;
 */
 """
-
-chz = list(chr(u)for u in range(32,128))
-
+from typing import List
 from PIL import Image, ImageDraw, ImageFont
 import numpy as np
 
+CHZ = list(chr(u) for u in range(32, 128))
+j = lambda x: (0 if not len(x) or x[0] == "_" else 1)
+free_attrs = lambda k: list(filter(j, dir(k)))
+nex = enumerate
+
+
+def explore_more(a: object, attack: List[int]):
+    # explore more
+    frats_a = free_attrs(a)
+    for A in attack:
+        print(A, frats_a[A])
+        # getattr(a, free_attrs[A])()
+        try:
+            getattr(a, frats_a[A])()
+        except TypeError as te:
+            print("TE:", te)
+        except ValueError as ve:
+            print("VE:", ve)
+        except ImportError as ie:
+            print("IE:", ie)
+
+
+def expose(a: object, attack: List[int] = list([])):
+    # print(*(o for o in free_attrs(a)), sep="\n")
+    b = a.quantize()
+    print(b)
+    # print(*(f"{i}. {o}" for i,o in nex(free_attrs(b))), sep="\n")
+    explore_more(b, attack)
+
+    """
+    """
+
 
 # 1. Make Template
-sqr = np.zeros((64,64,3))
+sqr = np.zeros((64, 64, 3))
 # print(sqr)
-i = Image.fromarray(sqr, 'RGB')
-i.save('myly.png')
-i.show()
+i = Image.fromarray(sqr, "RGB")
+i.save("black-template.png")
+# i.show()
 
-# 2. Print out Templates
-
-for o in range(65,123):
-	o = chr(o)
-	img = Image.open('myly.png')
-	fnt = ImageFont.truetype("Poppins-Medium.ttf", 32)
-	i1 = ImageDraw.Draw(img)
-	anch = 'la'
-	i1 = i1.text((16,16,), o, anchor=anch,font=fnt, fill = (255, 0, 0,))
-	img.show()
-	img.save("anchis_"+anch+"__charis_"+o+".png")
-	# break
-# for a in range(65, 65+52):
-# 	for b in range(65, 65+52):
-# 		for c in range(65, 66):
-# 			anch = chr(a) + chr(b) #+ chr(c)
-# 			print(anch)
-# 			try:
-# 				i1 = i1.text((32,32,), "X", anchor=anch,font=fnt, fill = (255, 0, 0,))
-# 				img.show()
-# 				img.save("tru"+anch+".png")
-# 			except ValueError as ve:
-# 				# print(anch, 'no good')
-# 				pass
-# 			except TypeError as te:
-# 				pass
-
+# # # 2. Print out Templates
+# for o in CHZ:
+# 	if not o.isalpha(): continue
+# 	print('doing',o)
+# 	img = Image.open('black-template.png')
+# 	fnt = ImageFont.truetype("Poppins-Medium.ttf", 32)
+# 	i1 = ImageDraw.Draw(img)
+# 	anch = 'la'
+# 	i1 = i1.text((24,8,), o, anchor=anch,font=fnt, fill = (255, 255, 0,))
+# 	# img.show()
+# 	img.save(f"{'mayusc' if ord(o)<=91 else 'minisc'}_{o}.png")
 
 
 # 3. Analyze RGB of Templates -> Produce Text Mask
+for o in CHZ:
+    if not o.isalpha():
+        continue
+    x = "mayusc" if ord(o) <= 91 else "minisc"
+    i = Image.open(f"{x}_{o}.png")
+    # print('an:',x)
+    a = i.quantize()
+    # print(i.toqimage())
+    # print(*dir(q),sep='\n')
+    expose(a, list(range(0, 59)))
+
+    break
+
 
 # 4. Print Text Mask interleaved with regex
 
@@ -103,16 +130,3 @@ for o in range(65,123):
 # 	sqr = np.zeroes((8,8,3))
 # 	i = Image.open(sqr)
 # 	i1 = ImageDraw.Draw(i)
-
-
-
-
-
-
-
-
-
-
-
-
-
