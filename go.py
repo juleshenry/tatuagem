@@ -57,36 +57,32 @@ from PIL import Image, ImageDraw, ImageFont
 import numpy as np
 
 CHZ = list(chr(u) for u in range(32, 128))
-j = lambda x: (0 if not len(x) or x[0] == "_" else 1)
-free_attrs = lambda k: list(filter(j, dir(k)))
-nex = enumerate
+# ~ j = lambda x: (0 if not len(x) or x[0] == "_" else 1)
+# ~ free_attrs = lambda k: list(filter(j, dir(k)))
+# ~ nex = enumerate
+
+# ~ def explore_more(a: object, attack: List[int]):
+    # ~ # explore more
+    # ~ frats_a = free_attrs(a)
+    # ~ for A in attack:
+        # ~ print(A, frats_a[A])
+        # ~ # getattr(a, free_attrs[A])()
+        # ~ try:
+            # ~ getattr(a, frats_a[A])()
+        # ~ except TypeError as te:
+            # ~ print("TE:", te)
+        # ~ except ValueError as ve:
+            # ~ print("VE:", ve)
+        # ~ except ImportError as ie:
+            # ~ print("IE:", ie)
 
 
-def explore_more(a: object, attack: List[int]):
-    # explore more
-    frats_a = free_attrs(a)
-    for A in attack:
-        print(A, frats_a[A])
-        # getattr(a, free_attrs[A])()
-        try:
-            getattr(a, frats_a[A])()
-        except TypeError as te:
-            print("TE:", te)
-        except ValueError as ve:
-            print("VE:", ve)
-        except ImportError as ie:
-            print("IE:", ie)
-
-
-def expose(a: object, attack: List[int] = list([])):
-    # print(*(o for o in free_attrs(a)), sep="\n")
-    b = a.quantize()
-    print(b)
-    # print(*(f"{i}. {o}" for i,o in nex(free_attrs(b))), sep="\n")
-    explore_more(b, attack)
-
-    """
-    """
+# ~ def expose(a: object, attack: List[int] = list([])):
+    # ~ # print(*(o for o in free_attrs(a)), sep="\n")
+    # ~ b = a.quantize()
+    # ~ print(b)
+    # ~ # print(*(f"{i}. {o}" for i,o in nex(free_attrs(b))), sep="\n")
+    # ~ explore_more(b, attack)
 
 
 # 1. Make Template
@@ -119,9 +115,8 @@ for o in CHZ:
     a = i.quantize()
     # print(i.toqimage())
     # print(*dir(q),sep='\n')
-    expose(a, list(range(0, 59)))
-
-    break
+    # ~ expose(a, list(range(0, 59)))
+    print(o)
 
 
 # 4. Print Text Mask interleaved with regex
