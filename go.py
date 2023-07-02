@@ -87,7 +87,6 @@ CHZ = list(chr(u) for u in range(32, 128))
 
 # 1. Make Template
 sqr = np.zeros((64, 64, 3))
-# print(sqr)
 i = Image.fromarray(sqr, "RGB")
 i.save("black-template.png")
 # i.show()
@@ -111,12 +110,19 @@ for o in CHZ:
         continue
     x = "mayusc" if ord(o) <= 91 else "minisc"
     i = Image.open(f"{x}_{o}.png")
-    # print('an:',x)
     a = i.quantize()
-    # print(i.toqimage())
-    # print(*dir(q),sep='\n')
+    # ~ fails because not a (a.tobitmap())
+    # ~ getdata().getpixel() fails
+    print(b:=a.getdata())
+    # ~ print(b.size)
+    for h in range(b.size[1]):
+        for w in range(b.size[0]):
+            print('a' if b.getpixel((w,h,))-84 else 'b',end='')
+        print()
+    break
+    # ~ i.show()
+    # ~ print(*dir(b),sep='\n')
     # ~ expose(a, list(range(0, 59)))
-    print(o)
 
 
 # 4. Print Text Mask interleaved with regex
