@@ -113,13 +113,13 @@ for o in CHZ:
     a = i.quantize()
     # ~ fails because not a (a.tobitmap())
     # ~ getdata().getpixel() fails
-    print(b:=a.getdata())
+    (b:=a.getdata())
     # ~ print(b.size)
     for h in range(b.size[1]):
         for w in range(b.size[0]):
-            print('a' if b.getpixel((w,h,))-84 else 'b',end='')
+            print('a' if b.getpixel((w,h,))-b.getpixel((0,0,)) else 'b',end='')
         print()
-    break
+    print('p'*99)
     # ~ i.show()
     # ~ print(*dir(b),sep='\n')
     # ~ expose(a, list(range(0, 59)))
