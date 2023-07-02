@@ -116,8 +116,10 @@ for o in CHZ:
     (b:=a.getdata())
     # ~ print(b.size)
     for h in range(b.size[1]):
+        if not sum([o-b.getpixel((0,0,)) for o in [b.getpixel((i,h,)) for i in range(b.size[0])]]):
+            continue
         for w in range(b.size[0]):
-            print('a' if b.getpixel((w,h,))-b.getpixel((0,0,)) else 'b',end='')
+            print('0' if b.getpixel((w,h,))-b.getpixel((0,0,)) else '1',end='')
         print()
     print('p'*99)
     # ~ i.show()
