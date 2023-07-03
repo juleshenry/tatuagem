@@ -153,7 +153,7 @@ def concat(cmat, amat, sep=''):
     return x
     
 j = []
-for x in 'banana':
+for x in 'BLUFOR':
     cmat = yield_char_matrix(x)
     if not j:
         j = concat(oxo, cmat)
