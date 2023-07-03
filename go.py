@@ -56,7 +56,7 @@ from typing import List
 from PIL import Image, ImageDraw, ImageFont
 import numpy as np
 
-CHZ = list(chr(u) for u in range(32, 128))
+CHZ = list(chr(u) for u in range(32, 128) if chr(u).isalpha())
 # ~ j = lambda x: (0 if not len(x) or x[0] == "_" else 1)
 # ~ free_attrs = lambda k: list(filter(j, dir(k)))
 # ~ nex = enumerate
@@ -105,26 +105,62 @@ i.save("black-template.png")
 
 
 # 3. Analyze RGB of Templates -> Produce Text Mask
-for o in CHZ:
-    if not o.isalpha():
-        continue
+
+    
+
+    
+def yield_char_matrix(char):
+    o = char
     x = "mayusc" if ord(o) <= 91 else "minisc"
     i = Image.open(f"{x}_{o}.png")
-    a = i.quantize()
-    # ~ fails because not a (a.tobitmap())
-    # ~ getdata().getpixel() fails
-    (b:=a.getdata())
-    # ~ print(b.size)
+    b = i.quantize().getdata()
     print(o*99)
-    for h in range(b.size[1]):
-        if not sum([o-b.getpixel((0,0,)) for o in [b.getpixel((i,h,)) for i in range(b.size[0])]]):
+    o = [[] for _ in range(b.size[1])]
+    for ix, h in enumerate(range(b.size[1])):
+        # ~ if not sum([o-b.getpixel((0,0,)) for o in [b.getpixel((i,h,)) for i in range(b.size[0])]]):
+            # ~ continue
+        if not (12 < h < 64-12):
             continue
         for w in range(b.size[0]):
             if not sum([o-b.getpixel((0,0,)) for o in [b.getpixel((w,i,)) for i in range(b.size[1])]]):
                 continue
-            print('#' if b.getpixel((w,h,))-b.getpixel((0,0,)) else '*',end='')
-        print()
+            o[ix].append('#' if b.getpixel((w,h,))-b.getpixel((0,0,)) else '*')
+    return o
+    
+def expose(mat):
+    for i in (mat):
+        if i:
+            print(''.join(i))
 
+# All view
+# ~ for character in CHZ:
+    # ~ character_mat = yield_char_matrix(character)
+    # ~ expose(character_mat)
+
+
+iii = Image.open(f"mayusc_A.png")
+bbb = iii.quantize().getdata()
+oxo = [[] for _ in range(bbb.size[1])]
+
+def concat(cmat, amat, sep=''):
+    if not len(cmat)==len(amat):
+        raise ValueError("equal len required")
+        
+    x = [[] for _ in range(len(cmat))]
+    for ix, ab in enumerate(zip(cmat,amat)):
+        a,b = ab
+        x[ix] = a+([sep] if a and b else [])+b
+    return x
+    
+j = []
+for x in 'banana':
+    cmat = yield_char_matrix(x)
+    if not j:
+        j = concat(oxo, cmat)
+    else:
+        j = concat(j, cmat, sep='**')
+expose(j)
+    
     # ~ i.show()
     # ~ print(*dir(b),sep='\n')
     # ~ expose(a, list(range(0, 59)))
