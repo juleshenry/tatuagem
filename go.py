@@ -48,6 +48,7 @@ Mon May  1 11:50:48 CDT 2023
 from typing import List
 from PIL import Image, ImageDraw, ImageFont
 import numpy as np
+import os 
 
 CHZ = list(chr(u) for u in range(32, 128) if chr(u).isalpha())
 # ~ j = lambda x: (0 if not len(x) or x[0] == "_" else 1)
@@ -79,33 +80,40 @@ CHZ = list(chr(u) for u in range(32, 128) if chr(u).isalpha())
 
 
 # 1. Make Template
-sqr = np.zeros((64, 64, 3))
+
+template_size = 64
+sqr = np.zeros((template_size, template_size, 3))
 i = Image.fromarray(sqr, "RGB")
 i.save("black-template.png")
-# i.show()
+FONT = "Poppins-Medium.ttf"
+new_dir = f"fonts/{FONT[:-4]}"
 
+try:
+    os.mkdir(new_dir)
+except FileExistsError:
+    pass
 # # # 2. Print out Templates
-# for o in CHZ:
-# 	if not o.isalpha(): continue
-# 	print('doing',o)
-# 	img = Image.open('black-template.png')
-# 	fnt = ImageFont.truetype("Poppins-Medium.ttf", 32)
-# 	i1 = ImageDraw.Draw(img)
-# 	anch = 'la'
-# 	i1 = i1.text((24,8,), o, anchor=anch,font=fnt, fill = (255, 255, 0,))
-# 	# img.show()
-# 	img.save(f"{'mayusc' if ord(o)<=91 else 'minisc'}_{o}.png")
+for o in CHZ:
+	# if not o.isalpha(): continue
+    print('doing',o)
+    img = Image.open('black-template.png')
+    fnt = ImageFont.truetype(f"fonts/{FONT}", 32)
+    i1 = ImageDraw.Draw(img)
+    anch = 'la'
+    i1 = i1.text((24,8,), o, anchor=anch,font=fnt, fill = (255, 255, 0,))
+    x = 'mayusc' if ord(o)<=91 else 'minisc'
+    img.save(f"{new_dir}/{x}_{o}.png")
 
 
 # 3. Analyze RGB of Templates -> Produce Text Mask
 
-    
+# 1/0
 
     
 def yield_char_matrix(char):
     o = char
     x = "mayusc" if ord(o) <= 91 else "minisc"
-    i = Image.open(f"{x}_{o}.png")
+    i = Image.open(f"{new_dir}/{x}_{o}.png")
     b = i.quantize().getdata()
     print(o*99)
     o = [[] for _ in range(b.size[1])]
@@ -125,15 +133,8 @@ def expose(mat):
         if i:
             print(''.join(i))
 
-# All view
-# ~ for character in CHZ:
-    # ~ character_mat = yield_char_matrix(character)
-    # ~ expose(character_mat)
 
-
-iii = Image.open(f"mayusc_A.png")
-bbb = iii.quantize().getdata()
-oxo = [[] for _ in range(bbb.size[1])]
+oxo = [[] for _ in range(template_size)]
 
 def concat(cmat, amat, sep=''):
     if not len(cmat)==len(amat):
