@@ -1,6 +1,6 @@
 # Tatuagem, the boastful code signature suite
 
-![alt text](https://vectorportal.com/storage/s-tribal-vector-image_6007.jpg)
+![alt text](tatuagem.png)
 
 Features:
 -[ ] Regex-styled, regimented text backsplash
