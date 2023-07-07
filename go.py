@@ -4,36 +4,8 @@ import numpy as np
 import os
 
 CHZ = list(chr(u) for u in range(32, 128) if chr(u).isalpha())
-# ~ j = lambda x: (0 if not len(x) or x[0] == "_" else 1)
-# ~ free_attrs = lambda k: list(filter(j, dir(k)))
-# ~ nex = enumerate
-
-# ~ def explore_more(a: object, attack: List[int]):
-# ~ # explore more
-# ~ frats_a = free_attrs(a)
-# ~ for A in attack:
-# ~ print(A, frats_a[A])
-# ~ # getattr(a, free_attrs[A])()
-# ~ try:
-# ~ getattr(a, frats_a[A])()
-# ~ except TypeError as te:
-# ~ print("TE:", te)
-# ~ except ValueError as ve:
-# ~ print("VE:", ve)
-# ~ except ImportError as ie:
-# ~ print("IE:", ie)
-
-
-# ~ def expose(a: object, attack: List[int] = list([])):
-# ~ # print(*(o for o in free_attrs(a)), sep="\n")
-# ~ b = a.quantize()
-# ~ print(b)
-# ~ # print(*(f"{i}. {o}" for i,o in nex(free_attrs(b))), sep="\n")
-# ~ explore_more(b, attack)
-
 
 # 1. Make Template
-
 template_size = 64
 sqr = np.zeros((template_size, template_size, 3))
 i = Image.fromarray(sqr, "RGB")
@@ -45,6 +17,8 @@ try:
     os.mkdir(new_dir)
 except FileExistsError:
     pass
+
+
 # # # 2. Print out Templates
 for o in CHZ:
     print("doing", o)
@@ -147,14 +121,15 @@ def concat(cmat, amat, sep=""):
     return x
 
 
-j = []
-for x in "Tatuagem":
-    cmat = yield_char_matrix(x)
-    if not j:
-        j = concat(oxo, cmat)
-    else:
-        j = concat(j, cmat, sep="**")
-expose(j)
+def tatuagem(frase: str):
+    j = []
+    for x in frase:
+        cmat = yield_char_matrix(x)
+        if not j:
+            j = concat(oxo, cmat)
+        else:
+            j = concat(j, cmat, sep="**")
+    expose(j)
 
 # ~ i.show()
 # ~ print(*dir(b),sep='\n')
@@ -167,6 +142,6 @@ expose(j)
 # 	sqr = np.zeroes((8,8,3))
 # 	i = Image.open(sqr)
 # 	i1 = ImageDraw.Draw(i)
-
+import sys
 if __name__ == "__main__":
-    pass
+    tatuagem(sys.argv[1])
