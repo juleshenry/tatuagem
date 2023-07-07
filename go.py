@@ -94,7 +94,6 @@ except FileExistsError:
     pass
 # # # 2. Print out Templates
 for o in CHZ:
-	# if not o.isalpha(): continue
     print('doing',o)
     img = Image.open('black-template.png')
     fnt = ImageFont.truetype(f"fonts/{FONT}", 32)
@@ -106,8 +105,6 @@ for o in CHZ:
 
 
 # 3. Analyze RGB of Templates -> Produce Text Mask
-
-# 1/0
 
     
 def yield_char_matrix(char):
@@ -129,6 +126,7 @@ def yield_char_matrix(char):
     return o
     
 def expose(mat):
+    # prints a `matrix`
     for i in (mat):
         if i:
             print(''.join(i))
@@ -147,7 +145,7 @@ def concat(cmat, amat, sep=''):
     return x
     
 j = []
-for x in 'JulianHenry':
+for x in 'Tatuagem':
     cmat = yield_char_matrix(x)
     if not j:
         j = concat(oxo, cmat)
