@@ -4,11 +4,22 @@
 
 Features:
 -[ ] Regex-styled, regimented text backsplash
--[ ] Multiple ASCII style font suites
+-[ ] Multiple ASCII style font suites (currently supports Poppins)
 -[ ] Recursive signature application
 -[ ] Time stamping of signatures
 -[x] Web3 compatible
--[ ] 20+ coding languages supported
+-[x] 20+ coding languages supported
+
+#Syntax:
+```tatuagem $YourText --text $TextPattern --backsplash $BacksplashPattern  --time-stamp 1 --font Poppins-Medium```
+
+#Syntax Example 1:
+```tatuagem Buffalo -t # -bs *```
+
+Default for timestamp is 0
+
+Default for font is Poppins-Medium
+
 
 
 
@@ -19,7 +30,7 @@ Plan:
 
 
 Examples:
----J. Henny did it to 'em
+```
 
 Mon May  1 11:50:48 CDT 2023
 
@@ -62,5 +73,4 @@ Mon May  1 11:50:48 CDT 2023
 ********************************************************************************************##########*******************************************************
 *************************************************************************************************************************************************************
 *************************************************************************************************************************************************************
-*/
----
+```

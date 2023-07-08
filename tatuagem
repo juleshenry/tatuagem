@@ -1,0 +1,23 @@
+#!/bin/bash
+while getopts 'abc:h' opt; do
+  case "$opt" in
+    --text|-t)
+      echo "Processing option 'a'"
+      ;;
+
+    --backsplash|-bs)
+      echo "Processing option 'b'"
+      ;;
+
+    c)
+      arg="$OPTARG"
+      echo "Processing option 'c' with '${OPTARG}' argument"
+      ;;
+   
+    ?|h)
+      echo "Usage: $(basename $0) [--text|-t ] [--backsplash|-bs pattern] [--time-stamp|-ts 0 or 1] [--font|-f font-file-name]"
+      exit 1
+      ;;
+  esac
+done
+shift "$(($OPTIND -1))"
