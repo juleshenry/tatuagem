@@ -144,4 +144,6 @@ def tatuagem(frase: str):
 # 	i1 = ImageDraw.Draw(i)
 import sys
 if __name__ == "__main__":
+    if not len(sys.argv) > 2: 
+        raise ValueError("Must give a text to display")
     tatuagem(sys.argv[1])
