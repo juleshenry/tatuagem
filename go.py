@@ -142,8 +142,32 @@ def tatuagem(frase: str):
 # 	sqr = np.zeroes((8,8,3))
 # 	i = Image.open(sqr)
 # 	i1 = ImageDraw.Draw(i)
-import sys
-if __name__ == "__main__":
-    if not len(sys.argv) > 2: 
-        raise ValueError("Must give a text to display")
-    tatuagem(sys.argv[1])
+import argparse
+if __name__=='__main__':
+    # Create the parser
+    parser = argparse.ArgumentParser(description="Tatuagem")
+
+    # Add the options
+    parser.add_argument('--text', '-t', action='store_true', help='Set the text option')
+    parser.add_argument('--backsplash', '-bs', action='store_true', help='Enable backsplash option')
+    parser.add_argument('--time-stamp', '-ts', action='store_true', help='Enable time stamp option')
+    parser.add_argument('--font', '-f', metavar='FONT', help='Set the font option')
+
+    # Parse the first argument
+    args, positional_args = parser.parse_known_args()  
+
+    arg0_frase = positional_args[0]
+    # Access the option values
+    if args.text:
+        print("Text option is enabled")
+
+    if args.backsplash:
+        print("Backsplash option is enabled")
+
+    if args.time_stamp:
+        print("Time stamp option is enabled")
+
+    if args.font:
+        print("Font option is set to:", args.font)
+    tatuagem(arg0_frase)
+

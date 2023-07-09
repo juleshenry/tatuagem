@@ -11,7 +11,7 @@ font_option=""
 usage() {
     echo "Usage: script.sh <arg1> [OPTIONS]"
     echo "Options:"
-    echo "  -t, --text TEXT       Set the text option"
+    echo "  --text, -t       Set the text option"
     echo "  --backsplash, -bs     Enable backsplash option"
     echo "  --time-stamp, -ts     Enable time stamp option"
     echo "  --font, -f FONT       Set the font option"
@@ -71,3 +71,4 @@ echo "Time stamp option: $time_stamp_option"
 echo "Font option: $font_option"
 
 # Additional script logic here...
+python3 
