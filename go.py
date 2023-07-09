@@ -1,48 +1,13 @@
 from typing import List
-from PIL import Image, ImageDraw, ImageFont
 import numpy as np
 import os
+from params import TEMPLATE_SIZE, Image, ImageDraw, ImageFont
 
 CHZ = list(chr(u) for u in range(32, 128) if chr(u).isalpha())
-template_size = 64
-kwargs_list = {"text", "backsplash", "time_stamp","font"}
 
-def init_and_create_templates(font="Poppins-Medium.ttf"):
-    new_dir = f"fonts/{FONT[:-4]}"
-    sqr = np.zeros((template_size, template_size, 3))
-    i = Image.fromarray(sqr, "RGB")
-    i.save("black-template.png")
-    try:
-        os.mkdir(new_dir)
-    except FileExistsError:
-        pass
-    for o in CHZ:
-        print("doing", o)
-        img = Image.open("black-template.png")
-        fnt = ImageFont.truetype(f"fonts/{FONT}", 32)
-        i1 = ImageDraw.Draw(img)
-        anch = "la"
-        i1 = i1.text(
-            (
-                24,
-                8,
-            ),
-            o,
-            anchor=anch,
-            font=fnt,
-            fill=(
-                255,
-                255,
-                0,
-            ),
-        )
-        x = "mayusc" if ord(o) <= 91 else "minisc"
-        img.save(f"{new_dir}/{x}_{o}.png")
-
+kwargs_list = {"text", "backsplash", "time_stamp", "font"}
 
 # 3. Analyze RGB of Templates -> Produce Text Mask
-
-
 def yield_char_matrix(char, font="Poppins-Medium.ttf"):
     new_dir = f"fonts/{font[:-4]}"
     o = char
@@ -104,9 +69,6 @@ def expose(mat):
             print("".join(i))
 
 
-
-
-
 def concat(cmat, amat, sep=""):
     if not len(cmat) == len(amat):
         raise ValueError("equal len required")
@@ -119,42 +81,36 @@ def concat(cmat, amat, sep=""):
 
 
 def tatuagem(frase: str, **kwargs):
-    for k,v in kwargs.items():
-        print(k,v)
+    for k, v in kwargs.items():
+        print(k, v)
     j = []
-    oxo = [[] for _ in range(template_size)]
+    oxo = [[] for _ in range(TEMPLATE_SIZE)]
     for x in frase:
-        cmat = yield_char_matrix(x,font=kwargs['font'])
+        cmat = yield_char_matrix(x, font=kwargs["font"])
         if not j:
             j = concat(oxo, cmat)
         else:
             j = concat(j, cmat, sep="**")
     expose(j)
 
-# ~ i.show()
-# ~ print(*dir(b),sep='\n')
-# ~ expose(a, list(range(0, 59)))
-
-
-# 4. Print Text Mask interleaved with regex
-
-# for u in chz:
-# 	sqr = np.zeroes((8,8,3))
-# 	i = Image.open(sqr)
-# 	i1 = ImageDraw.Draw(i)
 import argparse
-if __name__=='__main__':
+
+if __name__ == "__main__":
     # Create the parser
     parser = argparse.ArgumentParser(description="Tatuagem")
 
     # Add the options
-    parser.add_argument('--text', '-t', action='store_true', help='Set the text option')
-    parser.add_argument('--backsplash', '-bs', action='store_true', help='Enable backsplash option')
-    parser.add_argument('--time-stamp', '-ts', action='store_true', help='Enable time stamp option')
-    parser.add_argument('--font', '-f', metavar='FONT', help='Set the font option')
+    parser.add_argument("--text", "-t", action="store_true", help="Set the text option")
+    parser.add_argument(
+        "--backsplash", "-bs", action="store_true", help="Enable backsplash option"
+    )
+    parser.add_argument(
+        "--time-stamp", "-ts", action="store_true", help="Enable time stamp option"
+    )
+    parser.add_argument("--font", "-f", metavar="FONT", help="Set the font option")
 
     # Parse the first argument
-    args, positional_args = parser.parse_known_args()  
+    args, positional_args = parser.parse_known_args()
 
     arg0_frase = positional_args[0]
     # Access the option values
@@ -168,10 +124,9 @@ if __name__=='__main__':
         print("Time stamp option is enabled")
 
     if args.font:
-        
+
         print("Font option is set to:", args.font)
     if not args.font:
         args.font = "Poppins-Medium.ttf"
-    
-    tatuagem(arg0_frase,**{a:getattr(args,a) for a in kwargs_list})
 
+    tatuagem(arg0_frase, **{a: getattr(args, a) for a in kwargs_list})
