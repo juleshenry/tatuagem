@@ -5,7 +5,7 @@ import os
 
 CHZ = list(chr(u) for u in range(32, 128) if chr(u).isalpha())
 template_size = 64
-
+kwargs_list = {"text", "backsplash", "time_stamp","font"}
 
 def init_and_create_templates(font="Poppins-Medium.ttf"):
     new_dir = f"fonts/{FONT[:-4]}"
@@ -43,7 +43,8 @@ def init_and_create_templates(font="Poppins-Medium.ttf"):
 # 3. Analyze RGB of Templates -> Produce Text Mask
 
 
-def yield_char_matrix(char):
+def yield_char_matrix(char, font="Poppins-Medium.ttf"):
+    new_dir = f"fonts/{font[:-4]}"
     o = char
     x = "mayusc" if ord(o) <= 91 else "minisc"
     i = Image.open(f"{new_dir}/{x}_{o}.png")
@@ -117,11 +118,13 @@ def concat(cmat, amat, sep=""):
     return x
 
 
-def tatuagem(frase: str):
+def tatuagem(frase: str, **kwargs):
+    for k,v in kwargs.items():
+        print(k,v)
     j = []
     oxo = [[] for _ in range(template_size)]
     for x in frase:
-        cmat = yield_char_matrix(x)
+        cmat = yield_char_matrix(x,font=kwargs['font'])
         if not j:
             j = concat(oxo, cmat)
         else:
@@ -165,6 +168,10 @@ if __name__=='__main__':
         print("Time stamp option is enabled")
 
     if args.font:
+        
         print("Font option is set to:", args.font)
-    tatuagem(arg0_frase)
+    if not args.font:
+        args.font = "Poppins-Medium.ttf"
+    
+    tatuagem(arg0_frase,**{a:getattr(args,a) for a in kwargs_list})
 
