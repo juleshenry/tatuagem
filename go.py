@@ -1,9 +1,7 @@
 from typing import List
-import numpy as np
 import os
 from params import TEMPLATE_SIZE, Image, ImageDraw, ImageFont
-
-CHZ = list(chr(u) for u in range(32, 128) if chr(u).isalpha())
+from initi import get_font_png_path
 
 kwargs_list = {"text", "backsplash", "time_stamp", "font"}
 
@@ -11,8 +9,8 @@ kwargs_list = {"text", "backsplash", "time_stamp", "font"}
 def yield_char_matrix(char, font="Poppins-Medium.ttf"):
     new_dir = f"fonts/{font[:-4]}"
     o = char
-    x = "mayusc" if ord(o) <= 91 else "minisc"
-    i = Image.open(f"{new_dir}/{x}_{o}.png")
+    fpp = get_font_png_path(char, new_dir)
+    i = Image.open(fpp)
     b = i.quantize().getdata()
     print(o * 99)
     o = [[] for _ in range(b.size[1])]

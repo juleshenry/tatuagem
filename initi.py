@@ -12,9 +12,7 @@ def init_and_create_templates(font="Poppins-Medium.ttf"):
         os.mkdir(new_dir)
     except FileExistsError:
         pass
-    for i,o in enumerate(CHZ):
-        # print(str(i/len(CHZ)*100)[:4])
-        print(o,end=' ')
+    for o in CHZ:
         img = Image.open(btpng)
         fnt = ImageFont.truetype(f"fonts/{font}", 32)
         i1 = ImageDraw.Draw(img)
@@ -33,6 +31,10 @@ def init_and_create_templates(font="Poppins-Medium.ttf"):
                 0,
             ),
         )
+        font_png_path = get_font_png_path(o,new_dir)
+        return img.save(font_png_path)
+    
+def get_font_png_path(o: str, new_dir: str):
         font_png_path = f"{new_dir}/__{o}__.png"
         try:
             with open(font_png_path) as s:
@@ -43,7 +45,7 @@ def init_and_create_templates(font="Poppins-Medium.ttf"):
                 font_png_path = f"{new_dir}/__{o}__.png"
             except FileNotFoundError and FileNotFoundError: # ~ I'm a demon <3 -jh
                 font_png_path = f"{new_dir}/__chr({ord(o)})__.png"
-        img.save(font_png_path)
+        return font_png_path
         
         
 if __name__=='__main__':
