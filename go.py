@@ -4,44 +4,40 @@ import numpy as np
 import os
 
 CHZ = list(chr(u) for u in range(32, 128) if chr(u).isalpha())
-
-# 1. Make Template
 template_size = 64
-sqr = np.zeros((template_size, template_size, 3))
-i = Image.fromarray(sqr, "RGB")
-i.save("black-template.png")
-FONT = "Poppins-Medium.ttf"
-new_dir = f"fonts/{FONT[:-4]}"
-
-try:
-    os.mkdir(new_dir)
-except FileExistsError:
-    pass
 
 
-# # # 2. Print out Templates
-for o in CHZ:
-    print("doing", o)
-    img = Image.open("black-template.png")
-    fnt = ImageFont.truetype(f"fonts/{FONT}", 32)
-    i1 = ImageDraw.Draw(img)
-    anch = "la"
-    i1 = i1.text(
-        (
-            24,
-            8,
-        ),
-        o,
-        anchor=anch,
-        font=fnt,
-        fill=(
-            255,
-            255,
-            0,
-        ),
-    )
-    x = "mayusc" if ord(o) <= 91 else "minisc"
-    img.save(f"{new_dir}/{x}_{o}.png")
+def init_and_create_templates(font="Poppins-Medium.ttf"):
+    new_dir = f"fonts/{FONT[:-4]}"
+    sqr = np.zeros((template_size, template_size, 3))
+    i = Image.fromarray(sqr, "RGB")
+    i.save("black-template.png")
+    try:
+        os.mkdir(new_dir)
+    except FileExistsError:
+        pass
+    for o in CHZ:
+        print("doing", o)
+        img = Image.open("black-template.png")
+        fnt = ImageFont.truetype(f"fonts/{FONT}", 32)
+        i1 = ImageDraw.Draw(img)
+        anch = "la"
+        i1 = i1.text(
+            (
+                24,
+                8,
+            ),
+            o,
+            anchor=anch,
+            font=fnt,
+            fill=(
+                255,
+                255,
+                0,
+            ),
+        )
+        x = "mayusc" if ord(o) <= 91 else "minisc"
+        img.save(f"{new_dir}/{x}_{o}.png")
 
 
 # 3. Analyze RGB of Templates -> Produce Text Mask
@@ -107,7 +103,7 @@ def expose(mat):
             print("".join(i))
 
 
-oxo = [[] for _ in range(template_size)]
+
 
 
 def concat(cmat, amat, sep=""):
@@ -123,6 +119,7 @@ def concat(cmat, amat, sep=""):
 
 def tatuagem(frase: str):
     j = []
+    oxo = [[] for _ in range(template_size)]
     for x in frase:
         cmat = yield_char_matrix(x)
         if not j:
