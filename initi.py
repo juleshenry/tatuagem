@@ -37,17 +37,14 @@ def init_and_create_templates(font="Poppins-Medium.ttf"):
         try:
             with open(font_png_path) as s:
                 if o.isalpha():
-                    img.save(f"{new_dir}/__lowercase_{o}__.png")
+                    font_png_path = f"{new_dir}/__lowercase_{o}__.png"
         except FileNotFoundError:
             try:
-                img.save(f"{new_dir}/__{o}__.png")
-            except:
-                img.save(f"{new_dir}/__chr({ord(o)})__.png")
+                font_png_path = f"{new_dir}/__{o}__.png"
+            except FileNotFoundError and FileNotFoundError: # ~ I'm a demon <3 -jh
+                font_png_path = f"{new_dir}/__chr({ord(o)})__.png"
+        img.save(font_png_path)
         
         
-        # except: #ValueError and FileNotFoundError: # <3 I'm a demon , -jh
-        #     print("trying to save")
-        #     img.save(f"{new_dir}/__chr({ord(o)})__.png")
-
 if __name__=='__main__':
     init_and_create_templates()
