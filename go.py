@@ -2,9 +2,9 @@ from typing import List
 import os
 from params import TEMPLATE_SIZE, Image, ImageDraw, ImageFont
 from initi import get_font_png_path
-
+MARGIN = 12
 kwargs_list = {"text", "backsplash", "time_stamp", "font"}
-
+SPACE_MARGIN = 4
 # 3. Analyze RGB of Templates -> Produce Text Mask
 def yield_char_matrix(char, font="Poppins-Medium.ttf"):
     new_dir = f"fonts/{font[:-4]}"
@@ -12,14 +12,15 @@ def yield_char_matrix(char, font="Poppins-Medium.ttf"):
     fpp = get_font_png_path(char, new_dir)
     i = Image.open(fpp)
     b = i.quantize().getdata()
-    print(o * 99)
     o = [[] for _ in range(b.size[1])]
     for ix, h in enumerate(range(b.size[1])):
         # ~ if not sum([o-b.getpixel((0,0,)) for o in [b.getpixel((i,h,)) for i in range(b.size[0])]]):
         # ~ continue
-        if not (12 < h < 64 - 12):
+        if not (MARGIN < h < TEMPLATE_SIZE - MARGIN):
             continue
         for w in range(b.size[0]):
+            if char == ' ' and (SPACE_MARGIN < w < TEMPLATE_SIZE - SPACE_MARGIN):
+                continue
             if not sum(
                 [
                     o
@@ -39,7 +40,7 @@ def yield_char_matrix(char, font="Poppins-Medium.ttf"):
                         for i in range(b.size[1])
                     ]
                 ]
-            ):
+            ) and char != ' ':
                 continue
             o[ix].append(
                 "#"
