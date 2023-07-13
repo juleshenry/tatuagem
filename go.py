@@ -2,55 +2,59 @@ from typing import List
 import os
 from params import TEMPLATE_SIZE, Image, ImageDraw, ImageFont
 from initi import get_font_png_path
+import argparse
+
 MARGIN = 12
 kwargs_list = {"text", "backsplash", "time_stamp", "font"}
 SPACE_MARGIN = 4
+FONT_DEFAULT = "Poppins-Medium.ttf"
 # 3. Analyze RGB of Templates -> Produce Text Mask
-def yield_char_matrix(char, font="Poppins-Medium.ttf"):
+def yield_char_matrix(char, font=FONT_DEFAULT, crop_top=False):
     new_dir = f"fonts/{font[:-4]}"
-    o = char
     fpp = get_font_png_path(char, new_dir)
-    i = Image.open(fpp)
-    b = i.quantize().getdata()
-    o = [[] for _ in range(b.size[1])]
-    for ix, h in enumerate(range(b.size[1])):
-        # ~ if not sum([o-b.getpixel((0,0,)) for o in [b.getpixel((i,h,)) for i in range(b.size[0])]]):
-        # ~ continue
+    imat = Image.open(fpp).quantize().getdata()
+    o = [[] for _ in range(imat.size[1])]
+    for ix, h in enumerate(range(imat.size[1])):
+        if crop_top and not sum([o-imat.getpixel((0,0,)) for o in [imat.getpixel((i,h,)) for i in range(imat.size[0])]]):
+            continue
         if not (MARGIN < h < TEMPLATE_SIZE - MARGIN):
             continue
-        for w in range(b.size[0]):
-            if char == ' ' and (SPACE_MARGIN < w < TEMPLATE_SIZE - SPACE_MARGIN):
+        for w in range(imat.size[0]):
+            if char == " " and (SPACE_MARGIN < w < TEMPLATE_SIZE - SPACE_MARGIN):
                 continue
-            if not sum(
-                [
-                    o
-                    - b.getpixel(
-                        (
-                            0,
-                            0,
-                        )
-                    )
-                    for o in [
-                        b.getpixel(
+            if (
+                not sum(
+                    [
+                        o
+                        - imat.getpixel(
                             (
-                                w,
-                                i,
+                                0,
+                                0,
                             )
                         )
-                        for i in range(b.size[1])
+                        for o in [
+                            imat.getpixel(
+                                (
+                                    w,
+                                    i,
+                                )
+                            )
+                            for i in range(imat.size[1])
+                        ]
                     ]
-                ]
-            ) and char != ' ':
+                )
+                and char != " "
+            ):
                 continue
             o[ix].append(
                 "#"
-                if b.getpixel(
+                if imat.getpixel(
                     (
                         w,
                         h,
                     )
                 )
-                - b.getpixel(
+                - imat.getpixel(
                     (
                         0,
                         0,
@@ -60,12 +64,10 @@ def yield_char_matrix(char, font="Poppins-Medium.ttf"):
             )
     return o
 
-
-def expose(mat):
-    # prints a `matrix`
-    for i in mat:
-        if i:
-            print("".join(i))
+# prints a `matrix`
+def expose(mat):[print("".join(i)) for i in mat if i] # fmt: skip
+    
+    
 
 
 def concat(cmat, amat, sep=""):
@@ -92,40 +94,27 @@ def tatuagem(frase: str, **kwargs):
             j = concat(j, cmat, sep="**")
     expose(j)
 
-import argparse
-
 if __name__ == "__main__":
     # Create the parser
     parser = argparse.ArgumentParser(description="Tatuagem")
-
-    # Add the options
-    parser.add_argument("--text", "-t", action="store_true", help="Set the text option")
-    parser.add_argument(
-        "--backsplash", "-bs", action="store_true", help="Enable backsplash option"
+    st = "store_true"
+    parser.add_argument("--text", "-t", action=st, help="Set the text")
+    parser.add_argument("--backsplash", "-bs", action=st, help="Enable backsplash"
     )
     parser.add_argument(
-        "--time-stamp", "-ts", action="store_true", help="Enable time stamp option"
+        "--time-stamp", "-ts", action=st, help="Enable time stamp"
     )
-    parser.add_argument("--font", "-f", metavar="FONT", help="Set the font option")
-
+    parser.add_argument("--font", "-f", metavar="FONT", help="Set the font")
     # Parse the first argument
     args, positional_args = parser.parse_known_args()
-
     arg0_frase = positional_args[0]
     # Access the option values
     if args.text:
         print("Text option is enabled")
-
     if args.backsplash:
         print("Backsplash option is enabled")
-
     if args.time_stamp:
         print("Time stamp option is enabled")
-
-    if args.font:
-
-        print("Font option is set to:", args.font)
     if not args.font:
         args.font = "Poppins-Medium.ttf"
-
     tatuagem(arg0_frase, **{a: getattr(args, a) for a in kwargs_list})
