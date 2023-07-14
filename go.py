@@ -15,7 +15,26 @@ def yield_char_matrix(char, font=FONT_DEFAULT, crop_top=False):
     imat = Image.open(fpp).quantize().getdata()
     o = [[] for _ in range(imat.size[1])]
     for ix, h in enumerate(range(imat.size[1])):
-        if crop_top and not sum([o-imat.getpixel((0,0,)) for o in [imat.getpixel((i,h,)) for i in range(imat.size[0])]]):
+        if crop_top and not sum(
+            [
+                o
+                - imat.getpixel(
+                    (
+                        0,
+                        0,
+                    )
+                )
+                for o in [
+                    imat.getpixel(
+                        (
+                            i,
+                            h,
+                        )
+                    )
+                    for i in range(imat.size[0])
+                ]
+            ]
+        ):
             continue
         if not (MARGIN < h < TEMPLATE_SIZE - MARGIN):
             continue
@@ -64,10 +83,10 @@ def yield_char_matrix(char, font=FONT_DEFAULT, crop_top=False):
             )
     return o
 
+
 # prints a `matrix`
-def expose(mat):[print("".join(i)) for i in mat if i] # fmt: skip
-    
-    
+def expose(mat):
+    [print("".join(i)) for i in mat if i]  # fmt: skip
 
 
 def concat(cmat, amat, sep=""):
@@ -94,17 +113,15 @@ def tatuagem(frase: str, **kwargs):
             j = concat(j, cmat, sep="**")
     expose(j)
 
+
 if __name__ == "__main__":
     # Create the parser
     parser = argparse.ArgumentParser(description="Tatuagem")
     st = "store_true"
-    parser.add_argument("--text", "-t", action=st, help="Set the text")
-    parser.add_argument("--backsplash", "-bs", action=st, help="Enable backsplash"
-    )
-    parser.add_argument(
-        "--time-stamp", "-ts", action=st, help="Enable time stamp"
-    )
-    parser.add_argument("--font", "-f", metavar="FONT", help="Set the font")
+    parser.add_argument("--text", "-t", action=st, help="Set the text")  # fmt: skip
+    parser.add_argument("--backsplash", "-bs", action=st, help="Enable backsplash")  # fmt: skip
+    parser.add_argument("--time-stamp", "-ts", action=st, help="Enable time stamp")  # fmt: skip
+    parser.add_argument("--font", "-f", metavar="FONT", help="Set the font")  # fmt: skip
     # Parse the first argument
     args, positional_args = parser.parse_known_args()
     arg0_frase = positional_args[0]

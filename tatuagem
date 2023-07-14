@@ -71,4 +71,4 @@ echo "Time stamp option: $time_stamp_option"
 echo "Font option: $font_option"
 
 # Additional script logic here...
-python3 
+python3 go.py $arg1
