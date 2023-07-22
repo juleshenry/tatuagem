@@ -10,7 +10,7 @@ SPACE_MARGIN = 4
 FONT_DEFAULT = "Poppins-Medium.ttf"
 
 # 3. Analyze RGB of Templates -> Produce Text Mask
-def yield_char_matrix(char, font=FONT_DEFAULT, crop_top=False):
+def yield_char_matrix(char, bs="#", font=FONT_DEFAULT, crop_top=False):
     new_dir = f"fonts/{font[:-4]}"
     fpp = get_font_png_path(char, new_dir)
     imat = Image.open(fpp).quantize().getdata()
@@ -67,7 +67,7 @@ def yield_char_matrix(char, font=FONT_DEFAULT, crop_top=False):
             ):
                 continue
             o[ix].append(
-                "#"
+                bs
                 if imat.getpixel(
                     (
                         w,
@@ -127,12 +127,12 @@ if __name__ == "__main__":
     args, positional_args = parser.parse_known_args()
     arg0_frase = positional_args[0]
     # Access the option values
-    if args.text:
-        print("Text option is enabled")
-    if args.backsplash:
-        print("Backsplash option is enabled")
-    if args.time_stamp:
-        print("Time stamp option is enabled")
-    # if not args.font:
-    #     args.font = "Poppins-Medium.ttf"
+    # if args.text:
+    #     print("Text option is enabled")
+    # if args.backsplash:
+    #     print("Backsplash option is enabled")
+    # if args.time_stamp:
+    #     print("Time stamp option is enabled")
+    if not args.font:
+        args.font = "Poppins-Medium.ttf"
     tatuagem(arg0_frase, **{a: getattr(args, a) for a in kwargs_list})
