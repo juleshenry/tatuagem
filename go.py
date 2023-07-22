@@ -8,6 +8,7 @@ MARGIN = 12
 kwargs_list = {"text", "backsplash", "time_stamp", "font"}
 SPACE_MARGIN = 4
 FONT_DEFAULT = "Poppins-Medium.ttf"
+
 # 3. Analyze RGB of Templates -> Produce Text Mask
 def yield_char_matrix(char, font=FONT_DEFAULT, crop_top=False):
     new_dir = f"fonts/{font[:-4]}"
@@ -132,6 +133,6 @@ if __name__ == "__main__":
         print("Backsplash option is enabled")
     if args.time_stamp:
         print("Time stamp option is enabled")
-    if not args.font:
-        args.font = "Poppins-Medium.ttf"
+    # if not args.font:
+    #     args.font = "Poppins-Medium.ttf"
     tatuagem(arg0_frase, **{a: getattr(args, a) for a in kwargs_list})
