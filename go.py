@@ -11,10 +11,8 @@ FONT_DEFAULT = "Poppins-Medium.ttf"
 
 # 3. Analyze RGB of Templates -> Produce Text Mask
 def yield_char_matrix(
-    char, text="*", backsplash="#", font=FONT_DEFAULT, crop_top=False, **kwargs
+    char, font=FONT_DEFAULT, crop_top=False, **kwargs
 ):
-    print("---", kwargs)
-    print(text)
     new_dir = f"fonts/{font[:-4]}"
     fpp = get_font_png_path(char, new_dir)
     imat = Image.open(fpp).quantize().getdata()
@@ -72,7 +70,7 @@ def yield_char_matrix(
             ):
                 continue
             o[ix].append(
-                text
+                kwargs['text']
                 if imat.getpixel(
                     (
                         w,
@@ -85,7 +83,7 @@ def yield_char_matrix(
                         0,
                     )
                 )
-                else backsplash
+                else kwargs['backsplash']
             )
     return o
 
@@ -139,4 +137,8 @@ if __name__ == "__main__":
     #     print("Time stamp option is enabled")
     if not args.font:
         args.font = "Poppins-Medium.ttf"
+    if not args.text:
+        args.text="*"
+    if not args.backsplash:
+        args.backsplash="#"
     tatuagem(arg0_frase, **{a: getattr(args, a) for a in KWARGS_LIST})
