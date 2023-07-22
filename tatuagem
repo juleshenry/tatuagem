@@ -64,11 +64,11 @@ while [[ $# -gt 0 ]]; do
 done
 
 # Print selected options
-echo "arg1: $arg1"
-echo "Text option: $text_option"
-echo "Backsplash option: $backsplash_option"
-echo "Time stamp option: $time_stamp_option"
-echo "Font option: $font_option"
+# echo "arg1: $arg1"
+# echo "Text option: $text_option"
+# echo "Backsplash option: $backsplash_option"
+# echo "Time stamp option: $time_stamp_option"
+# echo "Font option: $font_option"
 
 # Additional script logic here...
 python3 go.py $arg1

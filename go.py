@@ -10,11 +10,16 @@ SPACE_MARGIN = 4
 FONT_DEFAULT = "Poppins-Medium.ttf"
 
 # 3. Analyze RGB of Templates -> Produce Text Mask
-def yield_char_matrix(char, text="*", bs="#", font=FONT_DEFAULT, crop_top=False):
+def yield_char_matrix(
+    char, text="*", backsplash="#", font=FONT_DEFAULT, crop_top=False, **kwargs
+):
+    print("---", kwargs)
+    print(text)
     new_dir = f"fonts/{font[:-4]}"
     fpp = get_font_png_path(char, new_dir)
     imat = Image.open(fpp).quantize().getdata()
     o = [[] for _ in range(imat.size[1])]
+
     for ix, h in enumerate(range(imat.size[1])):
         if crop_top and not sum(
             [
@@ -67,7 +72,7 @@ def yield_char_matrix(char, text="*", bs="#", font=FONT_DEFAULT, crop_top=False)
             ):
                 continue
             o[ix].append(
-                bs
+                text
                 if imat.getpixel(
                     (
                         w,
@@ -80,7 +85,7 @@ def yield_char_matrix(char, text="*", bs="#", font=FONT_DEFAULT, crop_top=False)
                         0,
                     )
                 )
-                else text
+                else backsplash
             )
     return o
 
@@ -90,7 +95,7 @@ def expose(mat):
     [print("".join(i)) for i in mat if i]  # fmt: skip
 
 
-def concat(cmat, amat, sep=""):
+def concat(cmat, amat, sep: str = ""):
     if not len(cmat) == len(amat):
         raise ValueError("equal len required")
 
@@ -101,17 +106,16 @@ def concat(cmat, amat, sep=""):
     return x
 
 
-def tatuagem(frase: str, **kwargs):
-    for k, v in kwargs.items():
-        print(k, v)
+def tatuagem(frase: str, space_count: int = 2, **kwargs):
+    # space_count, number of backsplash chars defining a 'space'
     j = []
     oxo = [[] for _ in range(TEMPLATE_SIZE)]
     for x in frase:
-        cmat = yield_char_matrix(x, font=kwargs["font"])
+        cmat = yield_char_matrix(x, **kwargs)
         if not j:
             j = concat(oxo, cmat)
         else:
-            j = concat(j, cmat, sep="**")
+            j = concat(j, cmat, sep=(kwargs["backsplash"]) * space_count)
     expose(j)
 
 
