@@ -14,7 +14,7 @@ Features:
 ```tatuagem $YourText --text $TextPattern --backsplash $BacksplashPattern  --time-stamp 1 --font Poppins-Medium```
 
 #Syntax Example 1:
-```tatuagem Buffalo -t # -bs *```
+```tatuagem "L'appel du vide" -t # -bs *```
 
 Default for timestamp is 0
 
