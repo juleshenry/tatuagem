@@ -14,39 +14,19 @@ def yield_char_matrix(char, font=FONT_DEFAULT, crop_top=False, **kwargs):
     fpp = get_font_png_path(char, new_dir)
     imat = Image.open(fpp).quantize().getdata()
     o = [[] for _ in range(imat.size[1])]
-
+    # fmt: off
     for ix, h in enumerate(range(imat.size[1])):
         if crop_top and not sum(
-            [
-                o
-                - imat.getpixel(
-                    (
-                        0,
-                        0,
-                    )
-                )
-                for o in [
-                    imat.getpixel(
-                        (
-                            i,
-                            h,
-                        )
-                    )
-                    for i in range(imat.size[0])
-                ]
-            ]
+            [o - imat.getpixel((0, 0,)) for o in [imat.getpixel((i,h,)) for i in range(imat.size[0])]]
         ):
             continue
         if not (MARGIN < h < TEMPLATE_SIZE - MARGIN):
             continue
-        # fmt: off
         for w in range(imat.size[0]):
             if char == " " and (SPACE_MARGIN < w < TEMPLATE_SIZE - SPACE_MARGIN):
                 continue
             if (
-                not sum(
-                    [o - imat.getpixel((0,0,)) for o in [imat.getpixel((w,i,)) for i in range(imat.size[1])] ]
-                )
+                not sum([o - imat.getpixel((0,0,)) for o in [imat.getpixel((w,i,)) for i in range(imat.size[1])]])
                 and char != " "
             ):
                 continue
@@ -65,6 +45,7 @@ def expose(mat):
 
 
 def concat(cmat, amat, sep: str = ""):
+    # concatenates character matrices
     if not len(cmat) == len(amat):
         raise ValueError("equal len required")
 
