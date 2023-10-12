@@ -3,9 +3,9 @@ import numpy as np
 import os
 
 
-def init_and_create_templates(font="Poppins-Medium.ttf"):
+def init_and_create_templates(font:str):
     btpng = "black-template.png"
-    new_dir = f"fonts/{font[:-4]}"
+    new_dir = f"fonts/{font[:-4]}" #cut out .ttf
     sqr = np.zeros((TEMPLATE_SIZE, TEMPLATE_SIZE, 3))
     i = Image.fromarray(sqr, "RGB")
     i.save(btpng)
@@ -14,6 +14,7 @@ def init_and_create_templates(font="Poppins-Medium.ttf"):
     except FileExistsError:
         pass
     for o in CHZ:
+        print('making',o)
         img = Image.open(btpng)
         fnt = ImageFont.truetype(f"fonts/{font}", 32)
         i1 = ImageDraw.Draw(img)
@@ -33,20 +34,19 @@ def init_and_create_templates(font="Poppins-Medium.ttf"):
             ),
         )
         font_png_path = get_font_png_path(o, new_dir)
-        return img.save(font_png_path)
+        img.save(font_png_path)
+    print('done')
 
-
-def get_font_png_path(o: str, new_dir: str):
-    font_png_path = f"{new_dir}/__{o}__.png"
-    try:
-        with open(font_png_path) as s:
-            if o.isalpha():
-                font_png_path = f"{new_dir}/__lowercase_{o}__.png"
-    except FileNotFoundError:
-        try:
-            font_png_path = f"{new_dir}/__{o}__.png"
-        except FileNotFoundError and FileNotFoundError:  # ~ I'm a demon <3 -jh
-            font_png_path = f"{new_dir}/__chr({ord(o)})__.png"
+def get_font_png_path(char: str, new_dir: str):
+    """Returns the path of the png corresponding to the character char"""
+    font_png_path = f"{new_dir}/__{char}__.png"
+    # Lowercase treated separately for NIX reasons
+    if 97 <= ord(char) <= 97+26:
+        font_png_path = f"{new_dir}/__lowercase_{char}__.png"
+    elif char in r"/":
+        font_png_path = f"{new_dir}/__chr({ord(char)})__.png"
+    else:
+        font_png_path = f"{new_dir}/__{char}__.png"
     return font_png_path
 
 

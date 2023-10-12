@@ -1,8 +1,6 @@
-from typing import List
-import os
 from params import TEMPLATE_SIZE, Image, ImageDraw, ImageFont
-from initi import get_font_png_path
-import argparse
+from initi import get_font_png_path, init_and_create_templates
+import argparse, os
 
 MARGIN = 12
 KWARGS_LIST = {"text", "backsplash", "time_stamp", "font"}
@@ -120,25 +118,12 @@ def tatuagem(frase: str, space_count: int = 2, **kwargs):
 if __name__ == "__main__":
     # Create the parser
     parser = argparse.ArgumentParser(description="Tatuagem")
-    st = "store_true"
-    parser.add_argument("--text", "-t", help="Set the text")  # fmt: skip
-    parser.add_argument("--backsplash", "-bs", help="Enable backsplash")  # fmt: skip
-    parser.add_argument("--time-stamp", "-ts", action=st, help="Enable time stamp")  # fmt: skip
-    parser.add_argument("--font", "-f", metavar="FONT", help="Set the font")  # fmt: skip
-    # Parse the first argument
+    parser.add_argument("--text", default="*", help="Set the text")  # text is the char for the printout
+    parser.add_argument("--backsplash", default="#", help="Choose backsplash")  # fmt: skip
+    parser.add_argument("--time-stamp", default=True, help="Enable time stamp")  # fmt: skip
+    parser.add_argument("--font", default="Poppins-Medium.ttf", metavar="FONT", help="Set the font")  # fmt: skip
     args, positional_args = parser.parse_known_args()
+    if not os.path.exists(f'/fonts/{args.font}'):
+        init_and_create_templates(args.font)
     arg0_frase = positional_args[0]
-    # Access the option values
-    # if args.text:
-    #     print("Text option is enabled")
-    # if args.backsplash:
-    #     print("Backsplash option is enabled")
-    # if args.time_stamp:
-    #     print("Time stamp option is enabled")
-    if not args.font:
-        args.font = "Poppins-Medium.ttf"
-    if not args.text:
-        args.text="*"
-    if not args.backsplash:
-        args.backsplash="#"
     tatuagem(arg0_frase, **{a: getattr(args, a) for a in KWARGS_LIST})
