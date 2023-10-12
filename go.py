@@ -123,7 +123,7 @@ if __name__ == "__main__":
     parser.add_argument("--time-stamp", default=True, help="Enable time stamp")  # fmt: skip
     parser.add_argument("--font", default="Poppins-Medium.ttf", metavar="FONT", help="Set the font")  # fmt: skip
     args, positional_args = parser.parse_known_args()
-    if not os.path.exists(f'/fonts/{args.font}'):
+    if not os.path.exists(z:=f'./fonts/{args.font}'):
         init_and_create_templates(args.font)
     arg0_frase = positional_args[0]
     tatuagem(arg0_frase, **{a: getattr(args, a) for a in KWARGS_LIST})
