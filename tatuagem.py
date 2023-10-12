@@ -7,10 +7,9 @@ KWARGS_LIST = {"text", "backsplash", "time_stamp", "font"}
 SPACE_MARGIN = 4
 FONT_DEFAULT = "Poppins-Medium.ttf"
 
+
 # 3. Analyze RGB of Templates -> Produce Text Mask
-def yield_char_matrix(
-    char, font=FONT_DEFAULT, crop_top=False, **kwargs
-):
+def yield_char_matrix(char, font=FONT_DEFAULT, crop_top=False, **kwargs):
     new_dir = f"fonts/{font[:-4]}"
     fpp = get_font_png_path(char, new_dir)
     imat = Image.open(fpp).quantize().getdata()
@@ -40,49 +39,23 @@ def yield_char_matrix(
             continue
         if not (MARGIN < h < TEMPLATE_SIZE - MARGIN):
             continue
+        # fmt: off
         for w in range(imat.size[0]):
             if char == " " and (SPACE_MARGIN < w < TEMPLATE_SIZE - SPACE_MARGIN):
                 continue
             if (
                 not sum(
-                    [
-                        o
-                        - imat.getpixel(
-                            (
-                                0,
-                                0,
-                            )
-                        )
-                        for o in [
-                            imat.getpixel(
-                                (
-                                    w,
-                                    i,
-                                )
-                            )
-                            for i in range(imat.size[1])
-                        ]
-                    ]
+                    [o - imat.getpixel((0,0,)) for o in [imat.getpixel((w,i,)) for i in range(imat.size[1])] ]
                 )
                 and char != " "
             ):
                 continue
             o[ix].append(
                 kwargs['text']
-                if imat.getpixel(
-                    (
-                        w,
-                        h,
-                    )
-                )
-                - imat.getpixel(
-                    (
-                        0,
-                        0,
-                    )
-                )
+                if imat.getpixel((w, h,)) - imat.getpixel((0, 0,))
                 else kwargs['backsplash']
             )
+        # fmt: on
     return o
 
 
@@ -118,12 +91,13 @@ def tatuagem(frase: str, space_count: int = 2, **kwargs):
 if __name__ == "__main__":
     # Create the parser
     parser = argparse.ArgumentParser(description="Tatuagem")
-    parser.add_argument("--text", default="*", help="Set the text")  # text is the char for the printout
+    # text is the char for the printout
+    parser.add_argument("--text", default="*", help="Set the text")  # fmt: skip 
     parser.add_argument("--backsplash", default="#", help="Choose backsplash")  # fmt: skip
     parser.add_argument("--time-stamp", default=True, help="Enable time stamp")  # fmt: skip
     parser.add_argument("--font", default="Poppins-Medium.ttf", metavar="FONT", help="Set the font")  # fmt: skip
     args, positional_args = parser.parse_known_args()
-    if not os.path.exists(z:=f'./fonts/{args.font}'):
+    if not os.path.exists(z := f"./fonts/{args.font}"):
         init_and_create_templates(args.font)
     arg0_frase = positional_args[0]
     tatuagem(arg0_frase, **{a: getattr(args, a) for a in KWARGS_LIST})
