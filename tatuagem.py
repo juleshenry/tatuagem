@@ -2,22 +2,21 @@ from params import TEMPLATE_SIZE, Image, ImageDraw, ImageFont
 from initi import get_font_png_path, init_and_create_templates
 import argparse, os
 
-MARGIN = 12
-KWARGS_LIST = {"text", "backsplash", "time_stamp", "font", "regex"}
-SPACE_MARGIN = 4 # This defines what a space should be in the font, because the space file is a solid sheet
+MARGIN = 10 # top and bottom margin of text
+KWARGS_LIST = {"text", "backsplash", "time_stamp", "font", "regex", "margin"}
+SPACE_MARGIN = 4  # This defines what a space should be in the font, because the space file is a solid sheet
 FONT_DEFAULT = "unicode-arial.ttf"
-
+DEFAULT_TEXT_CHAR = "*"
+DEFAULT_BACKSPLASH_CHAR = "#"
 
 # 3. Analyze RGB of Templates -> Produce Text Mask
-def yield_char_matrix(char: str, font:str=FONT_DEFAULT, **kwargs):
+def yield_char_matrix(char: str, font: str = FONT_DEFAULT, **kwargs):
     new_dir = f"fonts/{font[:-4]}"
     fpp = get_font_png_path(char, new_dir)
     imat = Image.open(fpp).quantize().getdata()
     o = [[] for _ in range(imat.size[1])]
     # fmt: off
     for ix, h in enumerate(range(imat.size[1])):
-        if not (MARGIN < h < TEMPLATE_SIZE - MARGIN):
-            continue
         for w in range(imat.size[0]):
             if char == " " and (SPACE_MARGIN < w < TEMPLATE_SIZE - SPACE_MARGIN):
                 continue
@@ -35,18 +34,21 @@ def yield_char_matrix(char: str, font:str=FONT_DEFAULT, **kwargs):
     return o
 
 
-# prints a `matrix`
-def expose(mat,regex=None, backsplash=None):
-    for i in mat:
-        if i:
-            out = "".join(i)
+
+
+def expose(mat, regex=None, backsplash=None, margin=None):
+    # prints a `matrix`
+    in_top = True
+    for text_list in mat:
+        if text_list:
+            out = "".join(text_list)
             if regex:
-                for i,c in enumerate(out):
+                for i, c in enumerate(out):
                     if c == backsplash:
-                        print(regex[i%len(regex)],end='')
+                        print(regex[i % len(regex)], end="")
                     else:
-                        print(c,end='')
-            print() # fmt: skip
+                        print(c, end="")
+            print() 
 
 
 def concat(cmat, amat, sep: str = ""):
@@ -71,19 +73,19 @@ def tatuagem(frase: str, space_count: int = SPACE_MARGIN, **kwargs):
             j = concat(oxo, cmat)
         else:
             j = concat(j, cmat, sep=(kwargs["backsplash"]) * space_count)
-    expose(j, regex=kwargs['regex'], backsplash=kwargs["backsplash"])
+    expose(j, regex=kwargs["regex"], backsplash=kwargs["backsplash"], margin=kwargs['margin'])
 
 
 if __name__ == "__main__":
     # Create the parser
     parser = argparse.ArgumentParser(description="Tatuagem")
     # text is the char for the printout
-    parser.add_argument("--text", default="*", help="Set the text")  # fmt: skip 
-    parser.add_argument("--backsplash", default="#", help="Choose backsplash")  # fmt: skip
+    parser.add_argument("--text", default=DEFAULT_TEXT_CHAR, help="Set the text")  # fmt: skip
+    parser.add_argument("--backsplash", default=DEFAULT_BACKSPLASH_CHAR, help="Choose backsplash")  # fmt: skip
     parser.add_argument("--time-stamp", default=True, help="Enable time stamp")  # fmt: skip
     parser.add_argument("--font", default=FONT_DEFAULT, metavar="FONT", help="Set the font")  # fmt: skip
-    parser.add_argument("--regex", default=None, metavar="REGEX", help="Set the font")  # fmt: skip
-    
+    parser.add_argument("--regex", default=None, metavar="REGEX", help="Set the regex pattern for backsplash")  # fmt: skip
+    parser.add_argument('--margin', default = MARGIN, help = "Margin top and bottom for text")
     args, positional_args = parser.parse_known_args()
     if not os.path.exists(z := f"./fonts/{args.font}"):
         init_and_create_templates(args.font)
