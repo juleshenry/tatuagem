@@ -3,23 +3,19 @@ from initi import get_font_png_path, init_and_create_templates
 import argparse, os
 
 MARGIN = 12
-KWARGS_LIST = {"text", "backsplash", "time_stamp", "font"}
-SPACE_MARGIN = 4
-FONT_DEFAULT = "Poppins-Medium.ttf"
+KWARGS_LIST = {"text", "backsplash", "time_stamp", "font", "regex"}
+SPACE_MARGIN = 4 # This defines what a space should be in the font, because the space file is a solid sheet
+FONT_DEFAULT = "unicode-arial.ttf"
 
 
 # 3. Analyze RGB of Templates -> Produce Text Mask
-def yield_char_matrix(char, font=FONT_DEFAULT, crop_top=False, **kwargs):
+def yield_char_matrix(char: str, font:str=FONT_DEFAULT, **kwargs):
     new_dir = f"fonts/{font[:-4]}"
     fpp = get_font_png_path(char, new_dir)
     imat = Image.open(fpp).quantize().getdata()
     o = [[] for _ in range(imat.size[1])]
     # fmt: off
     for ix, h in enumerate(range(imat.size[1])):
-        if crop_top and not sum(
-            [o - imat.getpixel((0, 0,)) for o in [imat.getpixel((i,h,)) for i in range(imat.size[0])]]
-        ):
-            continue
         if not (MARGIN < h < TEMPLATE_SIZE - MARGIN):
             continue
         for w in range(imat.size[0]):
@@ -40,8 +36,17 @@ def yield_char_matrix(char, font=FONT_DEFAULT, crop_top=False, **kwargs):
 
 
 # prints a `matrix`
-def expose(mat):
-    [print("".join(i)) for i in mat if i]  # fmt: skip
+def expose(mat,regex=None, backsplash=None):
+    for i in mat:
+        if i:
+            out = "".join(i)
+            if regex:
+                for i,c in enumerate(out):
+                    if c == backsplash:
+                        print(regex[i%len(regex)],end='')
+                    else:
+                        print(c,end='')
+            print() # fmt: skip
 
 
 def concat(cmat, amat, sep: str = ""):
@@ -56,7 +61,7 @@ def concat(cmat, amat, sep: str = ""):
     return x
 
 
-def tatuagem(frase: str, space_count: int = 2, **kwargs):
+def tatuagem(frase: str, space_count: int = SPACE_MARGIN, **kwargs):
     # space_count, number of backsplash chars defining a 'space'
     j = []
     oxo = [[] for _ in range(TEMPLATE_SIZE)]
@@ -66,7 +71,7 @@ def tatuagem(frase: str, space_count: int = 2, **kwargs):
             j = concat(oxo, cmat)
         else:
             j = concat(j, cmat, sep=(kwargs["backsplash"]) * space_count)
-    expose(j)
+    expose(j, regex=kwargs['regex'], backsplash=kwargs["backsplash"])
 
 
 if __name__ == "__main__":
@@ -76,7 +81,9 @@ if __name__ == "__main__":
     parser.add_argument("--text", default="*", help="Set the text")  # fmt: skip 
     parser.add_argument("--backsplash", default="#", help="Choose backsplash")  # fmt: skip
     parser.add_argument("--time-stamp", default=True, help="Enable time stamp")  # fmt: skip
-    parser.add_argument("--font", default="Poppins-Medium.ttf", metavar="FONT", help="Set the font")  # fmt: skip
+    parser.add_argument("--font", default=FONT_DEFAULT, metavar="FONT", help="Set the font")  # fmt: skip
+    parser.add_argument("--regex", default=None, metavar="REGEX", help="Set the font")  # fmt: skip
+    
     args, positional_args = parser.parse_known_args()
     if not os.path.exists(z := f"./fonts/{args.font}"):
         init_and_create_templates(args.font)
