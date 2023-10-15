@@ -3,7 +3,7 @@ from initi import get_font_png_path, init_and_create_templates
 import argparse, os
 
 MARGIN = 3  # top and bottom margin of text
-KWARGS_LIST = {"text", "backsplash", "time_stamp", "font", "regex", "margin"}
+KWARGS_LIST = {"text", "backsplash", "font", "regex", "margin"}
 SPACE_MARGIN = 4  # This defines what a space should be in the font, because the space file is a solid sheet
 FONT_DEFAULT = "unicode-arial.ttf"
 DEFAULT_TEXT_CHAR = "*"
