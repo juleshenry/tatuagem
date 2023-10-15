@@ -94,7 +94,6 @@ if __name__ == "__main__":
     # text is the char for the printout
     parser.add_argument("--text", default=DEFAULT_TEXT_CHAR, help="Set the text")  # fmt: skip
     parser.add_argument("--backsplash", default=DEFAULT_BACKSPLASH_CHAR, help="Choose backsplash")  # fmt: skip
-    parser.add_argument("--time-stamp", default=True, help="Enable time stamp")  # fmt: skip
     parser.add_argument("--font", default=FONT_DEFAULT, metavar="FONT", help="Set the font")  # fmt: skip
     parser.add_argument("--regex", default=None, metavar="REGEX", help="Set the regex pattern for backsplash")  # fmt: skip
     parser.add_argument(

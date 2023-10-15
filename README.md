@@ -7,12 +7,4 @@
 
 # Regex-Argument Syntax Example
 ```python3 tatuagem.py "Tatuagem" --regex '`':,:'' ```
-![alt text](tatua_regex.png)
-
-Features:
--[x] Regex-styled, regimented text backsplash
--[ ] Time stamping of signatures
--[x] Web3 compatible
--[x] 20+ coding languages supported
-
-Default for font is unicode arial
+![alt text](tatu_regex.png)
