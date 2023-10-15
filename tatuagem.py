@@ -40,6 +40,7 @@ def expose(mat, regex=None, backsplash=None, margin=None):
     pure_mat = list(
         filter(lambda x: x and not all(c == backsplash for c in "".join(x)), mat)
     )
+    margin = int(margin)
     pure_mat = (
         (
             marg := [
