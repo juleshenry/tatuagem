@@ -7,4 +7,3 @@
 
 # Regex-Argument Syntax Example
 ```python3 tatuagem.py "Tatuagem" --regex '`':,:'' ```
-![alt text](tatu_regex.png)
