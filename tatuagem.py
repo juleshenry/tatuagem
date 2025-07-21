@@ -6,8 +6,8 @@ MARGIN = 3  # top and bottom margin of text
 KWARGS_LIST = {"text", "backsplash", "font", "pattern", "margin"}
 SPACE_MARGIN = 4  # This defines what a space should be in the font, because the space file is a solid sheet
 FONT_DEFAULT = "unicode-arial.ttf"
-DEFAULT_TEXT_CHAR = "*"
-DEFAULT_BACKSPLASH_CHAR = "#"
+DEFAULT_TEXT_CHAR = "1"
+DEFAULT_BACKSPLASH_CHAR = "0"
 
 
 # 3. Analyze RGB of Templates -> Produce Text Mask
