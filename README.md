@@ -3,7 +3,10 @@
 # Basic Syntax Example
 ```python3 tatuagem.py "L'appel du vide" --font 'unicode-arial.ttf' --backsplash '!' --text '@'```
 
-![alt text](tatuagem.png)
+![alt text](tatu.png)
 
-# Regex-Argument Syntax Example
-```python3 tatuagem.py "Tatuagem" --regex '`':,:'' ```
+# Wallpaper: Pattern-Argument Syntax Example
+```python3 tatuagem.py "Tatuagem" --pattern '`':,:'' ```
+
+
+![alt text](lappel.png)
