@@ -35,7 +35,7 @@ def yield_char_matrix(char: str, font: str = FONT_DEFAULT, **kwargs):
     return o
 
 
-def expose(mat, pattern=None, backsplash=None, margin=None):
+def tatuar(mat, pattern=None, backsplash=None, margin=None):
     # prints a `matrix`
     pure_mat = list(
         filter(lambda x: x and not all(c == backsplash for c in "".join(x)), mat)
@@ -50,16 +50,22 @@ def expose(mat, pattern=None, backsplash=None, margin=None):
         + pure_mat
         + marg
     )
+    tatuagem = ""
     for text_list in pure_mat:
         out = "".join(text_list)
         if pattern:
             for i, c in enumerate(out):
-                print(pattern[i % len(pattern)] if c == backsplash else c, end="")
+                tatuagem+=(pattern[i % len(pattern)] if c == backsplash else c)
         else:
             for i, c in enumerate(out):
-                print(c, end="")
-        print()
+                tatuagem+=(c)
+        tatuagem+="\n"
+    return tatuagem
 
+def expose(mat, pattern=None, backsplash=None, margin=None):
+    # prints a `matrix`
+    tatu = tatuar(mat, pattern=pattern, backsplash=backsplash, margin=margin)
+    print(tatu)
 
 def concat(cmat, amat, sep: str = ""):
     # concatenates character matrices
@@ -105,11 +111,11 @@ if __name__ == "__main__":
     args, positional_args = parser.parse_known_args()
     if not os.path.exists(z := f"./fonts/{args.font}"):
         init_and_create_templates(args.font)
-    print("")
     print(f"text: {args.text}")
     print(f"backsplash: {args.backsplash}")
     print(f"font: {args.font}")
     print(f"pattern: {args.pattern}")
     print(f"margin: {args.margin}")
     arg0_frase = positional_args[0]
+    # prints to screen
     tatuagem(arg0_frase, **{a: getattr(args, a) for a in KWARGS_LIST})
