@@ -99,7 +99,8 @@ for root, dirs, files in os.walk('tests/hello_worlds'):
         filepath = os.path.join(root, file)
         
         comment = get_block_comment(filepath)
-        data[filepath] = comment
+        lang = filepath.replace('tests/hello_worlds/', '').split('/')[0]
+        data[lang] = comment
 
 with open('comment_block_syntax.json', 'w') as f:
     json.dump(data, f, indent=4)

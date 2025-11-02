@@ -88,13 +88,25 @@ def get_comment_syntax(filepath):
 
 if __name__ == "__main__":
     # Example usage
-    import sys
-    if len(sys.argv) > 1:
-        filepath = sys.argv[1]
-        syntax = get_comment_syntax(filepath)
-        if syntax:
-            print(json.dumps(syntax))
-        else:
-            print("null")
-    else:
-        print("Usage: python override.py <filepath>")
+    # import sys
+    # if len(sys.argv) > 1:
+    #     filepath = sys.argv[1]
+    #     syntax = get_comment_syntax(filepath)
+    #     if syntax:
+    #         print(json.dumps(syntax))
+    #     else:
+    #         print("null")
+    # else:
+    #     print("Usage: python override.py <filepath>")
+    # Process comment block syntax to remove 'k: ' prefix
+    for lang, syntax in lang_data.get('Languages', {}).items():
+        if 'start_block' in syntax and syntax['start_block'].startswith('k: '):
+            syntax['start_block'] = syntax['start_block'][3:]
+
+    # for ext, syntax in lang_data.get('Extensions', {}).items():
+    #     if 'start_block' in syntax and syntax['start_block'].startswith('k: '):
+    #         syntax['start_block'] = syntax['start_block'][3:]
+
+    # Save the modified data back to the file
+    with open('lang_comment_block_syntax.json', 'w') as f:
+        json.dump(lang_data, f, indent=2)
