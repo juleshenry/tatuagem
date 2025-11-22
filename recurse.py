@@ -4,9 +4,7 @@ import shutil
 import json
 from tatuagem import yield_char_matrix, tatuar, concat, SPACE_MARGIN, FONT_DEFAULT, DEFAULT_TEXT_CHAR, DEFAULT_BACKSPLASH_CHAR, MARGIN
 from params import TEMPLATE_SIZE
-from override import get_comment_syntax
-
-
+from typing import Optional
 
 def get_tattoo(phrase):
     kwargs = {'text': DEFAULT_TEXT_CHAR, 'backsplash': DEFAULT_BACKSPLASH_CHAR, 'font': FONT_DEFAULT, 'pattern': None, 'margin': MARGIN}
@@ -20,28 +18,20 @@ def get_tattoo(phrase):
             j = concat(j, cmat, sep=(kwargs["backsplash"]) * SPACE_MARGIN)
     return tatuar(j, pattern=kwargs["pattern"], backsplash=kwargs["backsplash"], margin=kwargs["margin"])
 
-def comment_text(filepath, text):
+def comment_text(filepath, text)->Optional[str] :
     ext = os.path.splitext(os.path.basename(filepath))[1].lower()
     lines = text.strip().split('\n')
-    if ext in ['.py', '.rb', '.sh', '.pl', '.r', '.tcl']:
-        return '\n'.join('# ' + line for line in lines if line.strip())
-    elif ext in ['.js', '.ts', '.java', '.c', '.cpp', '.h', '.cs', '.php', '.go', '.rs', '.swift', '.kt', '.scala']:
-        return '\n'.join('// ' + line for line in lines if line.strip())
-    elif ext in ['.lua', '.sql', '.hs', '.ml', '.fs']:
-        return '\n'.join('-- ' + line for line in lines if line.strip())
-    elif ext in ['.html', '.xml', '.svg']:
-        return '<!--\n' + text.strip() + '\n-->'
-    elif ext in ['.css']:
-        return '/*\n' + text.strip() + '\n*/'
-    elif ext in ['.vb']:
-        return '\n'.join("' " + line for line in lines if line.strip())
-    else:
-        # Unknown extension, use override syntax if available
-        syntax = get_comment_syntax(filepath)
-        if syntax:
-            return syntax['start'] + '\n' + text.strip() + '\n' + syntax['end']
-        else:
-            return text  # no comment
+    with open('extension_to_lang.json', 'r', encoding='utf-8') as f:
+        ext_lang = json.load(f)
+    lang = ext_lang.get(ext, None)
+    if not lang:
+        return None  # No language found for this extension
+    with open('lang_to_block_syntax.json', 'r', encoding='utf-8') as f:
+        lang_block = json.load(f)
+    comment_syntax = lang_block.get(lang, None)
+    if not comment_syntax:
+        return None  # No comment syntax found for this language    
+    
 
 def main():
     #  ✅  for every file in our tests, identify the comment syntax
@@ -71,7 +61,8 @@ def main():
             total_counter += 1
             filepath = os.path.join(root, file)
             ext = os.path.splitext(file)[1].lower()
-            start_end = block.get(filepath.split("\\")[-2], None)
+            print(filepath)
+            start_end = block.get(os.path.split(os.path.dirname(filepath))[-1], None)
             if start_end: 
                 good_counter += 1
                 print(start_end)
