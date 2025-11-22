@@ -38,17 +38,6 @@ from tatuagem import yield_char_matrix, tatuar, concat, SPACE_MARGIN, FONT_DEFAU
 from params import TEMPLATE_SIZE
 from typing import Optional
 
-# Load mappings once
-try:
-    with open('extension_to_lang.json', 'r', encoding='utf-8') as f:
-        EXT_TO_LANG = json.load(f)
-    with open('lang_to_block_syntax.json', 'r', encoding='utf-8') as f:
-        LANG_TO_SYNTAX = json.load(f)
-except FileNotFoundError:
-    print("Warning: JSON mapping files not found.")
-    EXT_TO_LANG = {}
-    LANG_TO_SYNTAX = {}
-
 def get_tattoo(phrase):
     kwargs = {'text': DEFAULT_TEXT_CHAR, 'backsplash': DEFAULT_BACKSPLASH_CHAR, 'font': FONT_DEFAULT, 'pattern': None, 'margin': MARGIN}
     j = []
@@ -61,94 +50,78 @@ def get_tattoo(phrase):
             j = concat(j, cmat, sep=(kwargs["backsplash"]) * SPACE_MARGIN)
     return tatuar(j, pattern=kwargs["pattern"], backsplash=kwargs["backsplash"], margin=kwargs["margin"])
 
-def clean_syntax(s):
-    if not s: return s
-    if s.startswith('`') and s.endswith('`') and len(s) > 1:
-        return s[1:-1]
-    return s
-
-def comment_text(filepath, text) -> Optional[str]:
+def comment_text(filepath, text)->Optional[str] :
     ext = os.path.splitext(os.path.basename(filepath))[1].lower()
-    lang = EXT_TO_LANG.get(ext)
+    lines = text.strip().split('\n')
+    with open('extension_to_lang.json', 'r', encoding='utf-8') as f:
+        ext_lang = json.load(f)
+    lang = ext_lang.get(ext, None)
     if not lang:
-        return None
+        return None  # No language found for this extension
+    with open('lang_to_block_syntax.json', 'r', encoding='utf-8') as f:
+        lang_block = json.load(f)
+    comment_syntax = lang_block.get(lang, None)
+    if not comment_syntax:
+        return None  # No comment syntax found for this language    
     
-    syntax = LANG_TO_SYNTAX.get(lang)
-    if not syntax:
-        return None
-        
-    start = clean_syntax(syntax.get('start'))
-    end = clean_syntax(syntax.get('end'))
-    
-    if not start or not end or start == 'none' or end == 'none':
-        return None
-
-    if start != end:
-        # Block comment
-        return f"{start}\n{text}\n{end}"
-    else:
-        # Start == End
-        if len(start) >= 3:
-             # Likely block delimiter like """
-             return f"{start}\n{text}\n{end}"
-        else:
-            # Likely line comment
-            lines = text.split('\n')
-            # Remove empty last line from split if text ends with newline
-            if lines and not lines[-1]:
-                lines.pop()
-            commented_lines = [f"{start} {line}" for line in lines]
-            return '\n'.join(commented_lines)
 
 def main():
+    #  ✅  for every file in our tests, identify the comment syntax
+    #  ✅ create a throwaway copy of all the files and tattoo them
+    # 3. from our comment syntax json, add a code coverage badge
+
+    # -1: update the ovo.yaml files with debian linux installation commands 
     parser = argparse.ArgumentParser(description="Recurse directory and add tattoo comments")
-    parser.add_argument('--text', required=True, help='Text to tattoo')
-    parser.add_argument('--path', required=True, help='Path to recurse')
-    
+    parser.add_argument('directory', nargs='?', default='tests/hello_worlds', help='Directory to recurse (default: tests/hello_worlds)')
     args = parser.parse_args()
-    
-    target_path = os.path.expanduser(args.path)
-    if not os.path.exists(target_path):
-        print(f"Path not found: {target_path}")
-        return
 
-    tattoo = get_tattoo(args.text).strip()
-    
-    print(f"Tattooing '{args.text}' into {target_path}...")
+    # Create a copy for testing
+    copy_path = args.directory #+ '_copy'
+    # shutil.copytree(args.directory, copy_path)
 
-    for root, dirs, files in os.walk(target_path):
+    tattoo = get_tattoo("tatuagem")
+
+    with open("lang_to_block_syntax.json", 'r', encoding='utf-8') as f:
+        block = json.load(f)
+
+    good_counter= total_counter = 0
+
+    for root, dirs, files in os.walk(copy_path):
         for file in files:
-            filepath = os.path.join(root, file)
-            
-            # Skip if it's likely a binary or hidden file or the script itself
-            if file.startswith('.'):
+            if file == 'ovo.yaml':
                 continue
-                
-            try:
-                # Check if we can comment this file
-                commented_tattoo = comment_text(filepath, tattoo)
-                if commented_tattoo:
-                    with open(filepath, 'r', encoding='utf-8') as f:
-                        content = f.read()
-                    
-                    # Avoid double tattooing if possible (simple check)
-                    # We check if the first line of the tattoo is already in the file
-                    tattoo_lines = commented_tattoo.split('\n')
-                    if len(tattoo_lines) > 1 and tattoo_lines[1].strip() in content:
-                         # print(f"Skipping {filepath} (already tattooed?)")
-                         continue
+            total_counter += 1
+            filepath = os.path.join(root, file)
+            ext = os.path.splitext(file)[1].lower()
+            print(filepath)
+            start_end = block.get(os.path.split(os.path.dirname(filepath))[-1], None)
+            if start_end: 
+                good_counter += 1
+                print(start_end)
 
-                    new_content = commented_tattoo + '\n\n' + content
-                    with open(filepath, 'w', encoding='utf-8') as f:
-                        f.write(new_content)
-                    print(f"Tattooed {filepath}")
-                else:
-                    print(f"Skipping {filepath} (unknown language)")
-                    pass
-            except (UnicodeDecodeError, IsADirectoryError, PermissionError):
-                pass
-            except Exception as e:
-                print(f"Error processing {filepath}: {e}")
+            # try:
+            #     with open(filepath, 'r', encoding='utf-8') as f:
+            #         content = f.read()
+            #     commented_tattoo = comment_text(filepath, tattoo)
+            #     new_content = commented_tattoo + '\n\n' + content
+            #     with open(filepath, 'w', encoding='utf-8') as f:
+            #         f.write(new_content)
+            # except (UnicodeDecodeError, IsADirectoryError, PermissionError):
+            #     pass  # skip binary files or errors
 
+    # Delete the test copy
+    return (good_counter / total_counter)
+    # shutil.rmtree(copy_path)
+
+import anybadge
 if __name__ == "__main__":
-    main()
+    coverage = main()
+    badge = anybadge.Badge("coverage", round(coverage *100, 4), thresholds={10: 'red', 20: 'orange', 30: 'green'})
+    import os
+    try:
+        os.remove("coverage.svg")
+    except FileNotFoundError:
+        pass
+    # Now create the badge
+    badge.write_badge("coverage.svg")
+
