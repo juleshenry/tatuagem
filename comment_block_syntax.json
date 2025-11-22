@@ -372,7 +372,7 @@
     },
     "Battlestar": {
         "start": "<!--",
-        "end": "-->\n\nin other words, any text between `<!--` and `-->` is considered a block comment."
+        "end": "-->"
     },
     "Libarary database": {
         "start": "/*",
@@ -461,7 +461,7 @@
     },
     "Fantom": {
         "start": "`//`",
-        "end": "`//`\nor\nstart_bloc`/*` end_bloc`*/`\nor\nstart_bloc`#` end_bloc`\\n`\n\nfantom supports both c-style (`//`) and java-style (`/* */`) block comments, as well as a custom block comment syntax that starts with the `#` character."
+        "end": "`//`"
     },
     "Processing": {
         "start": "/*",
@@ -584,7 +584,7 @@
     },
     "Kivy": {
         "start": "`#` ... `#`",
-        "end": "`#`\n\n(kivy does not have block comments, but python's `#` symbol is used for single-line comments.)"
+        "end": "`#`"
     },
     "Linotte": {
         "start": "/*",
@@ -631,7 +631,7 @@
     "Purescript": null,
     "AlgoPy": {
         "start": "'''",
-        "end": "'''\nstart_bloc\"\"\" end_bloc\"\"\""
+        "end": "'''"
     },
     "IO": null,
     "001": {
@@ -837,7 +837,7 @@
     },
     "Ro": {
         "start": "(*",
-        "end": "*)\n```"
+        "end": "*)```"
     },
     "dsu": {
         "start": "`(*`",
@@ -890,7 +890,7 @@
     },
     "Deep_Learning": {
         "start": "#",
-        "end": "#\n\nin python, block comments are not officially supported by the language itself. however, some ides and text editors may provide syntax highlighting or folding features to help with code organization.\n\nif you meant a specific programming language used in deep learning, please let me know, and i'll be happy to provide the correct information!"
+        "end": "#"
     },
     "Solidity": {
         "start": "`/*`",
@@ -911,7 +911,7 @@
     },
     "Gradle": {
         "start": "//",
-        "end": "\\n"
+        "end": "\\"
     },
     "PhotoShop": {
         "start": "/*",
@@ -1095,8 +1095,8 @@
     },
     "Cool": null,
     "AsciiDoc": {
-        "start": "//",
-        "end": "start_bloc/* end_bloc*/\nstart_bloc# end_block:"
+        "start": "/*",
+        "end": "*/"
     },
     "Walt": {
         "start": "//*",
@@ -1178,11 +1178,11 @@
     "Magical_programs": null,
     "Nemerle": {
         "start": "//",
-        "end": "(end)"
+        "end": "//"
     },
     "BrainLanguage": {
         "start": "`[[",
-        "end": "]`\n\nnote that these delimiters are used to comment out blocks of code in brainfuck."
+        "end": "]`"
     },
     "LiveScript": {
         "start": "`= (`",
@@ -1223,8 +1223,8 @@
         "end": "(#)"
     },
     "Ksh": {
-        "start": "{ ... }",
-        "end": "} \n\n(note: the curly braces `{` and `}` are used to delimit block comments in ksh, also known as the \"kornshell\".)"
+        "start": "{",
+        "end": "} "
     },
     "Phing": {
         "start": "<!--",
@@ -1333,8 +1333,8 @@
         "end": "*/"
     },
     "Batch Script": {
-        "start": "rem",
-        "end": "(nothing)"
+        "start": "",
+        "end": ""
     },
     "Groovy": {
         "start": "/*",
@@ -1358,8 +1358,8 @@
         "end": ";"
     },
     "XPL": {
-        "start": "(* *)",
-        "end": "(* *) \n\nnote: xpl is a variant of xml, and it does not have its own block comment delimiter. the standard xml comment syntax is used, which consists of the <!-- and --> delimiters."
+        "start": "<!--",
+        "end": "-->"
     },
     "Taxi": {
         "start": "(* *)",
@@ -1379,7 +1379,7 @@
         "end": "#"
     },
     "XSLT": {
-        "start": "<!-- -->",
+        "start": "<!--",
         "end": "-->"
     },
     "JavaScript": {
@@ -1409,8 +1409,8 @@
         "end": "-->"
     },
     "Twig": {
-        "start": "{% start_block %}",
-        "end": "{% end_block %}"
+        "start": "{%",
+        "end": "%}"
     },
     "Sakshi": null,
     "gerlang2-0": {
@@ -1419,15 +1419,15 @@
     },
     "Ballerina": {
         "start": "`//`",
-        "end": "`//`\n\n(ballerina does support block comments, and the start and end delimiters are both `//`."
+        "end": "`//`"
     },
     "l33tsp34k": {
         "start": "`/*`",
         "end": "`*/"
     },
     "JADE": {
-        "start": "{ start_end_block }",
-        "end": "{"
+        "start": "{",
+        "end": "}"
     },
     "Zsh": {
         "start": "#",
@@ -1480,7 +1480,7 @@
     },
     "Argh": {
         "start": "`/*`",
-        "end": "`*/`\n\nargh supports c-style block comments, which start with `/*` and end with `*/`."
+        "end": "`*/`"
     },
     "RaffaLang": {
         "start": "#",
@@ -1492,7 +1492,7 @@
     },
     "Cobra": {
         "start": "'//{'",
-        "end": "'}'\n\nnote that this is specific to cobra, a modern scripting language for .net."
+        "end": "'}'"
     },
     "Quack": null,
     "VBScript": {
@@ -1538,7 +1538,7 @@
     },
     "Django": {
         "start": "'''",
-        "end": "'''\nor\nstart_bloc\"\"\" end_bloc\"\"\"\n(django supports block comments using triple quotes)"
+        "end": "'''"
     },
     "C": {
         "start": "/*",
@@ -1576,11 +1576,11 @@
     },
     "Terraform_Cloudflare": {
         "start": "`#`",
-        "end": "`#` \n\nnote that this is the same as the standard python comment syntax, since terraform is written in go but has a python-like syntax for comments and blocks."
+        "end": "`#`"
     },
     "COW": {
         "start": "/*",
-        "end": "*/ \n\nnote that these delimiters are similar to those used in c and many other programming languages."
+        "end": "*/ "
     },
     "NotePad": {
         "start": "/*",
@@ -1609,7 +1609,7 @@
     },
     "acidic": {
         "start": "`/*`",
-        "end": "`*/`\n\nnote that acidic does support block comments, which start with the sequence `/*` and end with the sequence `*/`."
+        "end": "`*/`"
     },
     "Pikalang": {
         "start": "`/*`",

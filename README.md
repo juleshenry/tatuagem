@@ -1,4 +1,5 @@
 # Tatuagem, the boastful code signature suite
+![coverage](coverage.svg)
 
 # Basic Example
 ```python3 tatuagem.py "tatuagem" ```
