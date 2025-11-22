@@ -449,7 +449,10 @@
         "start": "'<%--'",
         "end": "'--%>'"
     },
-    "Elixir": null,
+    "Elixir": {
+        "start": "#",
+        "end": "#"
+    },
     "katrinasilver": null,
     "Z80": {
         "start": "'/*'",
@@ -674,7 +677,10 @@
         "start": "````",
         "end": "`````"
     },
-    "R": null,
+    "R": {
+        "start": "#",
+        "end": "#"
+    },
     "TrollScript": null,
     "Hi_the_simplest_way": null,
     "Basic": {
@@ -758,7 +764,10 @@
     },
     "Ook": null,
     "mahek": null,
-    "Elm": null,
+    "Elm": {
+        "start": "{-",
+        "end": "-}"
+    },
     "Html": null,
     "Language": {
         "start": "/*",
@@ -879,7 +888,10 @@
         "start": "(#)",
         "end": "(#)"
     },
-    "XML": null,
+    "XML": {
+        "start": "<!--",
+        "end": "-->"
+    },
     "Bash": {
         "start": "#",
         "end": "#"
@@ -1026,10 +1038,13 @@
         "start": "`/*`",
         "end": "`*/`"
     },
-    "JSON": null,
+    "JSON": {
+        "start": null,
+        "end": null
+    },
     "Brainfuck": {
-        "start": "none",
-        "end": "none"
+        "start": null,
+        "end": null
     },
     "Raghav": {
         "start": "/*",
@@ -1238,7 +1253,10 @@
         "start": "/*",
         "end": "*/"
     },
-    "YAML": null,
+    "YAML": {
+        "start": "#",
+        "end": "#"
+    },
     "Fortran": {
         "start": "C",
         "end": "C"

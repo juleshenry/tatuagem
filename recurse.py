@@ -59,7 +59,7 @@ def main():
 
     tattoo = get_tattoo("tatuagem")
 
-    with open("comment_block_syntax.json", 'r', encoding='utf-8') as f:
+    with open("lang_to_block_syntax.json", 'r', encoding='utf-8') as f:
         block = json.load(f)
 
     good_counter= total_counter = 0
