@@ -43,8 +43,7 @@ def comment_text(filepath, text):
         else:
             return text  # no comment
 
-if __name__ == "__main__":
-
+def main():
     #  ✅  for every file in our tests, identify the comment syntax
     #  ✅ create a throwaway copy of all the files and tattoo them
     # 3. from our comment syntax json, add a code coverage badge
@@ -55,27 +54,51 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     # Create a copy for testing
-    copy_path = args.directory + '_copy'
-    shutil.copytree(args.directory, copy_path)
+    copy_path = args.directory #+ '_copy'
+    # shutil.copytree(args.directory, copy_path)
 
     tattoo = get_tattoo("tatuagem")
+
+    with open("comment_block_syntax.json", 'r', encoding='utf-8') as f:
+        block = json.load(f)
+
+    good_counter= total_counter = 0
 
     for root, dirs, files in os.walk(copy_path):
         for file in files:
             if file == 'ovo.yaml':
                 continue
+            total_counter += 1
             filepath = os.path.join(root, file)
             ext = os.path.splitext(file)[1].lower()
-            print(ext)
-            try:
-                with open(filepath, 'r', encoding='utf-8') as f:
-                    content = f.read()
-                commented_tattoo = comment_text(filepath, tattoo)
-                new_content = commented_tattoo + '\n\n' + content
-                with open(filepath, 'w', encoding='utf-8') as f:
-                    f.write(new_content)
-            except (UnicodeDecodeError, IsADirectoryError, PermissionError):
-                pass  # skip binary files or errors
+            start_end = block.get(filepath.split("\\")[-2], None)
+            if start_end: 
+                good_counter += 1
+                print(start_end)
+
+            # try:
+            #     with open(filepath, 'r', encoding='utf-8') as f:
+            #         content = f.read()
+            #     commented_tattoo = comment_text(filepath, tattoo)
+            #     new_content = commented_tattoo + '\n\n' + content
+            #     with open(filepath, 'w', encoding='utf-8') as f:
+            #         f.write(new_content)
+            # except (UnicodeDecodeError, IsADirectoryError, PermissionError):
+            #     pass  # skip binary files or errors
 
     # Delete the test copy
-    shutil.rmtree(copy_path)
+    return (good_counter / total_counter)
+    # shutil.rmtree(copy_path)
+
+import anybadge
+if __name__ == "__main__":
+    coverage = main()
+    badge = anybadge.Badge("coverage", round(coverage *100, 4), thresholds={10: 'red', 20: 'orange', 30: 'green'})
+    import os
+    try:
+        os.remove("coverage.svg")
+    except FileNotFoundError:
+        pass
+    # Now create the badge
+    badge.write_badge("coverage.svg")
+
