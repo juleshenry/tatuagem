@@ -1,8 +1,4 @@
-PAIRINGS = {
-    '(': ')',
-    '{': '}',
-    '[': ']'
-}
+PAIRINGS = {"(": ")", "{": "}", "[": "]"}
 
 
 def is_balanced(symbols):
@@ -18,4 +14,3 @@ def is_balanced(symbols):
             if s != PAIRINGS[expected_opening_symbol]:  # mismatch
                 return False
     return len(stack) == 0  # false if too many opening symbols
-

@@ -1,5 +1,6 @@
 import numpy as np
 
+
 class Solution:
     def rotate(self, A):
         print("Starting Matrix")
@@ -12,18 +13,15 @@ class Solution:
                 print(np.matrix(A))
         print("Starting left-right flip")
         for row in A:
-            for j in range(n//2):
+            for j in range(n // 2):
                 row[j], row[~j] = row[~j], row[j]
                 print(np.matrix(A))
                 print("j: ", j)
                 print("~j: ", ~j)
 
+
 test = Solution()
 
-a = [
-  [1,2,3],
-  [4,5,6],
-  [7,8,9]
-]
+a = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
 
 test.rotate(a)

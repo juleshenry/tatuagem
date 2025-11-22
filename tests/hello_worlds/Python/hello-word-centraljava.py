@@ -1,1 +1,1 @@
-print('Sugeng Rawuh Dunia')
+print("Sugeng Rawuh Dunia")

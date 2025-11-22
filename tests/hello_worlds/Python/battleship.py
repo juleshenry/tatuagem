@@ -12,8 +12,8 @@ while exe:
     grid_internal = [r1.copy(), r1.copy(), r1.copy(), r1.copy(), r1.copy()]
     print("\tWelcome to BATTLESHIP\n")
     for j in range(0, 5):
-        print(''.join(grid[j]))
-    print('')
+        print("".join(grid[j]))
+    print("")
     # we randomize the positions
     x1 = randint(0, 4)
     x2 = randint(0, 4)
@@ -24,7 +24,7 @@ while exe:
     x = [x1, x2, x3]
     y = [y1, y2, y3]
     for i in range(0, 3):
-        grid_internal[y[i]][x[i]] = ' X '
+        grid_internal[y[i]][x[i]] = " X "
     counter = 1
     # we add a counter
     while counter <= 10:
@@ -40,34 +40,39 @@ while exe:
         # determines hit or miss
         if xin in x and yin == y[x.index(xin)]:
             print("\nIt is a hit!\n")
-            grid[yin][xin] = ' X '
+            grid[yin][xin] = " X "
         else:
             print("\nThat's a miss.\n")
-            grid[yin][xin] = ' 0 '
-            grid_internal[yin][xin] = ' 0 '
+            grid[yin][xin] = " 0 "
+            grid_internal[yin][xin] = " 0 "
         # prints the board after a Chance
         for j in range(4, -1, -1):
-            print(''.join(grid[j]))
+            print("".join(grid[j]))
         # Ends the game if won
-        if grid_internal[y1][x1] == grid[y1][x1] and grid_internal[y2][x2] == grid[y2][x2] and grid_internal[y3][x3] ==\
-           grid[y3][x3]:
+        if (
+            grid_internal[y1][x1] == grid[y1][x1]
+            and grid_internal[y2][x2] == grid[y2][x2]
+            and grid_internal[y3][x3] == grid[y3][x3]
+        ):
             print("You win!")
             break
         counter += 1
         # Ends the game if lost
         if counter == 11 and grid_internal != grid:
             print("\n\tGAME OVER\n")
-    #This is to ensure correct input
+    # This is to ensure correct input
     while True:
         # This is to ask if user wants to play the game again
-        playagain = input("If you want to play again, press 'y'.\nIf you want to quit, press 'q'.\n")
-        if playagain == 'y':
+        playagain = input(
+            "If you want to play again, press 'y'.\nIf you want to quit, press 'q'.\n"
+        )
+        if playagain == "y":
             exe = True
             break
         else:
-            if playagain == 'q':
+            if playagain == "q":
                 exe = False
                 break
             else:
-                print('Invalid input, try again.\n')
+                print("Invalid input, try again.\n")
                 continue

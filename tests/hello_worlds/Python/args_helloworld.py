@@ -24,4 +24,3 @@ print(s, "world!")
 dt_end = datetime.now()
 dt_diff = dt_end - dt_ini
 print("Execution time:", dt_diff.seconds)
-

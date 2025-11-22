@@ -1,2 +1,2 @@
 kpi = "KPI"
-print(f'Hello, {kpi}!')
+print(f"Hello, {kpi}!")

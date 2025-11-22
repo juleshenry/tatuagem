@@ -14,4 +14,3 @@ while True:
         continue
     print("Computer took: ", (5 - sticks_taken), "\n")
     sticks -= 5
-

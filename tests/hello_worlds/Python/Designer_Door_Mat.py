@@ -5,7 +5,7 @@ def print_designer_door_mat(hight, width):
 
     for i in range(1, hight, 2):
         door_list.append(pattern * i)
-        pattern_hight  += 1
+        pattern_hight += 1
 
     for i in range(pattern_hight):
         print(door_list[i].center(width, "-"))

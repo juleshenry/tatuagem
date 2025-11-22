@@ -1,5 +1,5 @@
-def stringCount(name:str,string:str)->int:
-    infile = open(name,'r')
+def stringCount(name: str, string: str) -> int:
+    infile = open(name, "r")
     content = infile.read()
     infile.close()
     count = 0

@@ -13,5 +13,5 @@ totalFives = fives * 5
 
 total = totalHundreds + totalFifties + totalTwenties + totalTens + totalFives + ones
 
-print ("Your total amount of money is: $" + str(total))
+print("Your total amount of money is: $" + str(total))
 # print ("You have $" + str(totalHundreds) + " in hundreds,\n $" + str(totalFifties) + " in fifties,\n $" + str(totalTwenties) + " in twenties,\n $" + str(totalTens) + " in tens,\n $" + str(totalFives) + " in fives,\n and $" + str(ones) + " in ones. Congrats!")

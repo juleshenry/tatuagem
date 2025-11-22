@@ -7,10 +7,10 @@ c = ""
 
 
 for i in a:
-  b = choice(choices)
-  if b == "up":
-    c = c + a[n].upper()
-  else:
-    c = c + a[n].lower()
-  n +=1
+    b = choice(choices)
+    if b == "up":
+        c = c + a[n].upper()
+    else:
+        c = c + a[n].lower()
+    n += 1
 print(c)

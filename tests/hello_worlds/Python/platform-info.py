@@ -1,2 +1,3 @@
 import sys
-print('Your platform is: ' + sys.platform)
+
+print("Your platform is: " + sys.platform)

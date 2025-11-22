@@ -6,12 +6,15 @@ import re
 
 
 # regex for email
-emailregex = re.compile(r'''(
+emailregex = re.compile(
+    r"""(
 [a-zA-Z0-9._%+-]+                       #username
 @                                       #@ symbol
 [a-zA-z0-9.-]+                          #domain name
 (\.[a-zA-z]{2,4})                       #dot something
-)''', re.VERBOSE)
+)""",
+    re.VERBOSE,
+)
 
 
 # Find Matches in the Clipboard
@@ -23,8 +26,8 @@ for groups in emailregex.findall(text):
 
 # copy results to the clipboard
 if len(matches) > 0:
-    pyperclip.copy('\n'.join(matches))
-    print('Results Found: ')
-    print('\n'.join(matches))
+    pyperclip.copy("\n".join(matches))
+    print("Results Found: ")
+    print("\n".join(matches))
 else:
-    print('No emails were found')
+    print("No emails were found")

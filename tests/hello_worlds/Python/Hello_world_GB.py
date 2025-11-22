@@ -1,5 +1,6 @@
 import webbrowser, os
-content = ''' <!DOCTYPE html>
+
+content = """ <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -44,13 +45,15 @@ content = ''' <!DOCTYPE html>
 <body>
     <h1>HELLO WORLD!!!</h1>
 </body>
-</html>'''
+</html>"""
+
 
 def hello():
-    opened_file = open('hello.html', 'w')
+    opened_file = open("hello.html", "w")
     opened_file.write(content)
     opened_file.close()
     url = os.path.abspath(opened_file.name)
-    webbrowser.open('file://'+url)
+    webbrowser.open("file://" + url)
+
 
 hello()

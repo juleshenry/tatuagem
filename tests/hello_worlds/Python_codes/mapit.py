@@ -1,10 +1,11 @@
-'''In this code you can find out address on google maps only by copying text and running the script'''
-import webbrowser,sys,pyperclip
+"""In this code you can find out address on google maps only by copying text and running the script"""
+
+import webbrowser, sys, pyperclip
 
 sys.argv
-if len(sys.argv)>1:
-    address=' '.join(sys.argv[1:])
+if len(sys.argv) > 1:
+    address = " ".join(sys.argv[1:])
 else:
-    address=pyperclip.paste()
+    address = pyperclip.paste()
 
-webbrowser.open("https://www.google.co.in/maps/place/"+ address)
+webbrowser.open("https://www.google.co.in/maps/place/" + address)

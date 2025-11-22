@@ -6,20 +6,33 @@ def bisect(year):
     elif year % 400 != 0:
         return False
     else:
-        return True 
+        return True
 
-print("Introduce an year and a day(1-365) and it will show the day and month for that day")
+
+print(
+    "Introduce an year and a day(1-365) and it will show the day and month for that day"
+)
 an = int(input("Year: "))
 zi = int(input("Day: "))
 
 
-if zi<1 or bisect(an)>366 or not bisect(an)>365:
+if zi < 1 or bisect(an) > 366 or not bisect(an) > 365:
     print("The day you have typed is not a valid date")
-else:    
+else:
     luni = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
-    luna = ["Ianuarie", "Februarie", "Martie", "Aprilie", "Mai",
-            "Iunie", "Iulie", "August", "Septembrie", "Octombrie"
-            "Noiembrie", "Decembrie"]
+    luna = [
+        "Ianuarie",
+        "Februarie",
+        "Martie",
+        "Aprilie",
+        "Mai",
+        "Iunie",
+        "Iulie",
+        "August",
+        "Septembrie",
+        "Octombrie" "Noiembrie",
+        "Decembrie",
+    ]
 
     if bisect(an):
         luni[1] = 29

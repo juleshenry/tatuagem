@@ -2,7 +2,7 @@ from time import time
 
 first_time = time()
 
-while(True):
+while True:
     print("Hello world")
 
 print("Almost the end")

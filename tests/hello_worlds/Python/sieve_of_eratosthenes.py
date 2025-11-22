@@ -1,10 +1,10 @@
 def sieve_of_eratosthenes(num):
-    
+
     prime = [True] * (num + 1)
     p = 2
-    while (p * p <= num):
+    while p * p <= num:
         # If prime[p] is not changed, then it is a prime
-        if (prime[p] is True):
+        if prime[p] is True:
             # Update all multiples of p
             for i in range(p * p, num + 1, p):
                 prime[i] = False
@@ -14,12 +14,15 @@ def sieve_of_eratosthenes(num):
         if prime[p]:
             print(p)
 
+
 def main():
 
     num = 30
-    print("Following are the prime numbers smaller than "
-            " or equal to {}: {}".format(num, sieve_of_eratosthenes(num)))
+    print(
+        "Following are the prime numbers smaller than "
+        " or equal to {}: {}".format(num, sieve_of_eratosthenes(num))
+    )
 
 
-if __name__=='__main__':
+if __name__ == "__main__":
     main()

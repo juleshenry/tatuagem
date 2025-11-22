@@ -1,6 +1,6 @@
 # dichiaro ed inizializzo
 # una lista di maghi
-magicians = ['Merlino', 'HP', 'Gandalf']
+magicians = ["Merlino", "HP", "Gandalf"]
 
 # ogni elemento della lista e'
 # salvato nella variabile "mago"

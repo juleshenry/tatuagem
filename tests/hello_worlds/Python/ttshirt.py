@@ -9,5 +9,5 @@ def tshirt(name):
     print(("%s would like to have a t-shirt!" % name))
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     tshirt(sys.argv[1])

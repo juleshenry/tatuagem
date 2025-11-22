@@ -1,9 +1,9 @@
 # An implementation of the Naive String Matching Algorithm In Python
 
-text = input('Enter the text to search in: ')
+text = input("Enter the text to search in: ")
 text = text.lower()
 
-pattern = input('Enter pattern to search for: ')
+pattern = input("Enter pattern to search for: ")
 pattern = pattern.lower()
 
 indexes = []
@@ -21,9 +21,9 @@ for i in range(n - m + 1):
             indexes.append(i + 1)
 
 if indexes:
-    print('The Pattern occurs at position:', end=' ')
+    print("The Pattern occurs at position:", end=" ")
     for i in indexes:
-        print(i, end=', ')
+        print(i, end=", ")
     print()
 else:
-    print('Pattern Not Found!')
+    print("Pattern Not Found!")

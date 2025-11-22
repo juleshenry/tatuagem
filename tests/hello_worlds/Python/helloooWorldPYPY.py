@@ -7,7 +7,7 @@
 print("Hello World ! \n")
 
 # Another Hello World
-word = 'Hello World!'
+word = "Hello World!"
 
 i = 0
 while i != len(word):

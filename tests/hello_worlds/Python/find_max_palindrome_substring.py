@@ -12,9 +12,9 @@ def is_palindrome(string):
 
 def get_palindrome_length(string):
     palindrome_length = 0
-    for string_sub_length in range(len(string)-1, 1, -1):
+    for string_sub_length in range(len(string) - 1, 1, -1):
         for string_list in combinations(string, string_sub_length):
-            sub_string = ''.join(string_list)
+            sub_string = "".join(string_list)
             if is_palindrome(sub_string):
                 return len(sub_string)
 
@@ -27,18 +27,21 @@ def max_palindrome_substring(s):
     for i in range(0, len(s)):
         initial_substring = s[:i]
         remaining_substring = s[i:]
-        initial_substring_palindrome_length = get_palindrome_length(
-            initial_substring)
+        initial_substring_palindrome_length = get_palindrome_length(initial_substring)
         remaining_substring_palindrome_length = get_palindrome_length(
-            remaining_substring)
+            remaining_substring
+        )
 
         if (initial_substring_palindrome_length > 0) and (
-                remaining_substring_palindrome_length > 0):
+            remaining_substring_palindrome_length > 0
+        ):
             unique_palindrome_length.add(
-                initial_substring_palindrome_length * remaining_substring_palindrome_length)
+                initial_substring_palindrome_length
+                * remaining_substring_palindrome_length
+            )
     return max(unique_palindrome_length)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     string = input()
     max_palindrome_substring(string)

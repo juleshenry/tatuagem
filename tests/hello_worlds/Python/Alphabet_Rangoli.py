@@ -18,6 +18,6 @@ def print_rangoli(size):
         print(letter_list[i].center(width, "-"))
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     n = int(input())
     print_rangoli(n)

@@ -1,1 +1,1 @@
-print("hello")*23
+print("hello") * 23

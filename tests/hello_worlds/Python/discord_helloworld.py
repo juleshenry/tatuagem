@@ -1,4 +1,5 @@
 from discord.ext import commands
+
 prefix = "?"
 bot = commands.Bot(command_prefix=prefix)
 
@@ -7,4 +8,5 @@ bot = commands.Bot(command_prefix=prefix)
 async def on_ready():
     print("Hello, World!")
 
-bot.run(TOKEN)  
+
+bot.run(TOKEN)

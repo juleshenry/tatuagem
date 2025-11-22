@@ -10,4 +10,5 @@ async def hello_world(uri):
         response = await websocket.recv()
         print(response)
 
-asyncio.get_event_loop().run_until_complete(hello_world('ws://localhost:8765'))
+
+asyncio.get_event_loop().run_until_complete(hello_world("ws://localhost:8765"))

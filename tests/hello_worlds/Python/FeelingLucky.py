@@ -1,7 +1,7 @@
 # Program implemeting the Google's I am Feeling Lucky Feature in Pyhton
 # Prints the link found on Clicking I am Feeling Lucky
 
-#Requirenments
+# Requirenments
 # ->Python3
 # ->Requests
 # ->Beautifoul Soup 3/4
@@ -11,10 +11,8 @@ from bs4 import BeautifulSoup
 
 query = "Boss"
 
-page = requests.get('https://www.google.com/search?q=' + query)
+page = requests.get("https://www.google.com/search?q=" + query)
 
-soup = BeautifulSoup(page.text, 'html.parser')
+soup = BeautifulSoup(page.text, "html.parser")
 
-print (soup.find('cite').text)
-
-
+print(soup.find("cite").text)

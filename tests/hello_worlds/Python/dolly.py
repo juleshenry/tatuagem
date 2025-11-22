@@ -12,18 +12,21 @@ N = 50
 grass = ""
 osSystem = platform.system()
 
-for i in range(N) : grass += "\""
+for i in range(N):
+    grass += '"'
+
 
 def clear(osSystem):
     if osSystem == "Windows":
         os.system("cls")
     else:
         os.system("clear")
-    
+
 
 def printGrass():
     print(grass)
-    
+
+
 while True:
     clear(osSystem)
 
@@ -50,9 +53,9 @@ while True:
     print("      (__,-'      ,'o\"(            )>")
     print("         (       (__,-'            )")
     print("          `-'._.--._(             )")
-    print("             |||  |||`-'._.--._.-\'")
+    print("             |||  |||`-'._.--._.-'")
     print("                        |||  |||")
-    print("\n\n\n");
+    print("\n\n\n")
     printGrass()
 
     time.sleep(1)
@@ -67,9 +70,8 @@ while True:
     print("   (__,-'      ,'o\"(            )>")
     print("      (       (__,-'            )")
     print("       `-'._.--._(             )")
-    print("          \\\\\\  \\\\\\`-\'._.--._.-\'")
+    print("          \\\\\\  \\\\\\`-'._.--._.-'")
     print("                     \\\\\\    \\\\\\ ")
     printGrass()
 
     time.sleep(1)
-

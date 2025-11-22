@@ -1,6 +1,8 @@
 import random
 
-LETTERS = 'HW elord!'
+LETTERS = "HW elord!"
+
+
 def monkeyTyping(textToFind):
     """
     A monkey has a writing machine that only contains the keys
@@ -11,33 +13,39 @@ def monkeyTyping(textToFind):
     text = ""
     index = 0
     lastMax = 0
-    while (index < len(textToFind)):
+    while index < len(textToFind):
         keyStroke = random.choice(LETTERS)
         text += keyStroke
         index += 1
-        if (textToFind[index - 1] != keyStroke):
-            if (index - 1 > lastMax):
+        if textToFind[index - 1] != keyStroke:
+            if index - 1 > lastMax:
                 print(index - 1)
                 lastMax = index - 1
             index = 0
     return text
+
+
 def monkeyCrypting(textToFind):
     """the objective is to have a monkey adding random characters into
-        the good sentence
-        """
+    the good sentence
+    """
     text = ""
     index = 0
-    while (index < len(textToFind)):
+    while index < len(textToFind):
         keyStroke = random.choice(LETTERS)
         text += keyStroke
 
-        if (textToFind[index] == keyStroke):
+        if textToFind[index] == keyStroke:
             index += 1
     return text
+
+
 def printSpace():
     print("")
     print("*******************")
     print("")
+
+
 print(monkeyCrypting("Hello"))
 printSpace()
 print(monkeyTyping("Hello"))

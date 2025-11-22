@@ -1,12 +1,13 @@
-#Given a string s, find all its potential permutations. 
-#The output should be sorted in lexicographical order.
+# Given a string s, find all its potential permutations.
+# The output should be sorted in lexicographical order.
 
-#For s = "CBA", the output should be
+# For s = "CBA", the output should be
 # stringPermutations(s) = ["ABC", "ACB", "BAC", "BCA", "CAB", "CBA"];
-#For s = "ABA", the output should be
+# For s = "ABA", the output should be
 # stringPermutations(s) = ["AAB", "ABA", "BAA"].
 
-#CodeSignal problem can be found at: https://app.codesignal.com/interview-practice/task/gdFsKG9iSnH5JJoei
+# CodeSignal problem can be found at: https://app.codesignal.com/interview-practice/task/gdFsKG9iSnH5JJoei
+
 
 def stringPermutations(s):
     if len(s) == 0:
@@ -31,7 +32,6 @@ def stringPermutations(s):
             print(str(shortString))
             results = stringPermutations(shortString)
             for r in results:
-                result += [str(sortedString[i])+r]
+                result += [str(sortedString[i]) + r]
             passed.append(sortedString[i])
     return result
-    

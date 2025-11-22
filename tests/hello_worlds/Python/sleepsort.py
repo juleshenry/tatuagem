@@ -1,9 +1,10 @@
-'''sleep sort
+"""sleep sort
 Sorting algorithm based on sleeping
 
 Takes a list of integers and outputs them in ascending order in max(nums)
 seconds
-'''
+"""
+
 import asyncio
 import sys
 
@@ -18,6 +19,6 @@ async def main(nums):
     await asyncio.gather(*tasks)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     nums = [int(n) for n in sys.argv[1:]]
     asyncio.run(main(nums))

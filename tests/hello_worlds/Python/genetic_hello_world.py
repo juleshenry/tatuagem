@@ -1,9 +1,8 @@
-
 import random
 
 text = input("Enter text to find using letters, numbers and space: ")
 population = 200
-mutation = .01
+mutation = 0.01
 current = []  # [(fitness, char array),]
 
 
@@ -16,13 +15,13 @@ def create_selection_pool():
 
 
 def select(selection_pool):
-    first = selection_pool[random.randint(0, len(selection_pool)-1)][1]
-    second = selection_pool[random.randint(0, len(selection_pool)-1)][1]
+    first = selection_pool[random.randint(0, len(selection_pool) - 1)][1]
+    second = selection_pool[random.randint(0, len(selection_pool) - 1)][1]
     return first, second
 
 
 def crossover(parent1, parent2):
-    midpoint = int(len(text)/2)
+    midpoint = int(len(text) / 2)
     return parent1[:midpoint] + parent2[midpoint:]
 
 
@@ -52,7 +51,7 @@ def loop():
     count = 0
     while True:
         best = max(current)
-        print('\r{:7d} : {} : {:3d}%'.format(count, ''.join(best[1]), best[0]), end='')
+        print("\r{:7d} : {} : {:3d}%".format(count, "".join(best[1]), best[0]), end="")
         if best[0] == 100:
             return
         evolve()
@@ -86,10 +85,10 @@ def fitness(element):
     for i in range(n):
         if element[i] == text[i]:
             counter += 1
-    return int(pow((counter/n), 2)*100)
+    return int(pow((counter / n), 2) * 100)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     init()
     loop()
-    print('\nFinished')
+    print("\nFinished")

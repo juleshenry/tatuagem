@@ -1,3 +1,3 @@
 # Simple Hello Hacktoberfest output
 
-print('Hello Hacktoberfest 2k18')
+print("Hello Hacktoberfest 2k18")

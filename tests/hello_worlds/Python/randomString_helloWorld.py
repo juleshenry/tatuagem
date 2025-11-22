@@ -1,17 +1,17 @@
 import string
 import random
 
-helloWorld = ''
+helloWorld = ""
 
-while (helloWorld != "Hello World!"):
-    helloWorld = ''
-    
+while helloWorld != "Hello World!":
+    helloWorld = ""
+
     for i in range(11):
         if i == 5:
-            helloWorld += ' '
+            helloWorld += " "
         else:
             helloWorld += random.choice(string.ascii_letters)
-    
-    helloWorld += '!'
+
+    helloWorld += "!"
 
 print(helloWorld)

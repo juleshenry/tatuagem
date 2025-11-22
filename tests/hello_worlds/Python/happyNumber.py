@@ -1,6 +1,6 @@
 number = int(input("Enter a number to check if it is happy or '0' to quit: "))
 
-while number!=0:
+while number != 0:
     list = set()
     while 1:
         if number == 1:

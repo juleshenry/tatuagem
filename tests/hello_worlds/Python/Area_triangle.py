@@ -17,7 +17,7 @@ def calculate_area_trigonometry(angle, b, c):
     return 0.5 * b * c * sin(radians(angle))
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     print("Basic Formula")
     height = float(input("Enter height of the triangle: "))
     base = float(input("Enter base of the triangle: "))

@@ -1,4 +1,4 @@
-'''
+"""
 Let us consider polynomials in a single variable x with integer coefficients: for instance, 3x4 - 17x2 - 3x + 5. Each term of the polynomial can be represented as a pair of integers (coefficient,exponent). The polynomial itself is then a list of such pairs.
 
 We have the following constraints to guarantee that each polynomial has a unique representation:
@@ -16,7 +16,7 @@ The zero polynomial, 0, is represented as the empty list [], since it has no ter
 
 Write Python functions for the following operations:
 
-  
+
   addpoly(p1,p2)
   multpoly(p1,p2)
 
@@ -44,7 +44,8 @@ Explanation: 2x + (-2x) = 0
   [(1, 3),(-1, 0)]
 
 Explanation: (x - 1) * (x2 + x + 1) = x3 - 1
-'''
+"""
+
 
 def addpoly(e1, e2):
     new_list = list()
@@ -66,7 +67,7 @@ def addpoly(e1, e2):
 
 def multpoly(e1, e2):
     new_list = list()
-    new_list1  = list()
+    new_list1 = list()
     new_list2 = list()
     new_list.append(new_list1)
     new_list.append(new_list2)

@@ -9,6 +9,7 @@ class MinHeap:
     """
     Implementation of Min Heap data structure
     """
+
     def __init__(self, arr=None):
         self.heap = []
         self.heap_size = 0
@@ -104,12 +105,13 @@ class MinHeap:
 
 class Board:
     """
-        Class to represent the  n x n Board / Matrix
-        Stores the parent node of a board i.e. the board from which the new board was derived
-        Stores the row, col of the blank space (0) on the board
-        Stores the boards children if they exist else None
-        Stores the manhattan heuristic of the board and moves made so far
+    Class to represent the  n x n Board / Matrix
+    Stores the parent node of a board i.e. the board from which the new board was derived
+    Stores the row, col of the blank space (0) on the board
+    Stores the boards children if they exist else None
+    Stores the manhattan heuristic of the board and moves made so far
     """
+
     def __init__(self, arr=None, parent=None, s_r=None, s_c=None):
         self.arr = []
 
@@ -145,8 +147,9 @@ class Board:
 
         dist = 0
         for i in range(n**2 - 1):
-            dist += (abs(coordinates_sol[i][0] - coordinates_board[i][0]) +
-                     abs(coordinates_sol[i][1] - coordinates_board[i][1]))
+            dist += abs(coordinates_sol[i][0] - coordinates_board[i][0]) + abs(
+                coordinates_sol[i][1] - coordinates_board[i][1]
+            )
         return dist
 
     def get_cost(self):
@@ -164,7 +167,9 @@ class Board:
         if self.space_row + 1 >= len(self.arr):
             return False
 
-        self.arr[self.space_row][self.space_col] = self.arr[self.space_row + 1][self.space_col]
+        self.arr[self.space_row][self.space_col] = self.arr[self.space_row + 1][
+            self.space_col
+        ]
         self.arr[self.space_row + 1][self.space_col] = 0
         self.space_row += 1
         self.manhattan = self.get_manhattan()
@@ -179,7 +184,9 @@ class Board:
         if self.space_row - 1 < 0:
             return False
 
-        self.arr[self.space_row][self.space_col] = self.arr[self.space_row - 1][self.space_col]
+        self.arr[self.space_row][self.space_col] = self.arr[self.space_row - 1][
+            self.space_col
+        ]
         self.arr[self.space_row - 1][self.space_col] = 0
         self.space_row -= 1
         self.manhattan = self.get_manhattan()
@@ -194,7 +201,9 @@ class Board:
         if self.space_col + 1 >= len(self.arr):
             return False
 
-        self.arr[self.space_row][self.space_col] = self.arr[self.space_row][self.space_col + 1]
+        self.arr[self.space_row][self.space_col] = self.arr[self.space_row][
+            self.space_col + 1
+        ]
         self.arr[self.space_row][self.space_col + 1] = 0
         self.space_col += 1
         self.manhattan = self.get_manhattan()
@@ -209,7 +218,9 @@ class Board:
         if self.space_col - 1 < 0:
             return False
 
-        self.arr[self.space_row][self.space_col] = self.arr[self.space_row][self.space_col - 1]
+        self.arr[self.space_row][self.space_col] = self.arr[self.space_row][
+            self.space_col - 1
+        ]
         self.arr[self.space_row][self.space_col - 1] = 0
         self.space_col -= 1
         self.manhattan = self.get_manhattan()
@@ -229,7 +240,7 @@ def get_final_board(n):
         for j in range(n):
             solution[-1].append(k)
             k += 1
-    solution[n-1][n-1] = 0
+    solution[n - 1][n - 1] = 0
     return solution
 
 
@@ -347,7 +358,7 @@ def print_steps(board, n, file):
         arr.append(board)
         board = board.parent
 
-    for i in range(len(arr)-1, 0, -1):
+    for i in range(len(arr) - 1, 0, -1):
         if arr[i].up == arr[i - 1]:
             file.write("Up\n")
         elif arr[i].down == arr[i - 1]:
@@ -407,7 +418,7 @@ start_time = time.perf_counter()
 final_board, stats = astar(start_board)
 end_time = time.perf_counter()
 
-with open(os.path.join(os.curdir, 'astar_report.txt'), 'w') as f:
+with open(os.path.join(os.curdir, "astar_report.txt"), "w") as f:
     print("Time taken:", end_time - start_time)
     f.write("Time taken: {}\n".format(end_time - start_time))
 

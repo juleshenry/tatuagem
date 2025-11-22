@@ -19,11 +19,13 @@ def performMath():
     else:
         equation = input(str(previous))
 
-    if(equation == 'q'):
+    if equation == "q":
         print("Good Bye Human!!")
         run = False
     else:
-        equation = re.sub('[a-zA_Z,.:()" "]', '', equation)  # regex to take only numbers
+        equation = re.sub(
+            '[a-zA_Z,.:()" "]', "", equation
+        )  # regex to take only numbers
         if previous == 0:
             previous = eval(equation)
         else:

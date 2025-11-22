@@ -5,13 +5,13 @@
 def is_prime(n):
     if (n == 2) or (n == 3):
         return True
-    if (n < 2) or (n %2 == 0):
+    if (n < 2) or (n % 2 == 0):
         return False
     if n < 9:
         return True
     if n % 3 == 0:
         return False
-    sqrt_n = int(n ** 0.5)
+    sqrt_n = int(n**0.5)
     step = 5
     # 😇
     while step <= sqrt_n:
@@ -30,7 +30,8 @@ def is_circular_prime(n):
             return False
     return True
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     num = int(input())
-    result = (sum(1 for n in range(2, num) if is_circular_prime(n)))
+    result = sum(1 for n in range(2, num) if is_circular_prime(n))
     print(result)

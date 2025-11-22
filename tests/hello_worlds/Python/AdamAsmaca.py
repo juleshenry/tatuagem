@@ -1,8 +1,8 @@
-import time,random
+import time, random
 
-isim=input("ismin ne? ")
+isim = input("ismin ne? ")
 time.sleep(0.5)
-print("Merhaba %s! Bugün seninle bir adam asmaca oyunu yapıyoruz!"%(isim))
+print("Merhaba %s! Bugün seninle bir adam asmaca oyunu yapıyoruz!" % (isim))
 time.sleep(1)
 
 kelimeler = """kırmızı turuncu sarı yeşil mavi lacivert mor beyaz siyah
@@ -20,9 +20,8 @@ kelimeler = """kırmızı turuncu sarı yeşil mavi lacivert mor beyaz siyah
              güvercin tavşan koç gergedan köpekbalığı koyun yılan örümcek leylek
              kuğu kaplan kurbağa alabalık hindi kaplumbağa gelincik balina kurt
              zebra"""
-resimler  = (
-
-"""
+resimler = (
+    """
    _________
     |/
     |
@@ -32,8 +31,7 @@ resimler  = (
     |
     |___
     """,
-
-"""
+    """
    _________
     |/   |
     |
@@ -43,8 +41,7 @@ resimler  = (
     |
     |___
     A""",
-
-"""
+    """
    _________
     |/   |
     |   (_)
@@ -54,8 +51,7 @@ resimler  = (
     |
     |___
     ADA""",
-
-"""
+    """
    ________
     |/   |
     |   (_)
@@ -65,9 +61,7 @@ resimler  = (
     |
     |___
     ADAM""",
-
-
-"""
+    """
    _________
     |/   |
     |   (_)
@@ -77,9 +71,7 @@ resimler  = (
     |
     |___
     ADAM A""",
-
-
-"""
+    """
    _________
     |/   |
     |   (_)
@@ -89,10 +81,7 @@ resimler  = (
     |
     |___
     ADAM ASM""",
-
-
-
-"""
+    """
    ________
     |/   |
     |   (_)
@@ -102,9 +91,7 @@ resimler  = (
     |
     |___
     ADAM ASMAC""",
-
-
-"""
+    """
    ________
     |/   |
     |   (_)
@@ -113,54 +100,62 @@ resimler  = (
     |   / \\
     |
     |___
-    ADAM ASMACA! :(""")
-'''
+    ADAM ASMACA! :(""",
+)
+"""
 while True:
     for i in resimler:
         print(i)
         print("***",random.choice(kelimeler.split()).upper(),"***")
         time.sleep(0.5)
-'''
-def çiz(kel,tah):
-    yeni=""
+"""
+
+
+def çiz(kel, tah):
+    yeni = ""
     for i in kel:
         if i in tah:
-            yeni+=i
-        else:yeni+="-"
+            yeni += i
+        else:
+            yeni += "-"
     return yeni
+
 
 while True:
     time.sleep(0.5)
-    seçilenKelime= random.choice(kelimeler.split()).upper()
-    tahminler=""
-    i=0
-    while i!=7:
+    seçilenKelime = random.choice(kelimeler.split()).upper()
+    tahminler = ""
+    i = 0
+    while i != 7:
         print(resimler[i])
-        print("Kelime: *",çiz(seçilenKelime,tahminler),"*")
+        print("Kelime: *", çiz(seçilenKelime, tahminler), "*")
         while True:
-            ekle=input("bir harf tahmin et!:")
+            ekle = input("bir harf tahmin et!:")
             if len(ekle) != 1:
                 continue
             elif not ekle.isalpha():
                 continue
-            tahminler+= ekle.upper()
+            tahminler += ekle.upper()
             break
         if ekle.upper() not in seçilenKelime:
-            i+=1
-        if "-" not in çiz(seçilenKelime,tahminler):break
+            i += 1
+        if "-" not in çiz(seçilenKelime, tahminler):
+            break
     time.sleep(1)
-    if i==7:
+    if i == 7:
         print("Kaybettiniz :(")
-        print("kelime:",seçilenKelime)
+        print("kelime:", seçilenKelime)
     else:
         print("* * * * *")
-        print("Kazandınız! Kelime:",seçilenKelime)
+        print("Kazandınız! Kelime:", seçilenKelime)
         print("* * * * *")
     time.sleep(1)
     print("peki.. tekrar oynamak ister misin? ")
     time.sleep(0.5)
-    tekrar=input("(e/h):")
-    if tekrar=="e" or tekrar=="E" or tekrar.startswith(("e","E")):continue
-    else:break
+    tekrar = input("(e/h):")
+    if tekrar == "e" or tekrar == "E" or tekrar.startswith(("e", "E")):
+        continue
+    else:
+        break
 time.sleep(1)
 print("program bitti!")

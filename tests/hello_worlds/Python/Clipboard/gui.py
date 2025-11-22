@@ -29,10 +29,14 @@ def set_pastes():
             element["button"].lower()
             continue
 
-        element["text"].config(text=textwrap.shorten(pastes[index].text, width=50, placeholder="..."))
+        element["text"].config(
+            text=textwrap.shorten(pastes[index].text, width=50, placeholder="...")
+        )
         element["date"].config(text=pastes[index].date.strftime("%d. %B %Y %H:%M:%S"))
         element["button"].config(text="Copy")
-        element["button"].bind("<Button-1>", lambda x: copy_from_history(pastes[index].text))
+        element["button"].bind(
+            "<Button-1>", lambda x: copy_from_history(pastes[index].text)
+        )
 
 
 def update(event=None):

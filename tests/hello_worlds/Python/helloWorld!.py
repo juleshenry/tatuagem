@@ -1,3 +1,3 @@
 # Author: MaestroJolly
 
-print ('HELLO WORLD!')
+print("HELLO WORLD!")

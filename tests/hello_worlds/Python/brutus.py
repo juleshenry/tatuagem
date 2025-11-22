@@ -1,6 +1,4 @@
-
 import time
-
 
 
 def main():
@@ -59,8 +57,10 @@ def two_kdp(size, k1, k2):
 
     return c
 
+
 def euclid(a, b):
     pass
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     main()

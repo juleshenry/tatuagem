@@ -1,3 +1,2 @@
 print("Bonjour Le monde!")
-x1=int(input())
-
+x1 = int(input())

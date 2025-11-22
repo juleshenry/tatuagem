@@ -1,4 +1,3 @@
-print ("Hello World")
-user= ("My name is Qas")
-print (user)
-
+print("Hello World")
+user = "My name is Qas"
+print(user)

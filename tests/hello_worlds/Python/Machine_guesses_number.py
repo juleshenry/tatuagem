@@ -19,10 +19,14 @@ while answer != "ok" and (b - a) > 1:
 while answer != "ok" and (b - a) <= 1 and b != a - 1:
     if answer == "bigger":
         print(b)
-        answer = input("Did I get it? It's bigger? Smaller? (press ok/bigger/smaller)\n")
+        answer = input(
+            "Did I get it? It's bigger? Smaller? (press ok/bigger/smaller)\n"
+        )
     elif answer == "smaller":
         print(b - 1)
-        answer = input("Did I get it? It's bigger? Smaller? (press ok/bigger/smaller)\n\n")
+        answer = input(
+            "Did I get it? It's bigger? Smaller? (press ok/bigger/smaller)\n\n"
+        )
 if answer == "ok":
     print("I am soooo smart!\n")
 else:

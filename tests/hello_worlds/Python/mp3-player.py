@@ -1,2 +1,3 @@
 from playsound import playsound
-playsound('agar.mp3')
+
+playsound("agar.mp3")

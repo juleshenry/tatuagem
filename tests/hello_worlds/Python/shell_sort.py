@@ -1,4 +1,3 @@
-
 def shell_sort(arr):
     """
     Fuction to sort using Shell Sort
@@ -6,13 +5,13 @@ def shell_sort(arr):
     :param arr:     A list of element to sort
     """
 
-    gap = int((len(arr)/2))
+    gap = int((len(arr) / 2))
     while gap > 0:
         for i in range(gap, len(arr)):
             temp = arr[i]
             j = i
             while j >= gap and arr[j - gap] > temp:
-                arr[j] = arr[j-gap]
+                arr[j] = arr[j - gap]
                 j -= gap
 
             arr[j] = temp
@@ -26,10 +25,12 @@ def shell_sort(arr):
 def main():
     arr = [15, 12, 36, 63, 96]
     sorted_arr = shell_sort(arr)
-    print('Sorted element using Shell Sort: {}'.format(
-              ' '.join(map(str, shell_sort(arr)))))
+    print(
+        "Sorted element using Shell Sort: {}".format(
+            " ".join(map(str, shell_sort(arr)))
+        )
+    )
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
-

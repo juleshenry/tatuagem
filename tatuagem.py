@@ -1,4 +1,4 @@
-'''
+"""
 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
@@ -34,7 +34,7 @@
 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-'''
+"""
 
 from params import TEMPLATE_SIZE, Image, ImageDraw, ImageFont
 from initi import get_font_png_path, init_and_create_templates
@@ -93,17 +93,19 @@ def tatuar(mat, pattern=None, backsplash=None, margin=None):
         out = "".join(text_list)
         if pattern:
             for i, c in enumerate(out):
-                tatuagem+=(pattern[i % len(pattern)] if c == backsplash else c)
+                tatuagem += pattern[i % len(pattern)] if c == backsplash else c
         else:
             for i, c in enumerate(out):
-                tatuagem+=(c)
-        tatuagem+="\n"
+                tatuagem += c
+        tatuagem += "\n"
     return tatuagem
+
 
 def expose(mat, pattern=None, backsplash=None, margin=None):
     # prints a `matrix`
     tatu = tatuar(mat, pattern=pattern, backsplash=backsplash, margin=margin)
     print(tatu)
+
 
 def concat(cmat, amat, sep: str = ""):
     # concatenates character matrices
@@ -117,7 +119,7 @@ def concat(cmat, amat, sep: str = ""):
     return x
 
 
-def tatuagem(frase: str, space_count: int = SPACE_MARGIN, **kwargs):
+def get_tattoo_string(frase: str, space_count: int = SPACE_MARGIN, **kwargs):
     # space_count, number of backsplash chars defining a 'space'
     j = []
     oxo = [[] for _ in range(TEMPLATE_SIZE)]
@@ -127,12 +129,17 @@ def tatuagem(frase: str, space_count: int = SPACE_MARGIN, **kwargs):
             j = concat(oxo, cmat)
         else:
             j = concat(j, cmat, sep=(kwargs["backsplash"]) * space_count)
-    expose(
+    return tatuar(
         j,
         pattern=kwargs["pattern"],
         backsplash=kwargs["backsplash"],
         margin=kwargs["margin"],
     )
+
+
+def tatuagem(frase: str, space_count: int = SPACE_MARGIN, **kwargs):
+    tatu = get_tattoo_string(frase, space_count, **kwargs)
+    print(tatu)
 
 
 if __name__ == "__main__":
@@ -146,6 +153,8 @@ if __name__ == "__main__":
     parser.add_argument(
         "--margin", default=MARGIN, help="Margin top and bottom for text"
     )
+    parser.add_argument("--recurse-path", help="Path to recurse and apply tattoo")
+
     args, positional_args = parser.parse_known_args()
     if not os.path.exists(z := f"./fonts/{args.font}"):
         init_and_create_templates(args.font)
@@ -155,5 +164,14 @@ if __name__ == "__main__":
     print(f"pattern: {args.pattern}")
     print(f"margin: {args.margin}")
     arg0_frase = positional_args[0]
-    # prints to screen
-    tatuagem(arg0_frase, **{a: getattr(args, a) for a in KWARGS_LIST})
+
+    if args.recurse_path:
+        from recurse import apply_tattoo_to_directory
+
+        tattoo = get_tattoo_string(
+            arg0_frase, **{a: getattr(args, a) for a in KWARGS_LIST}
+        )
+        apply_tattoo_to_directory(args.recurse_path, tattoo)
+    else:
+        # prints to screen
+        tatuagem(arg0_frase, **{a: getattr(args, a) for a in KWARGS_LIST})

@@ -3,6 +3,8 @@ class Node:
     def __init__(self, val):
         self.val = val
         self.next = None
+
+
 # Declare nodes with values 3 and 2 in nodes A and B.
 A = Node(3)
 B = Node(2)

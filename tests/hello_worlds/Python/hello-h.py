@@ -1,3 +1,3 @@
-#Simple program which prints Hello, Hacktoberfest!
+# Simple program which prints Hello, Hacktoberfest!
 
-print ("Hello, Hacktoberfest!")
+print("Hello, Hacktoberfest!")

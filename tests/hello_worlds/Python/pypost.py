@@ -9,7 +9,7 @@ fckr = Faker()
 try:
     from urllib.parse import urlencode
 except ImportError:
-        from urllib import urlencode
+    from urllib import urlencode
 
 
 try:
@@ -17,20 +17,21 @@ try:
 except ImportError:
     from io import StringIO
 
-URL="write url"
+URL = "write url"
 
 
 def get_method(curl, url):
     buffer = StringIO()
-    curl.setopt(curl.URL,url)
+    curl.setopt(curl.URL, url)
     curl.setopt(curl.WRITEDATA, buffer)
     curl.perform()
     curl.close()
     body = buffer.getvalue()
     print(body)
 
+
 def post_method(curl, url, argument):
-    curl.setopt(curl.URL,url)
+    curl.setopt(curl.URL, url)
     post_data = argument
     postfields = urlencode(post_data)
     curl.setopt(curl.POSTFIELDS, postfields)
@@ -38,13 +39,28 @@ def post_method(curl, url, argument):
     # curl.setopt(pycurl.PROXY, "%s:%s" % (IP, PORT))
     # curl.setopt(pycurl.PROXYTYPE, pycurl.PROXYTYPE_SOCKS5)
     curl.setopt(curl.VERBOSE, True)
-    curl.setopt(curl.USERAGENT, "Mozilla/5.0 (Windows; U; MSIE 6.0; Windows NT 5.1; SV1; .NET CLR 2.0.50727)")
+    curl.setopt(
+        curl.USERAGENT,
+        "Mozilla/5.0 (Windows; U; MSIE 6.0; Windows NT 5.1; SV1; .NET CLR 2.0.50727)",
+    )
     curl.perform()
     curl.close()
 
+
 def main():
     c = pycurl.Curl()
-    post_method(c, URL, {"txt_name":fckr.name(), "txt_email": fckr.email(), "txt_company": fckr.address(), "txt_phone":fckr.phone_number() ,"txt_comment" : fckr.text() ,"submit": "submit"})
+    post_method(
+        c,
+        URL,
+        {
+            "txt_name": fckr.name(),
+            "txt_email": fckr.email(),
+            "txt_company": fckr.address(),
+            "txt_phone": fckr.phone_number(),
+            "txt_comment": fckr.text(),
+            "submit": "submit",
+        },
+    )
 
 
 main()

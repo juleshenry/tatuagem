@@ -1,2 +1,2 @@
-while(1):
-	print('LOL')
+while 1:
+    print("LOL")

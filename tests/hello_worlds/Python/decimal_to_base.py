@@ -1,4 +1,3 @@
-
 def decimal_to_base(n, base):
     """Convert decimal number to any base (2-16)"""
 
@@ -21,7 +20,6 @@ def decimal_to_base(n, base):
         result = result + chars[stack.pop()]
 
     if is_negative:
-        return "-"+result
+        return "-" + result
     else:
         return result
-

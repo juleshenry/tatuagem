@@ -1,5 +1,5 @@
 def Ordered_binary_Search(olist, item):
-    
+
     if len(olist) == 0:
         return False
     else:
@@ -10,7 +10,8 @@ def Ordered_binary_Search(olist, item):
             if item < olist[midpoint]:
                 return binarySearch(olist[:midpoint], item)
             else:
-                return binarySearch(olist[midpoint+1:], item)
+                return binarySearch(olist[midpoint + 1 :], item)
+
 
 def binarySearch(alist, item):
 
@@ -29,6 +30,7 @@ def binarySearch(alist, item):
                 first = midpoint + 1
 
     return found
+
 
 print(Ordered_binary_Search([0, 1, 3, 8, 14, 18, 19, 34, 52], 3))
 print(Ordered_binary_Search([0, 1, 3, 8, 14, 18, 19, 34, 52], 17))

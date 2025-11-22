@@ -3,7 +3,7 @@
 
 def merge_sort(array):
     """Use merge sort to sort an array."""
-    if(len(array)) > 1:
+    if (len(array)) > 1:
         mid = len(array) // 2
 
         left_array = array[:mid]

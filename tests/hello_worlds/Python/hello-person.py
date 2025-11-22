@@ -1,3 +1,3 @@
-print ('Enter Your Name')
+print("Enter Your Name")
 person = input()
-print ('Hello ' + person)
+print("Hello " + person)

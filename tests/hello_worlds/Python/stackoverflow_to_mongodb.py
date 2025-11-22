@@ -1,4 +1,3 @@
-
 import stackapi
 import requests
 import pymongo
@@ -16,7 +15,7 @@ COLLECTION_NAME = "java"
 PROXIES = ["localhost:9051", "localhost:9052", "localhost:9053", None]
 
 # MongoDB
-mongo = pymongo.MongoClient("mongodb://"+MONGODB_SERVER)
+mongo = pymongo.MongoClient("mongodb://" + MONGODB_SERVER)
 db = mongo[DB_NAME]
 collection = db[COLLECTION_NAME]
 
@@ -28,21 +27,25 @@ min_page = min(PAGE_RANGE)
 max_page = max(PAGE_RANGE)
 errors = 0
 
-for page in range(min_page, max_page+1):
+for page in range(min_page, max_page + 1):
     stop = False
     while True:
         try:
             print(f"Getting questions from page {page}/{max_page}")
             proxy = random.choice(PROXIES)
             if proxy is not None:
-                proxies = {"http": "http://"+proxy, "https": "https://"+proxy}
+                proxies = {"http": "http://" + proxy, "https": "https://" + proxy}
             else:
                 proxies = None
-            js = stack.fetch("questions", tagged=TAG, page=page, is_answered=True, proxy=proxies)
+            js = stack.fetch(
+                "questions", tagged=TAG, page=page, is_answered=True, proxy=proxies
+            )
             questions = js["items"]
             print(f"Found {len(questions)} questions")
             for quest in questions:  # type: dict
-                print(f"Processing question {questions.index(quest)+1}/{len(questions)} '{quest['title']}'...")
+                print(
+                    f"Processing question {questions.index(quest)+1}/{len(questions)} '{quest['title']}'..."
+                )
                 if not quest["is_answered"]:
                     print("Question not answered, skipping")
                     continue
@@ -55,12 +58,17 @@ for page in range(min_page, max_page+1):
                     try:
                         proxy = random.choice(PROXIES)
                         if proxy is not None:
-                            proxies = {"http": "http://"+proxy, "https": "https://"+proxy}
+                            proxies = {
+                                "http": "http://" + proxy,
+                                "https": "https://" + proxy,
+                            }
                         else:
                             proxies = None
                         r = requests.get(quest["link"], timeout=2, proxies=proxies)
                         if r.status_code != 200:
-                            raise requests.exceptions.RequestException(f"Error Code != 200 (got {r.status_code})")
+                            raise requests.exceptions.RequestException(
+                                f"Error Code != 200 (got {r.status_code})"
+                            )
                     except requests.exceptions.RequestException as e:
                         try:
                             traceback.print_tb(e)
@@ -68,7 +76,9 @@ for page in range(min_page, max_page+1):
                             print(str(e))
                             pass
                         if tries >= MAX_ERRORS:
-                            print("Error limit reached, we can't download this question!")
+                            print(
+                                "Error limit reached, we can't download this question!"
+                            )
                             break
                         else:
                             tries += 1

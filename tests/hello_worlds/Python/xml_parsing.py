@@ -1,6 +1,6 @@
 import xml.etree.ElementTree as ET
 
-xml_data = '''
+xml_data = """
 <data>
     <users>
         <user>
@@ -12,12 +12,11 @@ xml_data = '''
             <name>Shivam</name>
         </user>
     </users>
-</data>'''
+</data>"""
 
 stuff = ET.fromstring(xml_data)
-lst = stuff.findall('users/user')
+lst = stuff.findall("users/user")
 
 for item in lst:
-    print('Id: ', item.find('id').text)
-    print('Name: ', item.find('name').text)
-    
+    print("Id: ", item.find("id").text)
+    print("Name: ", item.find("name").text)

@@ -1,5 +1,5 @@
 def welcome():
-    print ("welcome to Python world")
+    print("welcome to Python world")
+
 
 welcome()
-

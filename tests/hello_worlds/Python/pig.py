@@ -7,28 +7,28 @@ t.setup(width=800, height=600)
 t.speed(10)
 
 t.penup()
-t.goto(130,230)
+t.goto(130, 230)
 t.colormode(255)
 t.color("blue")
-t.write('我是社会人', align="right", font=('微软雅黑', 50, 'normal'))
-t.color((255,155,192),"pink")
+t.write("我是社会人", align="right", font=("微软雅黑", 50, "normal"))
+t.color((255, 155, 192), "pink")
 
 t.penup()
-t.goto(-100,100)
+t.goto(-100, 100)
 t.pendown()
 t.seth(-30)
 t.begin_fill()
 a = 0.4
 for i in range(120):
-        if 0 <= i < 30 or 60 <= i < 90:
-                a = a + 0.08
+    if 0 <= i < 30 or 60 <= i < 90:
+        a = a + 0.08
 
-                t.lt(3)
-                t.fd(a)
-        else:
-                a -= 0.08
-                t.lt(3)
-                t.fd(a)
+        t.lt(3)
+        t.fd(a)
+    else:
+        a -= 0.08
+        t.lt(3)
+        t.fd(a)
 t.end_fill()
 
 t.pu()
@@ -55,7 +55,7 @@ t.circle(5)
 t.color(160, 82, 45)
 t.end_fill()
 
-t.color((255, 155, 192),(254, 187, 234))
+t.color((255, 155, 192), (254, 187, 234))
 t.pu()
 t.seth(90)
 t.fd(41)
@@ -77,14 +77,14 @@ t.pd()
 t.seth(-30)
 a = 0.4
 for i in range(60):
-        if 0 <= i < 30 or 60 <= i < 90:
-                a += 0.08
-                t.lt(3)
-                t.fd(a)
-        else:
-                a -= 0.08
-                t.lt(3)
-                t.fd(a)
+    if 0 <= i < 30 or 60 <= i < 90:
+        a += 0.08
+        t.lt(3)
+        t.fd(a)
+    else:
+        a -= 0.08
+        t.lt(3)
+        t.fd(a)
 t.end_fill()
 
 t.color((255, 155, 192), (254, 187, 234))

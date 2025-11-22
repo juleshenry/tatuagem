@@ -1,2 +1,2 @@
-while(22):
-  print("22")
+while 22:
+    print("22")

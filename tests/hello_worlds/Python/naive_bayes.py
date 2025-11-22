@@ -19,7 +19,7 @@ def bayes(data, v, P_c):
 
 
 # Read data.txt into input_data
-f = open('data.txt', 'r')
+f = open("data.txt", "r")
 input_data = np.loadtxt(f)
 input_data = input_data[input_data[:, 0].argsort()]
 
@@ -38,10 +38,13 @@ for i in range(0, len(data_list)):
 # Get requested calculations
 requested = np.zeros(len(data_list[0]))
 for i in range(0, len(requested)):
-    requested[i] = input('Enter ' + chr(88 + i) + ': ')
+    requested[i] = input("Enter " + chr(88 + i) + ": ")
 
 # Print out answer to calculations
 for i in range(0, len(data_list)):
-    print('Class ' + str(i) + ' probability: ' + str(bayes(data_list[i],
-                                                           requested,
-                                                           len(data_list[i]) / data_size)))
+    print(
+        "Class "
+        + str(i)
+        + " probability: "
+        + str(bayes(data_list[i], requested, len(data_list[i]) / data_size))
+    )

@@ -7,7 +7,7 @@ a BinaryTree class on them.
 """
 
 
-class Node():
+class Node:
     def __init__(self, data):
         """__init__."""
         self.data = data
@@ -15,7 +15,7 @@ class Node():
         self.right = None
 
 
-class BinaryTree():
+class BinaryTree:
     def __init__(self):
         """__init__."""
         self.root = None

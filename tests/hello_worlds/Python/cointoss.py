@@ -7,7 +7,7 @@ initial_invesment = 100
 y = []
 
 for oo in range(0, 365):
-    if random.randint(0,1) % 2 == 0:
+    if random.randint(0, 1) % 2 == 0:
         initial_invesment = initial_invesment + 0.5
         y.append(initial_invesment)
     else:
@@ -18,7 +18,7 @@ for oo in range(0, 365):
 output_file("cointoss.html")
 
 # create a new plot with a title and axis labels
-p = figure(title="Performance", x_axis_label='days', y_axis_label='portfolio')
+p = figure(title="Performance", x_axis_label="days", y_axis_label="portfolio")
 
 if y[0] < y[364]:
     color = "green"

@@ -19,13 +19,20 @@ def mulinv(b, n):
 
 
 def text_to_bits(text):
-    bits = bin(int.from_bytes(text.encode(encoding='utf-8', errors='ignore'), 'big'))[2:]
+    bits = bin(int.from_bytes(text.encode(encoding="utf-8", errors="ignore"), "big"))[
+        2:
+    ]
     return bits.zfill(8 * ((len(bits) + 7) // 8))
 
 
 def text_from_bits(bits):
     n = int(bits, 2)
-    return n.to_bytes((n.bit_length() + 7) // 8, 'big').decode(encoding='utf-8', errors='ignore') or '\0'
+    return (
+        n.to_bytes((n.bit_length() + 7) // 8, "big").decode(
+            encoding="utf-8", errors="ignore"
+        )
+        or "\0"
+    )
 
 
 def bits_to_list(bits):
@@ -78,26 +85,26 @@ def encrypt(plain_text, public_key):
 
 
 def decrypt(cipher, private_key):
-    a = private_key['a']
-    p = private_key['p']
-    w = private_key['w']
-    m = private_key['m']
+    a = private_key["a"]
+    p = private_key["p"]
+    w = private_key["w"]
+    m = private_key["m"]
     d_j = cipher
     for w_j, m_j in zip(w[::-1], m[::-1]):
         d_j = (mulinv(w_j, m_j) * d_j) % m_j
     r = bits_from_sum_superincreasing_subsequence(a, d_j)
-    raw = ''.join(str(r[i]) for i in p)
+    raw = "".join(str(r[i]) for i in p)
     plain_text = text_from_bits(raw)
     return plain_text
 
 
-if __name__ == '__main__':
-    m = 'Hello World!'
+if __name__ == "__main__":
+    m = "Hello World!"
     n = 1024
     t = 8
     keys = generate_key(n, t)
-    public_key = keys['public']
-    private_key = keys['private']
+    public_key = keys["public"]
+    private_key = keys["private"]
     c = encrypt(m, public_key)
     print(c)
     p = decrypt(c, private_key)

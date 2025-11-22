@@ -11,7 +11,7 @@ print("Welcome to rock, paper, scissors!")
 print("To choose your weapon: enter 'r', 'p', or 's'.")
 input("Press enter to start Player 1's turn.")
 
-for _ in range(random.randint(6, 30)):      # Mask the choice of player 1.
+for _ in range(random.randint(6, 30)):  # Mask the choice of player 1.
     print(random.choice(rand_in))
 
 p1 = ""
@@ -26,7 +26,7 @@ p2 = ""
 while p2 not in ROCK and p2 not in PAPER and p2 not in SCISSORS:
     p2 = input().lower()
 
-winner = None       # True if player 1, False if player 2, None if tie.
+winner = None  # True if player 1, False if player 2, None if tie.
 
 if p1 in ROCK:
     if p2 in SCISSORS:

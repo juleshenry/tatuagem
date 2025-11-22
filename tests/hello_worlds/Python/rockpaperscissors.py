@@ -12,10 +12,10 @@ player = input("Enter 'rock', 'paper', or 'scissors': ")
 
 if player not in choices:
     print("invalid input")
-    
+
 else:
 
-    robot = choices[random.randint(0,2)] # pick a random element from choices[]
+    robot = choices[random.randint(0, 2)]  # pick a random element from choices[]
 
     # rock beats scissors, paper beats rock, scissors beats paper
 

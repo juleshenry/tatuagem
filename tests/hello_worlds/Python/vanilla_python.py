@@ -1,4 +1,5 @@
 def hello(world):
-  return f"Hello {world}!"
+    return f"Hello {world}!"
 
-print(hello('world'))
+
+print(hello("world"))
