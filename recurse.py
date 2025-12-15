@@ -59,6 +59,21 @@ def clean_syntax(s):
     return s
 
 
+def has_shebang(content: str) -> bool:
+    """Check if the content starts with a shebang line."""
+    if not content:
+        return False
+    first_line = content.split('\n', 1)[0]
+    return first_line.startswith('#!')
+
+
+def get_shebang(content: str) -> Optional[str]:
+    """Extract the shebang line from content if present."""
+    if has_shebang(content):
+        return content.split('\n', 1)[0]
+    return None
+
+
 def comment_text(filepath, text) -> Optional[str]:
     ext = os.path.splitext(os.path.basename(filepath))[1].lower()
     lang = EXT_TO_LANG.get(ext)
@@ -122,9 +137,22 @@ def apply_tattoo_to_directory(target_path, tattoo):
                         continue
                     start = clean_syntax(syntax.get("start"))
                     end = clean_syntax(syntax.get("end"))
-                    if content.strip().startswith(start): # already tattooed 
-                        new_content = commented_tattoo + "\n\n" + content.split(start)[1].split(end)[1]
-                    new_content = commented_tattoo + "\n\n" + content
+                    
+                    # Check for shebang and preserve it
+                    shebang = get_shebang(content)
+                    if shebang:
+                        # Remove shebang from content temporarily
+                        content_without_shebang = content.split('\n', 1)[1] if '\n' in content else ''
+                        if content_without_shebang.strip().startswith(start): # already tattooed 
+                            new_content = shebang + "\n" + commented_tattoo + "\n\n" + content_without_shebang.split(start)[1].split(end)[1]
+                        else:
+                            new_content = shebang + "\n" + commented_tattoo + "\n\n" + content_without_shebang
+                    else:
+                        if content.strip().startswith(start): # already tattooed 
+                            new_content = commented_tattoo + "\n\n" + content.split(start)[1].split(end)[1]
+                        else:
+                            new_content = commented_tattoo + "\n\n" + content
+                    
                     with open(filepath, "w", encoding="utf-8") as f:
                         f.write(new_content)
                     print(f"Tattooed {filepath}")
