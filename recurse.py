@@ -109,22 +109,55 @@ def apply_tattoo_to_directory(target_path, tattoo):
                 if commented_tattoo:
                     with open(filepath, "r", encoding="utf-8") as f:
                         content = f.read()
-                    # Avoid double tattooing if possible (simple check)
-                    # We check if the first line of the tattoo is already in the file
-                    tattoo_lines = commented_tattoo.split("\n")
-                    if len(tattoo_lines) > 1 and tattoo_lines[1].strip() in content:
-                        print(f"Skipping {filepath} (already tattooed?)")
-                        continue
+                    
+                    # Check for shebang on first line
+                    lines = content.split("\n")
+                    shebang = ""
+                    content_start_idx = 0
+                    if lines and lines[0].strip().startswith("#!"):
+                        shebang = lines[0] + "\n"
+                        content_start_idx = 1
+                    
+                    # Get content after shebang (if any)
+                    remaining_content = "\n".join(lines[content_start_idx:])
+                    
+                    # Check if tattoo already exists at the beginning of the file (after shebang)
+                    # Look for comment block syntax at start with ASCII art pattern
                     ext = os.path.splitext(os.path.basename(filepath))[1].lower()
                     lang = EXT_TO_LANG.get(ext)
-                    syntax = LANG_TO_SYNTAX.get(lang)
-                    if not syntax:
-                        continue
-                    start = clean_syntax(syntax.get("start"))
-                    end = clean_syntax(syntax.get("end"))
-                    if content.strip().startswith(start): # already tattooed 
-                        new_content = commented_tattoo + "\n\n" + content.split(start)[1].split(end)[1]
-                    new_content = commented_tattoo + "\n\n" + content
+                    syntax = LANG_TO_SYNTAX.get(lang) if lang else None
+                    
+                    if syntax:
+                        start = clean_syntax(syntax.get("start"))
+                        end = clean_syntax(syntax.get("end"))
+                        
+                        # Check if file starts with comment delimiter followed by ASCII art
+                        remaining_lines = remaining_content.strip().split("\n")
+                        if len(remaining_lines) > 5 and remaining_lines[0].strip().startswith(start):
+                            # Look for tattoo pattern: several consecutive lines with mostly 0s and 1s
+                            # or other repeated characters (indicating ASCII art)
+                            ascii_art_lines = 0
+                            for i in range(1, min(10, len(remaining_lines))):
+                                line = remaining_lines[i].strip()
+                                # Check if line is mostly repeated characters (typical of ASCII art tattoos)
+                                if len(line) > 20:  # Tattoos are typically wide
+                                    # Count repeating characters
+                                    char_counts = {}
+                                    for char in line:
+                                        char_counts[char] = char_counts.get(char, 0) + 1
+                                    # If 2-3 characters make up >80% of the line, it's likely ASCII art
+                                    top_chars = sorted(char_counts.values(), reverse=True)[:3]
+                                    if sum(top_chars) > len(line) * 0.8:
+                                        ascii_art_lines += 1
+                            
+                            # If we found several ASCII art lines, file is already tattooed
+                            if ascii_art_lines >= 5:
+                                print(f"Skipping {filepath} (already tattooed)")
+                                continue
+                    
+                    # Add tattoo after shebang (if present)
+                    new_content = shebang + commented_tattoo + "\n\n" + remaining_content
+                    
                     with open(filepath, "w", encoding="utf-8") as f:
                         f.write(new_content)
                     print(f"Tattooed {filepath}")
