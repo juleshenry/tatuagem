@@ -178,10 +178,12 @@ def get_tattoo_string(frase: str, space_count: int = SPACE_MARGIN, **kwargs):
                 if margin > 0:
                     lines = ascii_art.split("\n")
                     # Calculate width from first non-empty line
-                    width = max(len(line) for line in lines if line)
-                    margin_line = kwargs.get("backsplash", DEFAULT_BACKSPLASH_CHAR) * width
-                    margin_lines = [margin_line] * margin
-                    ascii_art = "\n".join(margin_lines + lines + margin_lines)
+                    non_empty_lines = [line for line in lines if line]
+                    if non_empty_lines:
+                        width = max(len(line) for line in non_empty_lines)
+                        margin_line = kwargs.get("backsplash", DEFAULT_BACKSPLASH_CHAR) * width
+                        margin_lines = [margin_line] * margin
+                        ascii_art = "\n".join(margin_lines + lines + margin_lines)
                 
                 return ascii_art
             else:
@@ -242,15 +244,11 @@ if __name__ == "__main__":
         print(f"ollama_model: {args.ollama_model}")
     arg0_frase = positional_args[0]
 
-    # Build kwargs dict, handling the underscore conversion
+    # Build kwargs dict
     kwargs = {}
     for attr in KWARGS_LIST:
-        # Handle attribute name with underscores vs hyphens
-        attr_name = attr.replace("_", "_")
-        if hasattr(args, attr_name):
-            kwargs[attr] = getattr(args, attr_name)
-        elif hasattr(args, attr.replace("_", "_")):
-            kwargs[attr] = getattr(args, attr.replace("_", "_"))
+        if hasattr(args, attr):
+            kwargs[attr] = getattr(args, attr)
 
     if args.recurse_path:
         from recurse import apply_tattoo_to_directory

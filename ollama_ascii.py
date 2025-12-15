@@ -6,8 +6,14 @@ which supports Unicode characters and arbitrary input text.
 Falls back to font-based generation when Ollama is unavailable.
 """
 
-import ollama
 from typing import Optional, List
+
+try:
+    import ollama
+    OLLAMA_AVAILABLE = True
+except ImportError:
+    OLLAMA_AVAILABLE = False
+    ollama = None
 
 
 def generate_ascii_art_with_ollama(
@@ -30,6 +36,10 @@ def generate_ascii_art_with_ollama(
     Returns:
         ASCII art string or None if generation fails
     """
+    if not OLLAMA_AVAILABLE:
+        print("Error: ollama package not installed. Run: pip install ollama")
+        return None
+    
     try:
         prompt = f"""Generate ASCII art for the text: "{text}"
 
@@ -94,6 +104,9 @@ def is_ollama_available(host: str = "http://localhost:11434") -> bool:
     Returns:
         True if Ollama is available, False otherwise
     """
+    if not OLLAMA_AVAILABLE:
+        return False
+    
     try:
         # Try to list available models as a health check
         ollama.list()
@@ -109,6 +122,9 @@ def get_available_models() -> List[str]:
     Returns:
         List of model names
     """
+    if not OLLAMA_AVAILABLE:
+        return []
+    
     try:
         models = ollama.list()
         return [model["name"] for model in models.get("models", [])]
