@@ -7,6 +7,7 @@ Falls back to font-based generation when Ollama is unavailable.
 """
 
 from typing import Optional, List
+import re
 
 try:
     import ollama
@@ -14,6 +15,26 @@ try:
 except ImportError:
     OLLAMA_AVAILABLE = False
     ollama = None
+
+
+def sanitize_text_input(text: str) -> str:
+    """
+    Sanitize text input to prevent prompt injection.
+    
+    Args:
+        text: Input text to sanitize
+        
+    Returns:
+        Sanitized text safe for use in prompts
+    """
+    # Remove control characters and limit to printable characters
+    # Allow alphanumeric, spaces, and common punctuation
+    sanitized = re.sub(r'[^\w\s\-.,!?\'\"]+', '', text)
+    # Limit length to prevent extremely long inputs
+    max_length = 200
+    if len(sanitized) > max_length:
+        sanitized = sanitized[:max_length]
+    return sanitized.strip()
 
 
 def generate_ascii_art_with_ollama(
@@ -40,8 +61,14 @@ def generate_ascii_art_with_ollama(
         print("Error: ollama package not installed. Run: pip install ollama")
         return None
     
+    # Sanitize input to prevent prompt injection
+    sanitized_text = sanitize_text_input(text)
+    if not sanitized_text:
+        print("Error: Invalid or empty text after sanitization")
+        return None
+    
     try:
-        prompt = f"""Generate ASCII art for the text: "{text}"
+        prompt = f"""Generate ASCII art for the text: "{sanitized_text}"
 
 Requirements:
 - Use ONLY '{text_char}' for the text/foreground
@@ -57,7 +84,7 @@ Example format (for the text "Hi"):
 {text_char}{text_char}{text_char}{backsplash_char}{backsplash_char}{text_char}{text_char}{text_char}
 {backsplash_char * 20}
 
-Now generate ASCII art for: "{text}"
+Now generate ASCII art for: "{sanitized_text}"
 """
         
         response = ollama.chat(

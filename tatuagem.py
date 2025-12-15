@@ -71,8 +71,16 @@
 
 from params import TEMPLATE_SIZE, Image, ImageDraw, ImageFont
 from initi import get_font_png_path, init_and_create_templates
-from ollama_ascii import generate_ascii_art_with_ollama, is_ollama_available
 import argparse, os
+
+# Try to import Ollama support, gracefully handle if not available
+try:
+    from ollama_ascii import generate_ascii_art_with_ollama, is_ollama_available
+    OLLAMA_SUPPORT_AVAILABLE = True
+except ImportError:
+    OLLAMA_SUPPORT_AVAILABLE = False
+    generate_ascii_art_with_ollama = None
+    is_ollama_available = None
 
 MARGIN = 3  # top and bottom margin of text
 KWARGS_LIST = {"text", "backsplash", "font", "pattern", "margin", "use_ollama", "ollama_model"}
@@ -81,6 +89,7 @@ FONT_DEFAULT = "unicode-arial.ttf"
 DEFAULT_TEXT_CHAR = "1"
 DEFAULT_BACKSPLASH_CHAR = "0"
 DEFAULT_OLLAMA_MODEL = "llama3.2:latest"
+DEFAULT_MAX_WIDTH = 120  # Maximum width for Ollama-generated ASCII art
 
 
 # 3. Analyze RGB of Templates -> Produce Text Mask
@@ -159,37 +168,42 @@ def get_tattoo_string(frase: str, space_count: int = SPACE_MARGIN, **kwargs):
     
     # Check if we should use Ollama
     if kwargs.get("use_ollama", False):
-        ollama_model = kwargs.get("ollama_model", DEFAULT_OLLAMA_MODEL)
-        
-        # Try to generate with Ollama
-        if is_ollama_available():
-            print(f"Using Ollama model '{ollama_model}' for ASCII art generation...")
-            ascii_art = generate_ascii_art_with_ollama(
-                frase,
-                model=ollama_model,
-                text_char=kwargs.get("text", DEFAULT_TEXT_CHAR),
-                backsplash_char=kwargs.get("backsplash", DEFAULT_BACKSPLASH_CHAR),
-                max_width=120,
-            )
-            
-            if ascii_art:
-                # Add margin if specified
-                margin = int(kwargs.get("margin", MARGIN))
-                if margin > 0:
-                    lines = ascii_art.split("\n")
-                    # Calculate width from first non-empty line
-                    non_empty_lines = [line for line in lines if line]
-                    if non_empty_lines:
-                        width = max(len(line) for line in non_empty_lines)
-                        margin_line = kwargs.get("backsplash", DEFAULT_BACKSPLASH_CHAR) * width
-                        margin_lines = [margin_line] * margin
-                        ascii_art = "\n".join(margin_lines + lines + margin_lines)
-                
-                return ascii_art
-            else:
-                print("Warning: Ollama generation failed, falling back to font-based method")
+        if not OLLAMA_SUPPORT_AVAILABLE:
+            print("Warning: Ollama support not available (ollama package not installed)")
+            print("Install with: pip install ollama")
+            print("Falling back to font-based method")
         else:
-            print("Warning: Ollama not available, falling back to font-based method")
+            ollama_model = kwargs.get("ollama_model", DEFAULT_OLLAMA_MODEL)
+            
+            # Try to generate with Ollama
+            if is_ollama_available():
+                print(f"Using Ollama model '{ollama_model}' for ASCII art generation...")
+                ascii_art = generate_ascii_art_with_ollama(
+                    frase,
+                    model=ollama_model,
+                    text_char=kwargs.get("text", DEFAULT_TEXT_CHAR),
+                    backsplash_char=kwargs.get("backsplash", DEFAULT_BACKSPLASH_CHAR),
+                    max_width=DEFAULT_MAX_WIDTH,
+                )
+                
+                if ascii_art:
+                    # Add margin if specified
+                    margin = int(kwargs.get("margin", MARGIN))
+                    if margin > 0:
+                        lines = ascii_art.split("\n")
+                        # Calculate width from first non-empty line
+                        non_empty_lines = [line for line in lines if line]
+                        if non_empty_lines:
+                            width = max(len(line) for line in non_empty_lines)
+                            margin_line = kwargs.get("backsplash", DEFAULT_BACKSPLASH_CHAR) * width
+                            margin_lines = [margin_line] * margin
+                            ascii_art = "\n".join(margin_lines + lines + margin_lines)
+                    
+                    return ascii_art
+                else:
+                    print("Warning: Ollama generation failed, falling back to font-based method")
+            else:
+                print("Warning: Ollama not available, falling back to font-based method")
     
     # Original font-based method
     j = []
