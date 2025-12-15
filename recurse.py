@@ -11,6 +11,7 @@ from tatuagem import (
     DEFAULT_TEXT_CHAR,
     DEFAULT_BACKSPLASH_CHAR,
     MARGIN,
+    get_tattoo_string,
 )
 from params import TEMPLATE_SIZE
 from typing import Optional
@@ -27,28 +28,20 @@ except FileNotFoundError:
     LANG_TO_SYNTAX = {}
 
 
-def get_tattoo(phrase):
+def get_tattoo(phrase, use_ollama=False, ollama_model=None):
+    """Get tattoo string with optional Ollama support."""
     kwargs = {
         "text": DEFAULT_TEXT_CHAR,
         "backsplash": DEFAULT_BACKSPLASH_CHAR,
         "font": FONT_DEFAULT,
         "pattern": None,
         "margin": MARGIN,
+        "use_ollama": use_ollama,
     }
-    j = []
-    oxo = [[] for _ in range(TEMPLATE_SIZE)]
-    for x in phrase:
-        cmat = yield_char_matrix(x, **kwargs)
-        if not j:
-            j = concat(oxo, cmat)
-        else:
-            j = concat(j, cmat, sep=(kwargs["backsplash"]) * SPACE_MARGIN)
-    return tatuar(
-        j,
-        pattern=kwargs["pattern"],
-        backsplash=kwargs["backsplash"],
-        margin=kwargs["margin"],
-    )
+    if ollama_model:
+        kwargs["ollama_model"] = ollama_model
+    
+    return get_tattoo_string(phrase, **kwargs)
 
 
 def clean_syntax(s):
@@ -143,6 +136,8 @@ def main():
     )
     parser.add_argument("--text", required=True, help="Text to tattoo")
     parser.add_argument("--path", required=True, help="Path to recurse")
+    parser.add_argument("--use-ollama", action="store_true", help="Use Ollama for ASCII art generation")
+    parser.add_argument("--ollama-model", default="llama3.2:latest", help="Ollama model to use")
 
     args = parser.parse_args()
 
@@ -151,7 +146,7 @@ def main():
         print(f"Path not found: {target_path}")
         return
 
-    tattoo = get_tattoo(args.text).strip()
+    tattoo = get_tattoo(args.text, use_ollama=args.use_ollama, ollama_model=args.ollama_model).strip()
     apply_tattoo_to_directory(target_path, tattoo)
 
 

@@ -71,14 +71,16 @@
 
 from params import TEMPLATE_SIZE, Image, ImageDraw, ImageFont
 from initi import get_font_png_path, init_and_create_templates
+from ollama_ascii import generate_ascii_art_with_ollama, is_ollama_available
 import argparse, os
 
 MARGIN = 3  # top and bottom margin of text
-KWARGS_LIST = {"text", "backsplash", "font", "pattern", "margin"}
+KWARGS_LIST = {"text", "backsplash", "font", "pattern", "margin", "use_ollama", "ollama_model"}
 SPACE_MARGIN = 4  # This defines what a space should be in the font, because the space file is a solid sheet
 FONT_DEFAULT = "unicode-arial.ttf"
 DEFAULT_TEXT_CHAR = "1"
 DEFAULT_BACKSPLASH_CHAR = "0"
+DEFAULT_OLLAMA_MODEL = "llama3.2:latest"
 
 
 # 3. Analyze RGB of Templates -> Produce Text Mask
@@ -154,6 +156,40 @@ def concat(cmat, amat, sep: str = ""):
 
 def get_tattoo_string(frase: str, space_count: int = SPACE_MARGIN, **kwargs):
     # space_count, number of backsplash chars defining a 'space'
+    
+    # Check if we should use Ollama
+    if kwargs.get("use_ollama", False):
+        ollama_model = kwargs.get("ollama_model", DEFAULT_OLLAMA_MODEL)
+        
+        # Try to generate with Ollama
+        if is_ollama_available():
+            print(f"Using Ollama model '{ollama_model}' for ASCII art generation...")
+            ascii_art = generate_ascii_art_with_ollama(
+                frase,
+                model=ollama_model,
+                text_char=kwargs.get("text", DEFAULT_TEXT_CHAR),
+                backsplash_char=kwargs.get("backsplash", DEFAULT_BACKSPLASH_CHAR),
+                max_width=120,
+            )
+            
+            if ascii_art:
+                # Add margin if specified
+                margin = int(kwargs.get("margin", MARGIN))
+                if margin > 0:
+                    lines = ascii_art.split("\n")
+                    # Calculate width from first non-empty line
+                    width = max(len(line) for line in lines if line)
+                    margin_line = kwargs.get("backsplash", DEFAULT_BACKSPLASH_CHAR) * width
+                    margin_lines = [margin_line] * margin
+                    ascii_art = "\n".join(margin_lines + lines + margin_lines)
+                
+                return ascii_art
+            else:
+                print("Warning: Ollama generation failed, falling back to font-based method")
+        else:
+            print("Warning: Ollama not available, falling back to font-based method")
+    
+    # Original font-based method
     j = []
     oxo = [[] for _ in range(TEMPLATE_SIZE)]
     for x in frase:
@@ -187,24 +223,40 @@ if __name__ == "__main__":
         "--margin", default=MARGIN, help="Margin top and bottom for text"
     )
     parser.add_argument("--recurse-path", help="Path to recurse and apply tattoo")
+    parser.add_argument("--use-ollama", action="store_true", help="Use Ollama for ASCII art generation instead of font-based method")  # fmt: skip
+    parser.add_argument("--ollama-model", default=DEFAULT_OLLAMA_MODEL, help="Ollama model to use (default: llama3.2:latest)")  # fmt: skip
 
     args, positional_args = parser.parse_known_args()
-    if not os.path.exists(z := f"./fonts/{args.font}"):
+    
+    # Only initialize font templates if not using Ollama
+    if not args.use_ollama and not os.path.exists(z := f"./fonts/{args.font}"):
         init_and_create_templates(args.font)
+    
     print(f"text: {args.text}")
     print(f"backsplash: {args.backsplash}")
     print(f"font: {args.font}")
     print(f"pattern: {args.pattern}")
     print(f"margin: {args.margin}")
+    print(f"use_ollama: {args.use_ollama}")
+    if args.use_ollama:
+        print(f"ollama_model: {args.ollama_model}")
     arg0_frase = positional_args[0]
+
+    # Build kwargs dict, handling the underscore conversion
+    kwargs = {}
+    for attr in KWARGS_LIST:
+        # Handle attribute name with underscores vs hyphens
+        attr_name = attr.replace("_", "_")
+        if hasattr(args, attr_name):
+            kwargs[attr] = getattr(args, attr_name)
+        elif hasattr(args, attr.replace("_", "_")):
+            kwargs[attr] = getattr(args, attr.replace("_", "_"))
 
     if args.recurse_path:
         from recurse import apply_tattoo_to_directory
 
-        tattoo = get_tattoo_string(
-            arg0_frase, **{a: getattr(args, a) for a in KWARGS_LIST}
-        )
+        tattoo = get_tattoo_string(arg0_frase, **kwargs)
         apply_tattoo_to_directory(args.recurse_path, tattoo)
     else:
         # prints to screen
-        tatuagem(arg0_frase, **{a: getattr(args, a) for a in KWARGS_LIST})
+        tatuagem(arg0_frase, **kwargs)
