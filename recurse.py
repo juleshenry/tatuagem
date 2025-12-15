@@ -14,6 +14,7 @@ from tatuagem import (
 )
 from params import TEMPLATE_SIZE
 from typing import Optional
+import heapq
 
 # Load mappings once
 try:
@@ -57,6 +58,12 @@ def clean_syntax(s):
     if s.startswith("`") and s.endswith("`") and len(s) > 1:
         return s[1:-1]
     return s
+
+
+# Constants for tattoo detection
+MIN_TATTOO_LINE_LENGTH = 20  # Minimum line length to consider as tattoo
+ASCII_ART_THRESHOLD = 0.8  # Percentage of repeated chars indicating ASCII art
+MIN_ASCII_ART_LINES = 5  # Minimum consecutive ASCII art lines to detect tattoo
 
 
 def comment_text(filepath, text) -> Optional[str]:
@@ -140,18 +147,18 @@ def apply_tattoo_to_directory(target_path, tattoo):
                             for i in range(1, min(10, len(remaining_lines))):
                                 line = remaining_lines[i].strip()
                                 # Check if line is mostly repeated characters (typical of ASCII art tattoos)
-                                if len(line) > 20:  # Tattoos are typically wide
+                                if len(line) > MIN_TATTOO_LINE_LENGTH:
                                     # Count repeating characters
                                     char_counts = {}
                                     for char in line:
                                         char_counts[char] = char_counts.get(char, 0) + 1
                                     # If 2-3 characters make up >80% of the line, it's likely ASCII art
-                                    top_chars = sorted(char_counts.values(), reverse=True)[:3]
-                                    if sum(top_chars) > len(line) * 0.8:
+                                    top_chars = heapq.nlargest(3, char_counts.values())
+                                    if sum(top_chars) > len(line) * ASCII_ART_THRESHOLD:
                                         ascii_art_lines += 1
                             
                             # If we found several ASCII art lines, file is already tattooed
-                            if ascii_art_lines >= 5:
+                            if ascii_art_lines >= MIN_ASCII_ART_LINES:
                                 print(f"Skipping {filepath} (already tattooed)")
                                 continue
                     
