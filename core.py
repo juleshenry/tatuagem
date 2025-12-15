@@ -6,7 +6,7 @@ from text strings using custom fonts.
 """
 
 from params import TEMPLATE_SIZE
-from initi import get_font_png_path
+from font_manager import get_font_png_path
 from PIL import Image
 
 # Default configuration

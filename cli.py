@@ -36,7 +36,7 @@ Examples:
   python cli.py "Code" --text '@' --backsplash '!'
   
   # Apply pattern to background
-  python cli.py "Pattern" --pattern '`':,:''
+  python cli.py "Pattern" --pattern "\`':,:'"
   
   # Apply tattoo to all files in a directory
   python cli.py "MyProject" --recurse-path ./src/
@@ -68,7 +68,7 @@ Examples:
         "--pattern",
         default=None,
         metavar="PATTERN",
-        help="Pattern string to overlay on background (e.g., '`':,:'')"
+        help="Pattern string to overlay on background (e.g., \"`':,:\")"
     )
     appearance.add_argument(
         "--margin",

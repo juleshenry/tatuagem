@@ -45,7 +45,8 @@ if __name__ == "__main__":
     if not positional_args:
         parser.error("Please provide a text phrase to tattoo")
     
-    if not os.path.exists(z := f"./fonts/{args.font[:-4]}"):
+    font_dir = f"./fonts/{args.font[:-4]}"
+    if not os.path.exists(font_dir):
         init_and_create_templates(args.font)
     
     print(f"text: {args.text}")

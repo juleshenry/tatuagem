@@ -136,17 +136,8 @@ def apply_tattoo_to_directory(target_path: str, tattoo: str):
                     start = clean_syntax(syntax.get("start"))
                     end = clean_syntax(syntax.get("end"))
                     
-                    # If file already starts with comment, replace it
-                    # Otherwise, prepend tattoo
-                    if content.strip().startswith(start):
-                        # Attempt to replace existing comment block
-                        try:
-                            new_content = commented_tattoo + "\n\n" + content.split(start)[1].split(end)[1]
-                        except (IndexError, AttributeError):
-                            # If parsing fails, just prepend
-                            new_content = commented_tattoo + "\n\n" + content
-                    else:
-                        new_content = commented_tattoo + "\n\n" + content
+                    # Simply prepend tattoo - the double-tattoo check above prevents duplicates
+                    new_content = commented_tattoo + "\n\n" + content
                     
                     with open(filepath, "w", encoding="utf-8") as f:
                         f.write(new_content)
