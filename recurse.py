@@ -142,14 +142,43 @@ def apply_tattoo_to_directory(target_path, tattoo):
                     shebang = get_shebang(content)
                     if shebang:
                         # Remove shebang from content temporarily
-                        content_without_shebang = content.split('\n', 1)[1] if '\n' in content else ''
-                        if content_without_shebang.strip().startswith(start): # already tattooed 
-                            new_content = shebang + "\n" + commented_tattoo + "\n\n" + content_without_shebang.split(start)[1].split(end)[1]
+                        if '\n' in content:
+                            content_without_shebang = content.split('\n', 1)[1]
+                        else:
+                            # Only shebang, no other content
+                            content_without_shebang = ''
+                        
+                        if content_without_shebang.strip().startswith(start): # already tattooed
+                            # Try to extract existing content after tattoo
+                            try:
+                                parts = content_without_shebang.split(start, 1)
+                                if len(parts) > 1:
+                                    rest = parts[1].split(end, 1)
+                                    if len(rest) > 1:
+                                        new_content = shebang + "\n" + commented_tattoo + "\n\n" + rest[1]
+                                    else:
+                                        new_content = shebang + "\n" + commented_tattoo + "\n\n" + content_without_shebang
+                                else:
+                                    new_content = shebang + "\n" + commented_tattoo + "\n\n" + content_without_shebang
+                            except (IndexError, ValueError):
+                                new_content = shebang + "\n" + commented_tattoo + "\n\n" + content_without_shebang
                         else:
                             new_content = shebang + "\n" + commented_tattoo + "\n\n" + content_without_shebang
                     else:
-                        if content.strip().startswith(start): # already tattooed 
-                            new_content = commented_tattoo + "\n\n" + content.split(start)[1].split(end)[1]
+                        if content.strip().startswith(start): # already tattooed
+                            # Try to extract existing content after tattoo
+                            try:
+                                parts = content.split(start, 1)
+                                if len(parts) > 1:
+                                    rest = parts[1].split(end, 1)
+                                    if len(rest) > 1:
+                                        new_content = commented_tattoo + "\n\n" + rest[1]
+                                    else:
+                                        new_content = commented_tattoo + "\n\n" + content
+                                else:
+                                    new_content = commented_tattoo + "\n\n" + content
+                            except (IndexError, ValueError):
+                                new_content = commented_tattoo + "\n\n" + content
                         else:
                             new_content = commented_tattoo + "\n\n" + content
                     

@@ -143,6 +143,29 @@ def test_tattoo_file_without_shebang():
         print("✓ test_tattoo_file_without_shebang passed")
 
 
+def test_tattoo_file_with_only_shebang():
+    """Test edge case of file with only a shebang line."""
+    with tempfile.TemporaryDirectory() as tmpdir:
+        # Create a file with only shebang
+        test_file = os.path.join(tmpdir, "test.py")
+        with open(test_file, "w") as f:
+            f.write("#!/usr/bin/env python3")
+        
+        # Tattoo the file
+        tattoo = get_tattoo("test")
+        apply_tattoo_to_directory(tmpdir, tattoo)
+        
+        # Read the result
+        with open(test_file, "r") as f:
+            content = f.read()
+        
+        # Check that shebang is preserved at line 1
+        lines = content.split('\n')
+        assert lines[0] == "#!/usr/bin/env python3", f"Shebang should be first line, got: {lines[0]}"
+        
+        print("✓ test_tattoo_file_with_only_shebang passed")
+
+
 if __name__ == "__main__":
     print("Running shebang detection tests...")
     print()
@@ -151,6 +174,7 @@ if __name__ == "__main__":
     test_get_shebang()
     test_tattoo_python_with_shebang()
     test_tattoo_file_without_shebang()
+    test_tattoo_file_with_only_shebang()
     test_tattoo_npm_project()
     
     print()
