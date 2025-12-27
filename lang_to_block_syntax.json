@@ -20,8 +20,8 @@
         "end": "-->"
     },
     "BETA": {
-        "start": "(* *)",
-        "end": "(* *)"
+        "start": "(*",
+        "end": "*)"
     },
     "SL": {
         "start": "/*",
@@ -40,8 +40,8 @@
         "end": "*/"
     },
     "vic": {
-        "start": "(* *)",
-        "end": "(* *)"
+        "start": "(*",
+        "end": "*)"
     },
     "Kusto": {
         "start": "`/*`",
@@ -646,8 +646,8 @@
         "end": "*/"
     },
     "Advpl": {
-        "start": "(* *)",
-        "end": "(* *)"
+        "start": "(*",
+        "end": "*)"
     },
     "factorial": {
         "start": "/*",
@@ -901,8 +901,8 @@
         "end": "#"
     },
     "jocaml": {
-        "start": "(* *)",
-        "end": "(* *)"
+        "start": "(*",
+        "end": "*)"
     },
     "Deep_Learning": {
         "start": "#",
@@ -917,8 +917,8 @@
         "end": "`*/`"
     },
     "EDSAC": {
-        "start": "(* *)",
-        "end": "(* *)"
+        "start": "(*",
+        "end": "*)"
     },
     "Potigol": null,
     "monicelli": {
@@ -938,8 +938,8 @@
         "end": "#"
     },
     "Skip": {
-        "start": "(* *)",
-        "end": "(* *)"
+        "start": "(*",
+        "end": "*)"
     },
     "QuakeC": {
         "start": "//",
@@ -1127,8 +1127,8 @@
     },
     "BigosLang": null,
     "ML": {
-        "start": "(* *)",
-        "end": "(* *)"
+        "start": "(*",
+        "end": "*)"
     },
     "wml": {
         "start": "<!-- -->",
@@ -1282,8 +1282,8 @@
         "end": "*/"
     },
     "SML": {
-        "start": "(* *)",
-        "end": "(* *)"
+        "start": "(*",
+        "end": "*)"
     },
     "Rockstar": {
         "start": "/*",
@@ -1319,8 +1319,8 @@
         "end": "*/"
     },
     "bat": {
-        "start": "(* *)",
-        "end": "(* *)"
+        "start": "(*",
+        "end": "*)"
     },
     "enginnering java projects": {
         "start": "/*",
@@ -1384,8 +1384,8 @@
         "end": "-->"
     },
     "Taxi": {
-        "start": "(* *)",
-        "end": "(* *)"
+        "start": "(*",
+        "end": "*)"
     },
     "SELECT": {
         "start": "/*",
@@ -1509,8 +1509,8 @@
         "end": "#"
     },
     "M": {
-        "start": "(* *)",
-        "end": "(* *)"
+        "start": "(*",
+        "end": "*)"
     },
     "Cobra": {
         "start": "'//{'",
@@ -1654,8 +1654,8 @@
         "end": "-->"
     },
     "Algol": {
-        "start": "(* *)",
-        "end": "(* *)"
+        "start": "(*",
+        "end": "*)"
     },
     "Python_tornado_hello_world": null,
     "Efene": {
