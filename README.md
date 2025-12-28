@@ -20,8 +20,11 @@
 # Recurse your project
 ```python tatuagem.py "Tatuagem" --pattern '`':,:''  --recurse-path test_tattoo/```
 
+## Features
+
+✓ Shebang detection and preservation - files with `#!/...` shebangs keep them at the top
+✓ Safe for npm projects - tattooed npm projects continue to work after tattooing
+
 TODO: 
 
-make is so tatoos wont repeat on itself
-make it so it wont crash on node package manager
-add some sort of checker to tell if the first line is a shebang 
+make is so tatoos wont repeat on itself 

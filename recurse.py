@@ -59,6 +59,21 @@ def clean_syntax(s):
     return s
 
 
+def has_shebang(content: str) -> bool:
+    """Check if the content starts with a shebang line."""
+    if not content:
+        return False
+    first_line = content.split('\n', 1)[0]
+    return first_line.startswith('#!')
+
+
+def get_shebang(content: str) -> Optional[str]:
+    """Extract the shebang line from content if present."""
+    if has_shebang(content):
+        return content.split('\n', 1)[0]
+    return None
+
+
 def comment_text(filepath, text) -> Optional[str]:
     ext = os.path.splitext(os.path.basename(filepath))[1].lower()
     lang = EXT_TO_LANG.get(ext)
@@ -122,9 +137,51 @@ def apply_tattoo_to_directory(target_path, tattoo):
                         continue
                     start = clean_syntax(syntax.get("start"))
                     end = clean_syntax(syntax.get("end"))
-                    if content.strip().startswith(start): # already tattooed 
-                        new_content = commented_tattoo + "\n\n" + content.split(start)[1].split(end)[1]
-                    new_content = commented_tattoo + "\n\n" + content
+                    
+                    # Check for shebang and preserve it
+                    shebang = get_shebang(content)
+                    if shebang:
+                        # Remove shebang from content temporarily
+                        if '\n' in content:
+                            content_without_shebang = content.split('\n', 1)[1]
+                        else:
+                            # Only shebang, no other content
+                            content_without_shebang = ''
+                        
+                        if content_without_shebang.strip().startswith(start): # already tattooed
+                            # Try to extract existing content after tattoo
+                            try:
+                                parts = content_without_shebang.split(start, 1)
+                                if len(parts) > 1:
+                                    rest = parts[1].split(end, 1)
+                                    if len(rest) > 1:
+                                        new_content = shebang + "\n" + commented_tattoo + "\n\n" + rest[1]
+                                    else:
+                                        new_content = shebang + "\n" + commented_tattoo + "\n\n" + content_without_shebang
+                                else:
+                                    new_content = shebang + "\n" + commented_tattoo + "\n\n" + content_without_shebang
+                            except (IndexError, ValueError):
+                                new_content = shebang + "\n" + commented_tattoo + "\n\n" + content_without_shebang
+                        else:
+                            new_content = shebang + "\n" + commented_tattoo + "\n\n" + content_without_shebang
+                    else:
+                        if content.strip().startswith(start): # already tattooed
+                            # Try to extract existing content after tattoo
+                            try:
+                                parts = content.split(start, 1)
+                                if len(parts) > 1:
+                                    rest = parts[1].split(end, 1)
+                                    if len(rest) > 1:
+                                        new_content = commented_tattoo + "\n\n" + rest[1]
+                                    else:
+                                        new_content = commented_tattoo + "\n\n" + content
+                                else:
+                                    new_content = commented_tattoo + "\n\n" + content
+                            except (IndexError, ValueError):
+                                new_content = commented_tattoo + "\n\n" + content
+                        else:
+                            new_content = commented_tattoo + "\n\n" + content
+                    
                     with open(filepath, "w", encoding="utf-8") as f:
                         f.write(new_content)
                     print(f"Tattooed {filepath}")
