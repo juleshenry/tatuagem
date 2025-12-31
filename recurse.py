@@ -75,6 +75,7 @@ def get_shebang(content: str) -> Optional[str]:
 
 
 def comment_text(filepath, text) -> Optional[str]:
+    """Return commented text based on file extension and language syntax."""
     ext = os.path.splitext(os.path.basename(filepath))[1].lower()
     lang = EXT_TO_LANG.get(ext)
     if not lang:
