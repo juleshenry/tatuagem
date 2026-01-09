@@ -109,7 +109,7 @@ def comment_text(filepath, text) -> Optional[str]:
             return "\n".join(commented_lines)
 
 
-def apply_tattoo_to_directory(target_path, tattoo):
+def apply_tattoo_to_directory(target_path, tattoo, overwrite=False):
     print(f"Tattooing into {target_path}...")
 
     for root, dirs, files in os.walk(target_path):
@@ -128,7 +128,7 @@ def apply_tattoo_to_directory(target_path, tattoo):
                     # Avoid double tattooing if possible (simple check)
                     # We check if the first line of the tattoo is already in the file
                     tattoo_lines = commented_tattoo.split("\n")
-                    if len(tattoo_lines) > 1 and tattoo_lines[1].strip() in content:
+                    if not overwrite and len(tattoo_lines) > 1 and tattoo_lines[1].strip() in content:
                         print(f"Skipping {filepath} (already tattooed?)")
                         continue
                     ext = os.path.splitext(os.path.basename(filepath))[1].lower()
@@ -150,6 +150,9 @@ def apply_tattoo_to_directory(target_path, tattoo):
                             content_without_shebang = ''
                         
                         if content_without_shebang.strip().startswith(start): # already tattooed
+                            if not overwrite:
+                                print(f"Skipping {filepath} (already tattooed, use --overwrite to replace)")
+                                continue
                             # Try to extract existing content after tattoo
                             try:
                                 parts = content_without_shebang.split(start, 1)
@@ -167,6 +170,9 @@ def apply_tattoo_to_directory(target_path, tattoo):
                             new_content = shebang + "\n" + commented_tattoo + "\n\n" + content_without_shebang
                     else:
                         if content.strip().startswith(start): # already tattooed
+                            if not overwrite:
+                                print(f"Skipping {filepath} (already tattooed, use --overwrite to replace)")
+                                continue
                             # Try to extract existing content after tattoo
                             try:
                                 parts = content.split(start, 1)
