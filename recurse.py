@@ -2,7 +2,7 @@ import os
 import argparse
 import shutil
 import json
-from pathlib import Path
+import fnmatch
 from tatuagem import (
     yield_char_matrix,
     tatuar,
@@ -14,7 +14,7 @@ from tatuagem import (
     MARGIN,
 )
 from params import TEMPLATE_SIZE, BASE_DIR
-from typing import Optional, List, Set
+from typing import Optional, List
 
 # Load mappings once
 try:
@@ -155,8 +155,6 @@ def _match_pattern(path: str, pattern: str) -> bool:
     Match a path against a pattern using fnmatch-like behavior.
     Supports wildcards (* and ?) and ** for recursive matching.
     """
-    import fnmatch
-    
     # Handle ** for recursive directory matching
     if "**" in pattern:
         # Convert ** pattern to regex-like matching
