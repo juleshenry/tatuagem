@@ -71,7 +71,7 @@
 
 from params import TEMPLATE_SIZE, Image, ImageDraw, ImageFont, BASE_DIR
 from initi import get_font_png_path, init_and_create_templates
-import argparse, os
+import argparse, os, subprocess, sys
 
 MARGIN = 3  # top and bottom margin of text
 KWARGS_LIST = {"text", "backsplash", "font", "pattern", "margin"}
@@ -175,6 +175,136 @@ def tatuagem(frase: str, space_count: int = SPACE_MARGIN, **kwargs):
     print(tatu)
 
 
+def generate_ascii_art_from_prompt(prompt: str) -> str:
+    """Generate ASCII art from a text prompt using Ollama."""
+    try:
+        result = subprocess.run(
+            ["ollama", "run", "llama3", f"Generate ASCII art for: {prompt}. Only output the ASCII art, no explanations."],
+            capture_output=True,
+            text=True,
+            timeout=60,
+        )
+        if result.returncode == 0:
+            return result.stdout.strip()
+        else:
+            print(f"Error generating ASCII art: {result.stderr}")
+            return None
+    except subprocess.TimeoutExpired:
+        print("Timeout: Ollama took too long to respond.")
+        return None
+    except FileNotFoundError:
+        print("Error: 'ollama' command not found. Please install Ollama.")
+        return None
+    except Exception as e:
+        print(f"Error: {e}")
+        return None
+
+
+def get_user_confirmation(prompt: str, valid_responses: dict) -> str:
+    """Get user input with validation."""
+    while True:
+        response = input(f"{prompt} ").strip().lower()
+        if response in valid_responses:
+            return response
+        print(f"Invalid input. Please choose from: {', '.join(valid_responses.keys())}")
+
+
+def ollama_studio(prompt: str, **kwargs):
+    """Interactive Ollama tattoo studio workflow."""
+    print("\n=== Ollama Tattoo Studio ===\n")
+    print(f"Generating ASCII art from prompt: '{prompt}'")
+    
+    # Step 1: Generate tattoo from prompt
+    ascii_art = None
+    while True:
+        print("\nGenerating tattoo...")
+        ascii_art = generate_ascii_art_from_prompt(prompt)
+        
+        if ascii_art is None:
+            print("Failed to generate ASCII art.")
+            retry = get_user_confirmation("Try again? (Y/n):", {"y": True, "n": False, "": True})
+            if retry == "n":
+                print("Exiting Ollama Studio.")
+                sys.exit(0)
+            continue
+        
+        print("\n" + "="*60)
+        print("Generated Tattoo:")
+        print("="*60)
+        print(ascii_art)
+        print("="*60 + "\n")
+        
+        proceed = get_user_confirmation("Proceed with this tattoo? (Y/n):", {"y": True, "n": False, "": True})
+        if proceed in ["y", ""]:
+            break
+        print("Regenerating...")
+    
+    # Step 2: Ask for header/footer options
+    print("\nWould you like to add headers or footers?")
+    addon_choice = get_user_confirmation("Choose (h=header, f=footer, b=both, n=neither):", 
+                                        {"h": "header", "f": "footer", "b": "both", "n": "neither"})
+    
+    header_text = None
+    footer_text = None
+    
+    # Step 3: Handle header if requested
+    if addon_choice in ["h", "b"]:
+        while True:
+            header_prompt = input("\nEnter header text: ").strip()
+            if not header_prompt:
+                print("Header cannot be empty.")
+                continue
+            
+            header_tattoo = get_tattoo_string(header_prompt, **kwargs)
+            print("\n" + "="*60)
+            print("Header Preview:")
+            print("="*60)
+            print(header_tattoo)
+            print("="*60 + "\n")
+            
+            proceed = get_user_confirmation("Proceed with this header? (Y/n):", {"y": True, "n": False, "": True})
+            if proceed in ["y", ""]:
+                header_text = header_tattoo
+                break
+            print("Let's redo the header...")
+    
+    # Step 4: Handle footer if requested
+    if addon_choice in ["f", "b"]:
+        while True:
+            footer_prompt = input("\nEnter footer text: ").strip()
+            if not footer_prompt:
+                print("Footer cannot be empty.")
+                continue
+            
+            footer_tattoo = get_tattoo_string(footer_prompt, **kwargs)
+            print("\n" + "="*60)
+            print("Footer Preview:")
+            print("="*60)
+            print(footer_tattoo)
+            print("="*60 + "\n")
+            
+            proceed = get_user_confirmation("Proceed with this footer? (Y/n):", {"y": True, "n": False, "": True})
+            if proceed in ["y", ""]:
+                footer_text = footer_tattoo
+                break
+            print("Let's redo the footer...")
+    
+    # Final output
+    print("\n" + "="*60)
+    print("FINAL TATTOO")
+    print("="*60 + "\n")
+    
+    if header_text:
+        print(header_text)
+    
+    print(ascii_art)
+    
+    if footer_text:
+        print(footer_text)
+    
+    print("="*60 + "\n")
+
+
 def main():
     # Create the parser
     parser = argparse.ArgumentParser(description="Tatuagem")
@@ -188,10 +318,17 @@ def main():
     )
     parser.add_argument("--recurse-path", help="Path to recurse and apply tattoo")
     parser.add_argument("--file", "-f", help="Read text from file")
+    parser.add_argument("--ollama-studio", metavar="PROMPT", help="Interactive Ollama tattoo studio with AI-generated ASCII art")
 
     args, positional_args = parser.parse_known_args()
     if not os.path.exists(z := os.path.join(BASE_DIR, "fonts", args.font)):
         init_and_create_templates(args.font)
+    
+    # Handle Ollama Studio mode
+    if args.ollama_studio:
+        ollama_studio(args.ollama_studio, **{a: getattr(args, a) for a in KWARGS_LIST})
+        return
+    
     print(f"text: {args.text}")
     print(f"backsplash: {args.backsplash}")
     print(f"font: {args.font}")
