@@ -187,6 +187,7 @@ if __name__ == "__main__":
         "--margin", default=MARGIN, help="Margin top and bottom for text"
     )
     parser.add_argument("--recurse-path", help="Path to recurse and apply tattoo")
+    parser.add_argument("--file", "-f", help="Read text from file")
 
     args, positional_args = parser.parse_known_args()
     if not os.path.exists(z := f"./fonts/{args.font}"):
@@ -196,14 +197,25 @@ if __name__ == "__main__":
     print(f"font: {args.font}")
     print(f"pattern: {args.pattern}")
     print(f"margin: {args.margin}")
-    arg0_frase = positional_args[0]
+
+    if args.file:
+        with open(args.file, "r") as f:
+            arg0_frase = f.read()
+    elif positional_args:
+        arg0_frase = positional_args[0]
+    else:
+        print("Error: No text provided. Use positional argument or --file.")
+        exit(1)
 
     if args.recurse_path:
         from recurse import apply_tattoo_to_directory
 
-        tattoo = get_tattoo_string(
-            arg0_frase, **{a: getattr(args, a) for a in KWARGS_LIST}
-        )
+        if not args.file:
+            tattoo = get_tattoo_string(
+                arg0_frase, **{a: getattr(args, a) for a in KWARGS_LIST}
+            )
+        else:
+            tattoo = arg0_frase
         apply_tattoo_to_directory(args.recurse_path, tattoo)
     else:
         # prints to screen
