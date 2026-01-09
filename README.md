@@ -64,3 +64,51 @@ python3 tatuagem.py --file tests/aeaea.inc --recurse-path test_tattoo/
 ✓ **Shebang detection and preservation** - files with `#!/...` shebangs keep them at the top
 ✓ **Safe for npm projects** - tattooed npm projects continue to work after tattooing
 ✓ **Idempotent** - Tattoos won't repeat on themselves if run multiple times
+✓ **.tatignore support** - Exclude specific files and directories from tattooing
+
+## .tatignore
+
+Similar to `.gitignore`, you can create a `.tatignore` file in the root of the directory you want to tattoo to specify patterns of files and directories to exclude from tattooing.
+
+### .tatignore Syntax
+
+The `.tatignore` file supports the following patterns:
+
+- **Simple filenames**: `file.txt` - ignores any file named `file.txt`
+- **Wildcards**: `*.log` - ignores all files ending with `.log`
+- **Directory patterns**: `node_modules/` - ignores all files in `node_modules` directory
+- **Recursive patterns**: `build/**` - ignores all files in `build` and its subdirectories
+- **Comments**: Lines starting with `#` are treated as comments
+- **Empty lines**: Empty lines are ignored
+
+### .tatignore Example
+
+```
+# Ignore log files
+*.log
+
+# Ignore build artifacts
+build/
+dist/
+
+# Ignore dependencies
+node_modules/
+
+# Ignore specific files
+secrets.py
+config.local.json
+
+# Ignore test directories
+tests/**
+```
+
+### Usage with .tatignore
+
+1. Create a `.tatignore` file in the directory you want to tattoo
+2. Add patterns for files/directories to exclude
+3. Run tatuagem with `--recurse-path` as usual
+
+```bash
+# This will respect patterns in .tatignore
+python3 tatuagem.py "MyProject" --recurse-path ./my-project/
+```
