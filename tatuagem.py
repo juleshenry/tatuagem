@@ -69,7 +69,7 @@
 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
 """
 
-from params import TEMPLATE_SIZE, Image, ImageDraw, ImageFont
+from params import TEMPLATE_SIZE, Image, ImageDraw, ImageFont, BASE_DIR
 from initi import get_font_png_path, init_and_create_templates
 import argparse, os
 
@@ -83,7 +83,7 @@ DEFAULT_BACKSPLASH_CHAR = "0"
 
 # 3. Analyze RGB of Templates -> Produce Text Mask
 def yield_char_matrix(char: str, font: str = FONT_DEFAULT, **kwargs):
-    new_dir = f"fonts/{font[:-4]}"
+    new_dir = os.path.join(BASE_DIR, "fonts", font[:-4])
     fpp = get_font_png_path(char, new_dir)
     imat = Image.open(fpp).quantize().getdata()
     o = [[] for _ in range(imat.size[1])]
@@ -175,7 +175,7 @@ def tatuagem(frase: str, space_count: int = SPACE_MARGIN, **kwargs):
     print(tatu)
 
 
-if __name__ == "__main__":
+def main():
     # Create the parser
     parser = argparse.ArgumentParser(description="Tatuagem")
     # text is the char for the printout
@@ -190,7 +190,7 @@ if __name__ == "__main__":
     parser.add_argument("--file", "-f", help="Read text from file")
 
     args, positional_args = parser.parse_known_args()
-    if not os.path.exists(z := f"./fonts/{args.font}"):
+    if not os.path.exists(z := os.path.join(BASE_DIR, "fonts", args.font)):
         init_and_create_templates(args.font)
     print(f"text: {args.text}")
     print(f"backsplash: {args.backsplash}")
@@ -220,3 +220,7 @@ if __name__ == "__main__":
     else:
         # prints to screen
         tatuagem(arg0_frase, **{a: getattr(args, a) for a in KWARGS_LIST})
+
+
+if __name__ == "__main__":
+    main()

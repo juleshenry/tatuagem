@@ -1,16 +1,17 @@
 import json
 import os
+from params import BASE_DIR
 
 
 if __name__ == "__main__":
     try:
-        with open("lang_to_block_syntax.json", "r") as f:
+        with open(os.path.join(BASE_DIR, "lang_to_block_syntax.json"), "r") as f:
             lang_block = json.load(f)
     except FileNotFoundError:
         lang_block = {"Languages": {}, "Block Syntaxes": {}}
 
     try:
-        with open("extension_to_lang.json", "r") as f:
+        with open(os.path.join(BASE_DIR, "extension_to_lang.json"), "r") as f:
             ext_lang = json.load(f)
     except FileNotFoundError:
         ext_lang = {}

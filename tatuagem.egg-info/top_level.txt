@@ -1,0 +1,7 @@
+coverage
+identify_comments
+initi
+override
+params
+recurse
+tatuagem

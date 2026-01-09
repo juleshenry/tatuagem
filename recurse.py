@@ -12,14 +12,14 @@ from tatuagem import (
     DEFAULT_BACKSPLASH_CHAR,
     MARGIN,
 )
-from params import TEMPLATE_SIZE
+from params import TEMPLATE_SIZE, BASE_DIR
 from typing import Optional
 
 # Load mappings once
 try:
-    with open("extension_to_lang.json", "r", encoding="utf-8") as f:
+    with open(os.path.join(BASE_DIR, "extension_to_lang.json"), "r", encoding="utf-8") as f:
         EXT_TO_LANG = json.load(f)
-    with open("lang_to_block_syntax.json", "r", encoding="utf-8") as f:
+    with open(os.path.join(BASE_DIR, "lang_to_block_syntax.json"), "r", encoding="utf-8") as f:
         LANG_TO_SYNTAX = json.load(f)
 except FileNotFoundError:
     print("Warning: JSON mapping files not found.")

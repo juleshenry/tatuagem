@@ -1,0 +1,34 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "tatuagem"
+version = "0.1.0"
+authors = [
+  { name="Julian Henry", email="juliant@naver.com"},
+  {name="Derek Dickerson", email="derekdson67@gmail.com" }
+]
+maintainers = [
+  { name="Julian Henry", email="juliant@naver.com"},
+  {name="Derek Dickerson", email="derekdson67@gmail.com" }
+]
+description = "A tool to generate ASCII art signatures (tattoos) and apply them to your code files recursively."
+readme = "README.md"
+requires-python = ">=3.12"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: Apache Software License",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "Pillow",
+    "numpy",
+]
+
+[project.scripts]
+tatuagem = "tatuagem:main"
+
+[tool.setuptools]
+py-modules = ["tatuagem", "params", "initi", "recurse", "identify_comments", "override", "coverage"]
+include-package-data = true

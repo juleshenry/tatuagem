@@ -1,0 +1,5 @@
+include extension_to_lang.json
+include lang_to_block_syntax.json
+recursive-include fonts *
+include README.md
+include LICENSE

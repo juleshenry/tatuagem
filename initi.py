@@ -1,11 +1,11 @@
-from params import TEMPLATE_SIZE, Image, ImageDraw, ImageFont, CHZ
+from params import TEMPLATE_SIZE, Image, ImageDraw, ImageFont, CHZ, BASE_DIR
 import numpy as np
 import os, datetime
 
 
 def init_and_create_templates(font: str):
-    btpng = "black-template.png"
-    new_dir = f"fonts/{font[:-4]}"  # cut out .ttf
+    btpng = os.path.join(BASE_DIR, "black-template.png")
+    new_dir = os.path.join(BASE_DIR, "fonts", font[:-4])  # cut out .ttf
     sqr = np.zeros((TEMPLATE_SIZE, TEMPLATE_SIZE, 3))
     i = Image.fromarray(sqr, "RGB")
     i.save(btpng)
@@ -16,7 +16,7 @@ def init_and_create_templates(font: str):
     for o in CHZ:
         print("making", o)
         img = Image.open(btpng)
-        fnt = ImageFont.truetype(f"fonts/{font}", 32)
+        fnt = ImageFont.truetype(os.path.join(BASE_DIR, "fonts", font), 32)
         i1 = ImageDraw.Draw(img)
         anch = "la"
         i1 = i1.text(
