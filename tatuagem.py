@@ -79,6 +79,8 @@ SPACE_MARGIN = 4  # This defines what a space should be in the font, because the
 FONT_DEFAULT = "unicode-arial.ttf"
 DEFAULT_TEXT_CHAR = "1"
 DEFAULT_BACKSPLASH_CHAR = "0"
+OLLAMA_MODEL = "llama3"  # Default Ollama model for ASCII art generation
+OLLAMA_TIMEOUT = 60  # Timeout in seconds for Ollama API calls
 
 
 # 3. Analyze RGB of Templates -> Produce Text Mask
@@ -179,10 +181,10 @@ def generate_ascii_art_from_prompt(prompt: str) -> str:
     """Generate ASCII art from a text prompt using Ollama."""
     try:
         result = subprocess.run(
-            ["ollama", "run", "llama3", f"Generate ASCII art for: {prompt}. Only output the ASCII art, no explanations."],
+            ["ollama", "run", OLLAMA_MODEL, f"Generate ASCII art for: {prompt}. Only output the ASCII art, no explanations."],
             capture_output=True,
             text=True,
-            timeout=60,
+            timeout=OLLAMA_TIMEOUT,
         )
         if result.returncode == 0:
             return result.stdout.strip()
@@ -190,7 +192,7 @@ def generate_ascii_art_from_prompt(prompt: str) -> str:
             print(f"Error generating ASCII art: {result.stderr}")
             return None
     except subprocess.TimeoutExpired:
-        print("Timeout: Ollama took too long to respond.")
+        print(f"Timeout: Ollama took longer than {OLLAMA_TIMEOUT} seconds to respond.")
         return None
     except FileNotFoundError:
         print("Error: 'ollama' command not found. Please install Ollama.")
@@ -295,14 +297,14 @@ def ollama_studio(prompt: str, **kwargs):
     print("="*60 + "\n")
     
     if header_text:
-        print(header_text)
+        print(header_text.rstrip())
     
-    print(ascii_art)
+    print(ascii_art.rstrip())
     
     if footer_text:
-        print(footer_text)
+        print(footer_text.rstrip())
     
-    print("="*60 + "\n")
+    print("\n" + "="*60 + "\n")
 
 
 def main():
