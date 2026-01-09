@@ -188,6 +188,7 @@ def main():
     )
     parser.add_argument("--recurse-path", help="Path to recurse and apply tattoo")
     parser.add_argument("--file", "-f", help="Read text from file")
+    parser.add_argument("--overwrite", action="store_true", help="Overwrite existing tattoos in files")
 
     args, positional_args = parser.parse_known_args()
     if not os.path.exists(z := os.path.join(BASE_DIR, "fonts", args.font)):
@@ -216,7 +217,7 @@ def main():
             )
         else:
             tattoo = arg0_frase
-        apply_tattoo_to_directory(args.recurse_path, tattoo)
+        apply_tattoo_to_directory(args.recurse_path, tattoo, overwrite=args.overwrite)
     else:
         # prints to screen
         tatuagem(arg0_frase, **{a: getattr(args, a) for a in KWARGS_LIST})
