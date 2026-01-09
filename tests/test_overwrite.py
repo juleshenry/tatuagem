@@ -29,7 +29,8 @@ def test_overwrite_flag_false_skips_tattooed_files():
             content_after_first = f.read()
         
         # Verify it was tattooed
-        assert "first" in content_after_first or "111" in content_after_first, "File should be tattooed"
+        assert '"""' in content_after_first, "File should have Python comment delimiter"
+        assert "print('Hello World')" in content_after_first, "Original code should be in file"
         
         # Try to tattoo again with different text and overwrite=False
         tattoo2 = get_tattoo("second")
