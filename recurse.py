@@ -119,17 +119,17 @@ def is_tattoo_comment(text: str, min_lines: int = 5) -> bool:
         if len(line) > 0 and max_char_count / len(line) > 0.7:
             repetitive_lines += 1
         
-        # Count non-alphanumeric characters (excluding spaces)
+        # Count "tattoo-like" characters (non-alphabetic characters excluding spaces)
         for char in line:
             total_chars += 1
-            if not char.isalnum() and not char.isspace():
+            if not char.isalpha() and not char.isspace():
                 non_alnum_chars += 1
     
     # Calculate ratio of lines with high repetition
     repetitive_ratio = repetitive_lines / len(lines) if lines else 0
     
-    # Calculate ratio of non-alphanumeric characters
-    non_alnum_ratio = non_alnum_chars / total_chars if total_chars > 0 else 0
+    # Calculate ratio of tattoo-like characters
+    tattoo_char_ratio = non_alnum_chars / total_chars if total_chars > 0 else 0
     
     # Check if text contains common documentation words
     text_lower = text.lower()
@@ -139,15 +139,14 @@ def is_tattoo_comment(text: str, min_lines: int = 5) -> bool:
     doc_word_count = sum(1 for word in doc_words if word in text_lower)
     
     # Decision criteria:
-    # - If >50% of lines are repetitive AND >30% non-alphanumeric, likely a tattoo
+    # - If >30% of lines are repetitive OR >50% tattoo-like chars, likely a tattoo
     # - If <3 documentation words found, more likely to be ASCII art
-    # - Combine these signals
-    is_repetitive = repetitive_ratio > 0.5
-    has_high_special_chars = non_alnum_ratio > 0.3
+    is_repetitive = repetitive_ratio > 0.3
+    has_high_tattoo_chars = tattoo_char_ratio > 0.5
     lacks_doc_words = doc_word_count < 3
     
-    # It's a tattoo if it's highly repetitive or has high special chars AND lacks doc words
-    return (is_repetitive or has_high_special_chars) and lacks_doc_words
+    # It's a tattoo if it's highly repetitive or has high tattoo chars AND lacks doc words
+    return (is_repetitive or has_high_tattoo_chars) and lacks_doc_words
 
 
 def extract_first_comment(content: str, start: str, end: str) -> Optional[str]:
@@ -294,7 +293,7 @@ def apply_tattoo_to_directory(target_path, tattoo, overwrite=False):
                                     if len(parts) > 1:
                                         rest = parts[1].split(end, 1)
                                         if len(rest) > 1:
-                                            new_content = shebang + "\n" + commented_tattoo + "\n\n" + rest[1].strip()
+                                            new_content = shebang + "\n" + commented_tattoo + "\n\n" + rest[1].lstrip()
                                         else:
                                             new_content = shebang + "\n" + commented_tattoo + "\n\n" + content_without_shebang
                                     else:
@@ -324,7 +323,7 @@ def apply_tattoo_to_directory(target_path, tattoo, overwrite=False):
                                     if len(parts) > 1:
                                         rest = parts[1].split(end, 1)
                                         if len(rest) > 1:
-                                            new_content = commented_tattoo + "\n\n" + rest[1].strip()
+                                            new_content = commented_tattoo + "\n\n" + rest[1].lstrip()
                                         else:
                                             new_content = commented_tattoo + "\n\n" + content
                                     else:
