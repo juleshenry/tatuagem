@@ -104,7 +104,7 @@ tests/**
 
 ### Usage with .tatignore
 
-1. Create a `.tatignore` file in the directory you want to tattoo
+1. Create a `.tatignore` file in the directory you want to tattoo (or copy `.tatignore.example` from this repository)
 2. Add patterns for files/directories to exclude
 3. Run tatuagem with `--recurse-path` as usual
 
