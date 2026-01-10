@@ -2,6 +2,7 @@ import os
 import argparse
 import shutil
 import json
+import fnmatch
 from tatuagem import (
     yield_char_matrix,
     tatuar,
@@ -13,7 +14,7 @@ from tatuagem import (
     MARGIN,
 )
 from params import TEMPLATE_SIZE, BASE_DIR
-from typing import Optional
+from typing import Optional, List
 
 # Load mappings once
 try:
@@ -74,6 +75,102 @@ def get_shebang(content: str) -> Optional[str]:
     return None
 
 
+def load_tatignore_patterns(target_path: str) -> List[str]:
+    """
+    Load patterns from .tatignore file in the target directory.
+    Returns a list of patterns to ignore.
+    """
+    tatignore_path = os.path.join(target_path, ".tatignore")
+    patterns = []
+    
+    if os.path.exists(tatignore_path):
+        try:
+            with open(tatignore_path, "r", encoding="utf-8") as f:
+                for line in f:
+                    line = line.strip()
+                    # Skip empty lines and comments
+                    if line and not line.startswith("#"):
+                        patterns.append(line)
+        except Exception as e:
+            print(f"Warning: Could not read .tatignore file: {e}")
+    
+    return patterns
+
+
+def should_ignore(filepath: str, target_path: str, patterns: List[str]) -> bool:
+    """
+    Check if a file should be ignored based on .tatignore patterns.
+    Similar to .gitignore, supports:
+    - Simple filenames: "file.txt"
+    - Wildcards: "*.log"
+    - Directory patterns: "node_modules/"
+    - Path patterns: "build/**"
+    """
+    if not patterns:
+        return False
+    
+    # Get relative path from target directory
+    try:
+        rel_path = os.path.relpath(filepath, target_path)
+    except ValueError:
+        # If paths are on different drives (Windows), use absolute comparison
+        rel_path = filepath
+    
+    # Normalize path separators
+    rel_path = rel_path.replace(os.sep, "/")
+    
+    for pattern in patterns:
+        # Remove trailing slash for directory patterns
+        pattern = pattern.rstrip("/")
+        
+        # Check for exact match
+        if rel_path == pattern:
+            return True
+        
+        # Check if pattern matches filename
+        filename = os.path.basename(filepath)
+        if _match_pattern(filename, pattern):
+            return True
+        
+        # Check if pattern matches any part of the path
+        if _match_pattern(rel_path, pattern):
+            return True
+        
+        # Check if any directory in the path matches the pattern
+        path_parts = rel_path.split("/")
+        for i in range(len(path_parts)):
+            partial_path = "/".join(path_parts[:i+1])
+            if _match_pattern(partial_path, pattern):
+                return True
+            
+            # Check directory names
+            if _match_pattern(path_parts[i], pattern):
+                return True
+    
+    return False
+
+
+def _match_pattern(path: str, pattern: str) -> bool:
+    """
+    Match a path against a pattern using fnmatch-like behavior.
+    Supports wildcards (* and ?) and ** for recursive matching.
+    """
+    # Handle ** for recursive directory matching
+    if "**" in pattern:
+        # Convert ** pattern to regex-like matching
+        parts = pattern.split("**")
+        if len(parts) == 2:
+            prefix, suffix = parts
+            prefix = prefix.rstrip("/")
+            suffix = suffix.lstrip("/")
+            
+            # Check if path matches the pattern with ** in between
+            if not prefix or path.startswith(prefix) or fnmatch.fnmatch(path, prefix + "*"):
+                if not suffix or path.endswith(suffix) or fnmatch.fnmatch(path, "*" + suffix):
+                    return True
+    
+    # Standard fnmatch for simple patterns
+    return fnmatch.fnmatch(path, pattern)
 def is_tattoo_comment(text: str, min_lines: int = 5) -> bool:
     """
     Determine if a comment block is a tattoo (ASCII art) rather than human-readable documentation.
@@ -241,12 +338,22 @@ def comment_text(filepath, text) -> Optional[str]:
 
 def apply_tattoo_to_directory(target_path, tattoo, overwrite=False):
     print(f"Tattooing into {target_path}...")
+    
+    # Load .tatignore patterns
+    ignore_patterns = load_tatignore_patterns(target_path)
+    if ignore_patterns:
+        print(f"Loaded {len(ignore_patterns)} ignore pattern(s) from .tatignore")
 
     for root, dirs, files in os.walk(target_path):
         for file in files:
             filepath = os.path.join(root, file)
             # Skip if it's likely a binary or hidden file or the script itself
             if file.startswith("."):
+                continue
+            
+            # Check if file should be ignored based on .tatignore
+            if should_ignore(filepath, target_path, ignore_patterns):
+                print(f"Skipping {filepath} (matched .tatignore)")
                 continue
 
             try:

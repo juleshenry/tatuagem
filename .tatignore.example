@@ -1,0 +1,27 @@
+# .tatignore - Example file to exclude paths from tattooing
+# Similar to .gitignore, you can use patterns to specify which files
+# and directories should not be tattooed when using --recurse-path
+
+# Ignore log files
+*.log
+
+# Ignore build artifacts
+build/
+dist/
+__pycache__/
+
+# Ignore dependencies
+node_modules/
+venv/
+.venv/
+
+# Ignore configuration files
+*.local
+.env
+
+# Ignore test directories
+tests/**
+
+# Ignore specific files
+secrets.py
+config.prod.json
