@@ -1,3 +1,4 @@
+CHANGELOG.md
 LICENSE
 MANIFEST.in
 README.md
@@ -10,6 +11,7 @@ override.py
 params.py
 pyproject.toml
 recurse.py
+setup.py
 tatuagem.py
 fonts/Poppins-Medium.ttf
 fonts/unicode-arial.ttf
@@ -197,4 +199,7 @@ tatuagem.egg-info/dependency_links.txt
 tatuagem.egg-info/entry_points.txt
 tatuagem.egg-info/requires.txt
 tatuagem.egg-info/top_level.txt
+tests/test_overwrite.py
 tests/test_shebang.py
+tests/test_tatignore.py
+tests/test_tattoo_detection.py
