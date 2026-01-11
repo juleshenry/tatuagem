@@ -122,4 +122,3 @@ tests/**
 # This will respect patterns in .tatignore
 python3 tatuagem.py "MyProject" --recurse-path ./my-project/
 ```
-✓ **Idempotent** - Tattoos won't repeat on themselves if run multiple times (unless `--overwrite` is used)
