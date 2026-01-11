@@ -1,6 +1,6 @@
 Metadata-Version: 2.4
 Name: tatuagem
-Version: 0.1.3
+Version: 0.1.4
 Summary: A tool to generate ASCII art signatures (tattoos) and apply them to your code files recursively.
 Author-email: Julian Henry <juliant@naver.com>, Derek Dickerson <derekdson67@gmail.com>
 Maintainer-email: Julian Henry <juliant@naver.com>, Derek Dickerson <derekdson67@gmail.com>
