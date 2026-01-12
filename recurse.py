@@ -1,4 +1,5 @@
 import os
+import sys
 import argparse
 import shutil
 import json
@@ -26,7 +27,6 @@ except FileNotFoundError as e:
     print("Error: JSON mapping files not found.")
     print(f"Missing file: {e.filename}")
     print("These files are required for tatuagem to function properly.")
-    import sys
     sys.exit(1)
 
 
