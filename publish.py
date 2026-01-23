@@ -85,9 +85,9 @@ def main():
     run_command("python3 -m build")
 
     # 4. Twine Upload
-    print("Uploading to PyPI...")
-    # Note: Twine will prompt for credentials unless configured in ~/.pypirc or env vars
-    run_command("python3 -m twine upload dist/*")
+    # print("Uploading to PyPI...")
+    # # Note: Twine will prompt for credentials unless configured in ~/.pypirc or env vars
+    # run_command("python3 -m twine upload dist/*")
 
     print(f"\nDone! v{new_version} has been built and upload triggered.")
 

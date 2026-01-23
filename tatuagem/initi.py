@@ -6,7 +6,7 @@ import os, datetime
 def init_and_create_templates(font: str = "unicode-arial.ttf"):
     btpng = os.path.join(BASE_DIR, "black-template.png")
     new_dir = os.path.join(BASE_DIR, "fonts", font[:-4])  # cut out .ttf
-    sqr = np.zeros((TEMPLATE_SIZE, TEMPLATE_SIZE, 3))
+    sqr = np.zeros((TEMPLATE_SIZE, TEMPLATE_SIZE, 3), dtype=np.uint8)
     i = Image.fromarray(sqr, "RGB")
     i.save(btpng)
     try:
@@ -40,15 +40,7 @@ def init_and_create_templates(font: str = "unicode-arial.ttf"):
 
 def get_font_png_path(char: str, new_dir: str):
     """Returns the path of the png corresponding to the character char"""
-    font_png_path = f"{new_dir}/__{char}__.png"
-    # Lowercase treated separately for NIX reasons
-    if 97 <= ord(char) <= 97 + 26:
-        font_png_path = f"{new_dir}/__lowercase_{char}__.png"
-    elif char in r"/":
-        font_png_path = f"{new_dir}/__chr({ord(char)})__.png"
-    else:
-        font_png_path = f"{new_dir}/__{char}__.png"
-    return font_png_path
+    return os.path.join(new_dir, f"char_{ord(char)}.png")
 
 
 if __name__ == "__main__":
