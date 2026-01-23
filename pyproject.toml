@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "tatuagem"
-version = "0.1.4"
+version = "0.1.7"
 authors = [
   { name="Julian Henry", email="juliant@naver.com"},
   {name="Derek Dickerson", email="derekdson67@gmail.com" }
@@ -29,5 +29,8 @@ dependencies = [
 tatuagem = "tatuagem:main"
 
 [tool.setuptools]
-py-modules = ["tatuagem", "params", "initi", "recurse", "identify_comments", "override", "coverage"]
+packages = ["tatuagem", "tatuagem.fonts"]
 include-package-data = true
+
+[tool.setuptools.package-data]
+tatuagem = ["*.json", "fonts/**"]

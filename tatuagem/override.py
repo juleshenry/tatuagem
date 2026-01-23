@@ -1,6 +1,6 @@
 import json
 import os
-from params import BASE_DIR
+from .params import BASE_DIR
 
 
 if __name__ == "__main__":

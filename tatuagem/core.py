@@ -1,4 +1,4 @@
-'''
+"""
 000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
 000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
 000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
@@ -29,7 +29,7 @@
 000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
 000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
 
-'''
+"""
 
 """
 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
@@ -69,8 +69,8 @@
 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
 """
 
-from params import TEMPLATE_SIZE, Image, ImageDraw, ImageFont, BASE_DIR
-from initi import get_font_png_path, init_and_create_templates
+from .params import TEMPLATE_SIZE, Image, ImageDraw, ImageFont, BASE_DIR
+from .initi import get_font_png_path, init_and_create_templates
 import argparse, os
 
 MARGIN = 3  # top and bottom margin of text
@@ -111,7 +111,9 @@ def tatuar(mat, pattern=None, backsplash=None, margin=None):
     pure_mat = list(
         filter(lambda x: x and not all(c == backsplash for c in "".join(x)), mat)
     )
-    margin = int(margin)
+    margin = int(margin) if margin is not None else MARGIN
+    if not pure_mat:
+        return ""
     pure_mat = (
         (
             marg := [
@@ -188,10 +190,14 @@ def main():
     )
     parser.add_argument("--recurse-path", help="Path to recurse and apply tattoo")
     parser.add_argument("--file", "-f", help="Read text from file")
-    parser.add_argument("--overwrite", action="store_true", help="Overwrite existing tattoos in files")
+    parser.add_argument(
+        "--overwrite", action="store_true", help="Overwrite existing tattoos in files"
+    )
 
     args, positional_args = parser.parse_known_args()
     if not os.path.exists(z := os.path.join(BASE_DIR, "fonts", args.font)):
+        # Ensure fonts directory exists
+        os.makedirs(os.path.join(BASE_DIR, "fonts"), exist_ok=True)
         init_and_create_templates(args.font)
     print(f"text: {args.text}")
     print(f"backsplash: {args.backsplash}")
@@ -209,7 +215,7 @@ def main():
         exit(1)
 
     if args.recurse_path:
-        from recurse import apply_tattoo_to_directory
+        from .recurse import apply_tattoo_to_directory
 
         if not args.file:
             tattoo = get_tattoo_string(

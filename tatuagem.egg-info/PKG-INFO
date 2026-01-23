@@ -1,6 +1,6 @@
 Metadata-Version: 2.4
 Name: tatuagem
-Version: 0.1.4
+Version: 0.1.7
 Summary: A tool to generate ASCII art signatures (tattoos) and apply them to your code files recursively.
 Author-email: Julian Henry <juliant@naver.com>, Derek Dickerson <derekdson67@gmail.com>
 Maintainer-email: Julian Henry <juliant@naver.com>, Derek Dickerson <derekdson67@gmail.com>
@@ -137,4 +137,3 @@ tests/**
 # This will respect patterns in .tatignore
 python3 tatuagem.py "MyProject" --recurse-path ./my-project/
 ```
-✓ **Idempotent** - Tattoos won't repeat on themselves if run multiple times (unless `--overwrite` is used)
