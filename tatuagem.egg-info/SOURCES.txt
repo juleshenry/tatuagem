@@ -5,6 +5,7 @@ README.md
 pyproject.toml
 setup.py
 tatuagem/__init__.py
+tatuagem/__main__.py
 tatuagem/core.py
 tatuagem/coverage.py
 tatuagem/extension_to_lang.json

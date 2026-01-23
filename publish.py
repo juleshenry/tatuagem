@@ -79,7 +79,7 @@ def main():
         run_command("rm -rf tatuagem.egg-info")
 
     print("Installing/Updating build tools...")
-    run_command("python3 -m pip install --upgrade build twine")
+    run_command("python3 -m pip install --upgrade --break-system-packages build twine")
 
     print("Building package...")
     run_command("python3 -m build")
