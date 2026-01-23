@@ -29,5 +29,8 @@ dependencies = [
 tatuagem = "tatuagem:main"
 
 [tool.setuptools]
-py-modules = ["tatuagem", "params", "initi", "recurse", "identify_comments", "override", "coverage"]
+packages = ["tatuagem", "tatuagem.fonts"]
 include-package-data = true
+
+[tool.setuptools.package-data]
+tatuagem = ["*.json", "fonts/**"]

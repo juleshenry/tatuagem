@@ -2,7 +2,7 @@ import os
 import argparse
 import shutil
 import json
-from tatuagem import (
+from .core import (
     yield_char_matrix,
     tatuar,
     concat,
@@ -12,7 +12,7 @@ from tatuagem import (
     DEFAULT_BACKSPLASH_CHAR,
     MARGIN,
 )
-from params import TEMPLATE_SIZE
+from .params import TEMPLATE_SIZE
 from typing import Optional
 
 
