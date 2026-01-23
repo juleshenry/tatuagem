@@ -1,4 +1,5 @@
 import os
+import sys
 import argparse
 import shutil
 import json
@@ -22,10 +23,11 @@ try:
         EXT_TO_LANG = json.load(f)
     with open(os.path.join(BASE_DIR, "lang_to_block_syntax.json"), "r", encoding="utf-8") as f:
         LANG_TO_SYNTAX = json.load(f)
-except FileNotFoundError:
-    print("Warning: JSON mapping files not found.")
-    EXT_TO_LANG = {}
-    LANG_TO_SYNTAX = {}
+except FileNotFoundError as e:
+    print("Error: JSON mapping files not found.")
+    print(f"Missing file: {e.filename}")
+    print("These files are required for tatuagem to function properly.")
+    sys.exit(1)
 
 
 def get_tattoo(phrase):
