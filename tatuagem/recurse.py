@@ -3,6 +3,7 @@ import argparse
 import shutil
 import json
 import fnmatch
+from . import core
 from .core import (
     yield_char_matrix,
     tatuar,
@@ -16,20 +17,35 @@ from .core import (
 from .params import TEMPLATE_SIZE, BASE_DIR
 from typing import Optional, List
 
+
 # Load mappings once
-try:
-    with open(
-        os.path.join(BASE_DIR, "extension_to_lang.json"), "r", encoding="utf-8"
-    ) as f:
-        EXT_TO_LANG = json.load(f)
-    with open(
-        os.path.join(BASE_DIR, "lang_to_block_syntax.json"), "r", encoding="utf-8"
-    ) as f:
-        LANG_TO_SYNTAX = json.load(f)
-except FileNotFoundError:
-    print("Warning: JSON mapping files not found.")
-    EXT_TO_LANG = {}
-    LANG_TO_SYNTAX = {}
+def load_json_mappings():
+    try:
+        ext_to_lang_path = os.path.join(BASE_DIR, "extension_to_lang.json")
+        lang_to_syntax_path = os.path.join(BASE_DIR, "lang_to_block_syntax.json")
+
+        with open(ext_to_lang_path, "r", encoding="utf-8") as f:
+            ext_to_lang = json.load(f)
+        with open(lang_to_syntax_path, "r", encoding="utf-8") as f:
+            lang_to_syntax = json.load(f)
+        return ext_to_lang, lang_to_syntax
+    except FileNotFoundError:
+        # Try relative to this file if BASE_DIR fails or is weird
+        try:
+            current_dir = os.path.dirname(os.path.abspath(__file__))
+            ext_to_lang_path = os.path.join(current_dir, "extension_to_lang.json")
+            lang_to_syntax_path = os.path.join(current_dir, "lang_to_block_syntax.json")
+            with open(ext_to_lang_path, "r", encoding="utf-8") as f:
+                ext_to_lang = json.load(f)
+            with open(lang_to_syntax_path, "r", encoding="utf-8") as f:
+                lang_to_syntax = json.load(f)
+            return ext_to_lang, lang_to_syntax
+        except FileNotFoundError:
+            print("Warning: JSON mapping files not found.")
+            return {}, {}
+
+
+EXT_TO_LANG, LANG_TO_SYNTAX = load_json_mappings()
 
 
 def get_tattoo(phrase):
