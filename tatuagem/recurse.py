@@ -436,128 +436,76 @@ def apply_tattoo_to_directory(target_path, tattoo, overwrite=False):
                     # Check for shebang and preserve it
                     shebang = get_shebang(content)
                     if shebang:
-                        # Remove shebang from content temporarily
                         if "\n" in content:
-                            content_without_shebang = content.split("\n", 1)[1]
+                            content_body = content.split("\n", 1)[1]
                         else:
-                            # Only shebang, no other content
-                            content_without_shebang = ""
+                            content_body = ""
+                    else:
+                        content_body = content
 
-                        # Check if already has a tattoo at the top
-                        if content_without_shebang.strip().startswith(start):
-                            # Extract the first comment to check if it's a tattoo
-                            if not overwrite:
-                                print(
-                                    f"Skipping {filepath} (already tattooed, use --overwrite to replace)"
-                                )
-                                continue
-                            first_comment = extract_first_comment(
-                                content_without_shebang, start, end
-                            )
-                            if first_comment and is_tattoo_comment(first_comment):
-                                # Already has a tattoo, replace it
-                                try:
-                                    parts = content_without_shebang.split(start, 1)
-                                    if len(parts) > 1:
-                                        rest = parts[1].split(end, 1)
-                                        if len(rest) > 1:
-                                            new_content = (
-                                                shebang
-                                                + "\n"
-                                                + commented_tattoo
-                                                + "\n\n"
-                                                + rest[1].lstrip()
-                                            )
-                                        else:
-                                            new_content = (
-                                                shebang
-                                                + "\n"
-                                                + commented_tattoo
-                                                + "\n\n"
-                                                + content_without_shebang
-                                            )
-                                    else:
+                    # Check if body starts with an existing tattoo
+                    has_existing_tattoo = False
+                    first_comment = None
+                    if content_body.strip().startswith(start):
+                        first_comment = extract_first_comment(content_body, start, end)
+                        if first_comment and is_tattoo_comment(first_comment):
+                            has_existing_tattoo = True
+
+                    if has_existing_tattoo:
+                        if overwrite:
+                            # Replace existing tattoo
+                            try:
+                                parts = content_body.split(start, 1)
+                                if len(parts) > 1:
+                                    rest = parts[1].split(end, 1)
+                                    if len(rest) > 1:
+                                        body_without_tattoo = rest[1].lstrip()
                                         new_content = (
-                                            shebang
-                                            + "\n"
+                                            (shebang + "\n" if shebang else "")
                                             + commented_tattoo
                                             + "\n\n"
-                                            + content_without_shebang
+                                            + body_without_tattoo
                                         )
-                                except (IndexError, ValueError):
+                                    else:
+                                        # Fallback if split fails weirdly
+                                        new_content = (
+                                            (shebang + "\n" if shebang else "")
+                                            + commented_tattoo
+                                            + "\n\n"
+                                            + content_body
+                                        )
+                                else:
                                     new_content = (
-                                        shebang
-                                        + "\n"
+                                        (shebang + "\n" if shebang else "")
                                         + commented_tattoo
                                         + "\n\n"
-                                        + content_without_shebang
+                                        + content_body
                                     )
-                                print(
-                                    f"Re-tattooed {filepath} (replaced existing tattoo)"
+                            except (IndexError, ValueError):
+                                new_content = (
+                                    (shebang + "\n" if shebang else "")
+                                    + commented_tattoo
+                                    + "\n\n"
+                                    + content_body
                                 )
-                            else:
-                                # Has a comment but it's not a tattoo (likely documentation)
-                                # Don't add tattoo to avoid breaking docs
-                                print(
-                                    f"Skipping {filepath} (has documentation comment at top)"
-                                )
-                                continue
+                            print(f"Re-tattooed {filepath} (replaced existing tattoo)")
                         else:
-                            new_content = (
-                                shebang
-                                + "\n"
-                                + commented_tattoo
-                                + "\n\n"
-                                + content_without_shebang
+                            print(
+                                f"Skipping {filepath} (already tattooed, use --overwrite to replace)"
                             )
+                            continue
                     else:
-                        # Check if already has a tattoo at the top
-                        if content.strip().startswith(start):
-                            # Extract the first comment to check if it's a tattoo
-                            if not overwrite:
-                                print(
-                                    f"Skipping {filepath} (already tattooed, use --overwrite to replace)"
-                                )
-                                continue
-                            first_comment = extract_first_comment(content, start, end)
-                            if first_comment and is_tattoo_comment(first_comment):
-                                # Already has a tattoo, replace it
-                                try:
-                                    parts = content.split(start, 1)
-                                    if len(parts) > 1:
-                                        rest = parts[1].split(end, 1)
-                                        if len(rest) > 1:
-                                            new_content = (
-                                                commented_tattoo
-                                                + "\n\n"
-                                                + rest[1].lstrip()
-                                            )
-                                        else:
-                                            new_content = (
-                                                commented_tattoo + "\n\n" + content
-                                            )
-                                    else:
-                                        new_content = (
-                                            commented_tattoo + "\n\n" + content
-                                        )
-                                except (IndexError, ValueError):
-                                    new_content = commented_tattoo + "\n\n" + content
-                                print(
-                                    f"Re-tattooed {filepath} (replaced existing tattoo)"
-                                )
-                            else:
-                                # Has a comment but it's not a tattoo (likely documentation)
-                                # Don't add tattoo to avoid breaking docs
-                                print(
-                                    f"Skipping {filepath} (has documentation comment at top)"
-                                )
-                                continue
-                        else:
-                            new_content = commented_tattoo + "\n\n" + content
+                        # Prepend tattoo (preserving shebang if present)
+                        new_content = (
+                            (shebang + "\n" if shebang else "")
+                            + commented_tattoo
+                            + "\n\n"
+                            + content_body
+                        )
+                        print(f"Tattooed {filepath}")
 
                     with open(filepath, "w", encoding="utf-8") as f:
                         f.write(new_content)
-                    print(f"Tattooed {filepath}")
                 else:
                     # print(f"Skipping {filepath} (unknown language)")
                     pass

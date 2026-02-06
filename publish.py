@@ -54,18 +54,38 @@ def update_changelog(new_version):
         f.writelines(lines)
 
 
-def main():
-    if len(sys.argv) < 2:
-        print("Usage: python3 publish.py <new_version>")
-        sys.exit(1)
+def get_current_version():
+    if not os.path.exists("pyproject.toml"):
+        return "0.0.0"
+    with open("pyproject.toml", "r") as f:
+        content = f.read()
+    match = re.search(r'version = "(.*)"', content)
+    return match.group(1) if match else "0.0.0"
 
-    new_version = sys.argv[1]
+
+def main():
+    current_version = get_current_version()
+    if len(sys.argv) < 2:
+        print(f"Current version: {current_version}")
+        new_version = input(
+            f"Enter new version (suggested: {current_version[:-1]}{int(current_version[-1]) + 1 if current_version[-1].isdigit() else '?'}): "
+        )
+        if not new_version:
+            print("Aborted.")
+            sys.exit(0)
+    else:
+        new_version = sys.argv[1]
 
     print(f"--- Preparing Distribution for v{new_version} ---")
 
-    # 1. Update pyproject.toml
-    print("Updating pyproject.toml...")
+    # 1. Update version files
+    print(f"Updating pyproject.toml to v{new_version}...")
     update_file("pyproject.toml", r'version = ".*"', f'version = "{new_version}"')
+
+    print(f"Updating tatuagem/__init__.py to v{new_version}...")
+    update_file(
+        "tatuagem/__init__.py", r'__version__ = ".*"', f'__version__ = "{new_version}"'
+    )
 
     # 2. Update CHANGELOG.md
     print("Updating CHANGELOG.md...")
