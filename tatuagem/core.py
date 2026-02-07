@@ -71,6 +71,7 @@
 
 from .params import TEMPLATE_SIZE, Image, ImageDraw, ImageFont, BASE_DIR
 from .initi import get_font_png_path, init_and_create_templates
+from . import __version__
 import argparse, os
 
 MARGIN = 3  # top and bottom margin of text
@@ -98,16 +99,17 @@ def yield_char_matrix(char: str, font: str = FONT_DEFAULT, **kwargs):
             ):
                 continue
             o[ix].append(
-                kwargs['text']
+                kwargs.get("text", DEFAULT_TEXT_CHAR)
                 if imat.getpixel((w, h,)) - imat.getpixel((0, 0,))
-                else kwargs['backsplash']
+                else kwargs.get("backsplash", DEFAULT_BACKSPLASH_CHAR)
             )
         # fmt: on
     return o
 
 
-def tatuar(mat, pattern=None, backsplash=None, margin=None):
+def tatuar(mat, pattern=None, backsplash=DEFAULT_BACKSPLASH_CHAR, margin=None):
     # prints a `matrix`
+    backsplash = backsplash if backsplash is not None else DEFAULT_BACKSPLASH_CHAR
     pure_mat = list(
         filter(lambda x: x and not all(c == backsplash for c in "".join(x)), mat)
     )
@@ -136,7 +138,7 @@ def tatuar(mat, pattern=None, backsplash=None, margin=None):
     return tatuagem
 
 
-def expose(mat, pattern=None, backsplash=None, margin=None):
+def expose(mat, pattern=None, backsplash=DEFAULT_BACKSPLASH_CHAR, margin=None):
     # prints a `matrix`
     tatu = tatuar(mat, pattern=pattern, backsplash=backsplash, margin=margin)
     print(tatu)
@@ -163,12 +165,16 @@ def get_tattoo_string(frase: str, space_count: int = SPACE_MARGIN, **kwargs):
         if not j:
             j = concat(oxo, cmat)
         else:
-            j = concat(j, cmat, sep=(kwargs["backsplash"]) * space_count)
+            j = concat(
+                j,
+                cmat,
+                sep=(kwargs.get("backsplash", DEFAULT_BACKSPLASH_CHAR)) * space_count,
+            )
     return tatuar(
         j,
-        pattern=kwargs["pattern"],
-        backsplash=kwargs["backsplash"],
-        margin=kwargs["margin"],
+        pattern=kwargs.get("pattern"),
+        backsplash=kwargs.get("backsplash", DEFAULT_BACKSPLASH_CHAR),
+        margin=kwargs.get("margin"),
     )
 
 
@@ -180,6 +186,9 @@ def tatuagem(frase: str, space_count: int = SPACE_MARGIN, **kwargs):
 def main():
     # Create the parser
     parser = argparse.ArgumentParser(description="Tatuagem")
+    parser.add_argument(
+        "--version", action="version", version=f"%(prog)s {__version__}"
+    )
     # text is the char for the printout
     parser.add_argument("--text", default=DEFAULT_TEXT_CHAR, help="Set the text")  # fmt: skip
     parser.add_argument("--backsplash", default=DEFAULT_BACKSPLASH_CHAR, help="Choose backsplash")  # fmt: skip

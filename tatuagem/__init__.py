@@ -1,3 +1,5 @@
+__version__ = "v0.1.10"
+
 from .core import (
     main,
     tatuagem,
@@ -24,4 +26,5 @@ __all__ = [
     "DEFAULT_TEXT_CHAR",
     "DEFAULT_BACKSPLASH_CHAR",
     "MARGIN",
+    "__version__",
 ]

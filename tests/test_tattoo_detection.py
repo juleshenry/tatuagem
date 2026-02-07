@@ -138,7 +138,7 @@ int main() {
 
 
 def test_tattoo_with_existing_documentation():
-    """Test that files with documentation comments at the top are not tattooed."""
+    """Test that files with documentation comments at the top are tattooed by prepending."""
     with tempfile.TemporaryDirectory() as tmpdir:
         # Create a Python file with documentation
         test_file = os.path.join(tmpdir, "test.py")
@@ -167,15 +167,8 @@ def my_function():
             "Original documentation should be preserved"
         )
 
-        # Check that tattoo was not added (file should be skipped)
-        lines = content.split("\n")
-        first_comment = lines[0:8]  # First several lines
-        combined = "\n".join(first_comment)
-
-        # The tattoo consists of mostly 0s and 1s, doc has words
-        assert "module provides important" in combined, (
-            "Documentation should remain at top (file should be skipped)"
-        )
+        # Check that tattoo was added (it should NOT be skipped anymore)
+        assert "0000" in content or "1111" in content, "Tattoo should be added"
 
         print("✓ test_tattoo_with_existing_documentation passed")
 

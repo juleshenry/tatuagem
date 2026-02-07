@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "tatuagem"
-version = "0.1.7"
+version = "v0.1.10"
 authors = [
   { name="Julian Henry", email="juliant@naver.com"},
   {name="Derek Dickerson", email="derekdson67@gmail.com" }
