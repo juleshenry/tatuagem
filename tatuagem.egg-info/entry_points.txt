@@ -1,2 +1,0 @@
-[console_scripts]
-tatuagem = tatuagem:main
