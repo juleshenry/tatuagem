@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.1.12 (2026-02-07)
+
+* Automated release update
+
 ## v0.1.12 (2026-02-06)
 
 * Automated release update
