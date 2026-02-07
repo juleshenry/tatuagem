@@ -204,7 +204,8 @@ def main():
     )
 
     args, positional_args = parser.parse_known_args()
-    if not os.path.exists(z := os.path.join(BASE_DIR, "fonts", args.font)):
+    font_dir = os.path.join(BASE_DIR, "fonts", args.font[:-4])
+    if not os.path.exists(font_dir):
         # Ensure fonts directory exists
         os.makedirs(os.path.join(BASE_DIR, "fonts"), exist_ok=True)
         init_and_create_templates(args.font)

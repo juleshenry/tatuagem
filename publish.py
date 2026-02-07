@@ -38,8 +38,11 @@ def update_changelog(new_version):
     if not os.path.exists(file_path):
         return
 
+    # Ensure version doesn't have double 'v'
+    display_version = new_version if new_version.startswith("v") else f"v{new_version}"
+
     date_str = datetime.now().strftime("%Y-%m-%d")
-    new_entry = f"\n## v{new_version} ({date_str})\n\n* Automated release update\n"
+    new_entry = f"\n## {display_version} ({date_str})\n\n* Automated release update\n"
 
     with open(file_path, "r") as f:
         lines = f.readlines()
@@ -109,7 +112,16 @@ def main():
     # Note: Twine will prompt for credentials unless configured in ~/.pypirc or env vars
     run_command("python3 -m twine upload dist/*")
 
-    print(f"\nDone! v{new_version} has been built and upload triggered.")
+    # 5. Git Tag and Push
+    print("Tagging and pushing to git...")
+    tag_version = new_version if new_version.startswith("v") else f"v{new_version}"
+    run_command(f"git add pyproject.toml tatuagem/__init__.py CHANGELOG.md")
+    run_command(f'git commit -m "Release {tag_version}"')
+    run_command(f"git tag {tag_version}")
+    run_command(f"git push origin main")
+    run_command(f"git push origin --tags")
+
+    print(f"\nDone! {tag_version} has been built, uploaded, and tagged.")
 
 
 if __name__ == "__main__":
