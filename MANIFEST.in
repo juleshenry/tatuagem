@@ -4,3 +4,9 @@ recursive-include tatuagem/fonts *
 include README.md
 include LICENSE
 include CHANGELOG.md
+recursive-exclude tests *
+exclude publish.py
+exclude tatu.png
+exclude lappel.png
+exclude coverage.svg
+exclude .tatignore.example

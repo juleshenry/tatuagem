@@ -202,101 +202,54 @@ def _match_pattern(path: str, pattern: str) -> bool:
     return fnmatch.fnmatch(path, pattern)
 
 
-def is_tattoo_comment(text: str, min_lines: int = 5) -> bool:
+def is_tattoo_comment(text: str, min_lines: int = 15) -> bool:
     """
     Determine if a comment block is a tattoo (ASCII art) rather than human-readable documentation.
 
     A tattoo is characterized by:
-    - High ratio of repetitive characters (like '0', '1', special symbols)
-    - Lines with mostly the same character repeated
-    - Very few actual words or readable text
-    - Multiple consecutive lines with similar patterns
-
-    Args:
-        text: The comment text to analyze (without comment delimiters)
-        min_lines: Minimum number of lines to consider it a potential tattoo
-
-    Returns:
-        True if the text appears to be a tattoo, False if it appears to be human-readable
+    - Large number of lines (usually > 20)
+    - High density of '0' and '1' characters (default for this tool)
+    - Very few actual words
     """
     if not text or not text.strip():
         return False
 
     lines = [line.strip() for line in text.split("\n") if line.strip()]
 
-    # Need at least min_lines of content to be a tattoo
+    # Need a significant number of lines to be a tattoo from this tool
     if len(lines) < min_lines:
         return False
 
-    # Count lines with high repetition of single characters
-    repetitive_lines = 0
     total_chars = 0
-    non_alnum_chars = 0
+    pattern_chars = 0
+    alnum_chars = 0
 
     for line in lines:
-        if not line:
-            continue
-
-        # Count character frequencies in this line
-        char_counts = {}
-        for char in line:
-            char_counts[char] = char_counts.get(char, 0) + 1
-
-        # Check if any single character dominates the line (>70% of characters)
-        max_char_count = max(char_counts.values()) if char_counts else 0
-        if len(line) > 0 and max_char_count / len(line) > 0.7:
-            repetitive_lines += 1
-
-        # Count "tattoo-like" characters (non-alphabetic characters excluding spaces)
         for char in line:
             total_chars += 1
-            if not char.isalpha() and not char.isspace():
-                non_alnum_chars += 1
+            if char in "01 \t":
+                pattern_chars += 1
+            if char.isalnum():
+                alnum_chars += 1
 
-    # Calculate ratio of lines with high repetition
-    repetitive_ratio = repetitive_lines / len(lines) if lines else 0
+    if total_chars == 0:
+        return False
 
-    # Calculate ratio of tattoo-like characters
-    tattoo_char_ratio = non_alnum_chars / total_chars if total_chars > 0 else 0
+    # Ratio of 0, 1, and spaces
+    pattern_ratio = pattern_chars / total_chars
 
-    # Check if text contains common documentation words
-    text_lower = text.lower()
-    doc_words = [
-        "the",
-        "this",
-        "that",
-        "function",
-        "class",
-        "method",
-        "return",
-        "parameter",
-        "arg",
-        "description",
-        "example",
-        "note",
-        "todo",
-        "fixme",
-        "bug",
-        "author",
-        "copyright",
-        "license",
-        "version",
-        "see",
-        "also",
-        "raises",
-        "warning",
-    ]
-    doc_word_count = sum(1 for word in doc_words if word in text_lower)
+    # Ratio of alphanumeric characters that are NOT 0 or 1
+    # Real words will have many other letters
+    other_alnum_chars = 0
+    for line in lines:
+        for char in line:
+            if char.isalnum() and char not in "01":
+                other_alnum_chars += 1
 
-    # Decision criteria:
-    # - If >30% of lines are repetitive OR >50% tattoo-like chars, likely a tattoo
-    # - If <3 documentation words found, more likely to be ASCII art
-    is_repetitive = repetitive_ratio > 0.3
-    has_high_tattoo_chars = tattoo_char_ratio > 0.5
-    lacks_doc_words = doc_word_count < 3
+    other_alnum_ratio = other_alnum_chars / total_chars if total_chars > 0 else 0
 
-    # It's a tattoo if it's highly repetitive or has high tattoo chars AND lacks doc words
-    return (is_repetitive or has_high_tattoo_chars) and lacks_doc_words
+    # It's a tattoo if it's mostly 0/1/space AND has very few other letters
+    return pattern_ratio > 0.8 and other_alnum_ratio < 0.05
 
 
 def extract_first_comment(content: str, start: str, end: str) -> Optional[str]:
@@ -373,11 +326,15 @@ def comment_text(filepath, text) -> Optional[str]:
 
     if start != end:
         # Block comment
+        if lang == "Python" and start == '"""':
+            return f"r{start}\n{text}\n{end}"
         return f"{start}\n{text}\n{end}"
     else:
         # Start == End
         if len(start) >= 3:
             # Likely block delimiter like """
+            if lang == "Python" and start == '"""':
+                return f"r{start}\n{text}\n{end}"
             return f"{start}\n{text}\n{end}"
         else:
             # Likely line comment
@@ -413,18 +370,6 @@ def apply_tattoo_to_directory(target_path, tattoo, overwrite=False):
                 # Check if we can comment this file
                 commented_tattoo = comment_text(filepath, tattoo)
                 if commented_tattoo:
-                    with open(filepath, "r", encoding="utf-8") as f:
-                        content = f.read()
-                    # Avoid double tattooing if possible (simple check)
-                    # We check if the first line of the tattoo is already in the file
-                    tattoo_lines = commented_tattoo.split("\n")
-                    if (
-                        not overwrite
-                        and len(tattoo_lines) > 1
-                        and tattoo_lines[1].strip() in content
-                    ):
-                        print(f"Skipping {filepath} (already tattooed?)")
-                        continue
                     ext = os.path.splitext(os.path.basename(filepath))[1].lower()
                     lang = EXT_TO_LANG.get(ext)
                     syntax = LANG_TO_SYNTAX.get(lang)
@@ -433,74 +378,92 @@ def apply_tattoo_to_directory(target_path, tattoo, overwrite=False):
                     start = clean_syntax(syntax.get("start"))
                     end = clean_syntax(syntax.get("end"))
 
+                    with open(filepath, "r", encoding="utf-8") as f:
+                        content = f.read()
+
                     # Check for shebang and preserve it
                     shebang = get_shebang(content)
                     if shebang:
-                        if "\n" in content:
-                            content_body = content.split("\n", 1)[1]
-                        else:
-                            content_body = ""
+                        content_body = (
+                            content.split("\n", 1)[1] if "\n" in content else ""
+                        )
                     else:
                         content_body = content
 
-                    # Check if body starts with an existing tattoo
+                    # More robust double-tattooing check
+                    # We check if the file already starts with a tattoo comment
                     has_existing_tattoo = False
-                    first_comment = None
+                    first_comment_content = None
+
+                    # We look at the body (after shebang)
+                    syntax = LANG_TO_SYNTAX.get(lang)
+                    if not syntax:
+                        continue
+                    start = clean_syntax(syntax.get("start"))
+                    end = clean_syntax(syntax.get("end"))
+
                     if content_body.strip().startswith(start):
-                        first_comment = extract_first_comment(content_body, start, end)
-                        if first_comment and is_tattoo_comment(first_comment):
+                        first_comment_content = extract_first_comment(
+                            content_body, start, end
+                        )
+                        if first_comment_content and is_tattoo_comment(
+                            first_comment_content
+                        ):
                             has_existing_tattoo = True
 
                     if has_existing_tattoo:
-                        if overwrite:
-                            # Replace existing tattoo
-                            try:
-                                parts = content_body.split(start, 1)
-                                if len(parts) > 1:
-                                    rest = parts[1].split(end, 1)
-                                    if len(rest) > 1:
-                                        body_without_tattoo = rest[1].lstrip()
-                                        new_content = (
-                                            (shebang + "\n" if shebang else "")
-                                            + commented_tattoo
-                                            + "\n\n"
-                                            + body_without_tattoo
-                                        )
-                                    else:
-                                        # Fallback if split fails weirdly
-                                        new_content = (
-                                            (shebang + "\n" if shebang else "")
-                                            + commented_tattoo
-                                            + "\n\n"
-                                            + content_body
-                                        )
-                                else:
-                                    new_content = (
-                                        (shebang + "\n" if shebang else "")
-                                        + commented_tattoo
-                                        + "\n\n"
-                                        + content_body
-                                    )
-                            except (IndexError, ValueError):
-                                new_content = (
-                                    (shebang + "\n" if shebang else "")
-                                    + commented_tattoo
-                                    + "\n\n"
-                                    + content_body
-                                )
-                            print(f"Re-tattooed {filepath} (replaced existing tattoo)")
-                        else:
+                        # If we have an existing tattoo, compare it with the new one
+                        if (
+                            first_comment_content
+                            and first_comment_content.strip() == tattoo.strip()
+                        ):
+                            print(
+                                f"Skipping {filepath} (already tattooed with this exact content)"
+                            )
+                            continue
+
+                        if not overwrite:
                             print(
                                 f"Skipping {filepath} (already tattooed, use --overwrite to replace)"
                             )
                             continue
+
+                        # Replace existing tattoo
+                        # Determine where the existing tattoo ends
+                        is_line_comment = (start == end) and len(start) <= 2
+                        if is_line_comment:
+                            lines = content_body.split("\n")
+                            # Find start of tattoo (skip potential empty lines after shebang)
+                            i = 0
+                            while i < len(lines) and not lines[i].strip().startswith(
+                                start
+                            ):
+                                i += 1
+                            # Skip all consecutive comment lines
+                            while i < len(lines) and lines[i].strip().startswith(start):
+                                i += 1
+                            body_without_tattoo = "\n".join(lines[i:]).lstrip()
+                        else:
+                            # Block comment replacement
+                            parts = content_body.split(end, 1)
+                            body_without_tattoo = (
+                                parts[1].lstrip() if len(parts) > 1 else content_body
+                            )
+
+                        new_content = (
+                            (shebang + "\n" if shebang else "")
+                            + commented_tattoo
+                            + "\n\n"
+                            + body_without_tattoo
+                        )
+                        print(f"Re-tattooed {filepath} (replaced existing tattoo)")
                     else:
                         # Prepend tattoo (preserving shebang if present)
                         new_content = (
                             (shebang + "\n" if shebang else "")
                             + commented_tattoo
                             + "\n\n"
-                            + content_body
+                            + content_body.lstrip()
                         )
                         print(f"Tattooed {filepath}")
 
