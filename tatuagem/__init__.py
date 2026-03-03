@@ -55,7 +55,7 @@
  `--'  `"                     `--'  `"                     `--'  `"            '--'   '--'                 
 """
 
-__version__ = "0.1.14"
+__version__ = "v0.0.15"
 
 from .core import (
     main,
