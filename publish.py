@@ -64,7 +64,6 @@ from datetime import datetime
 
 def run_command(command):
     print(f"Running: {command}")
-    # Using Popen to stream output in real-time for interactive commands like twine if needed
     process = subprocess.Popen(
         command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True
     )
@@ -136,7 +135,7 @@ def main():
     else:
         new_version = sys.argv[1]
 
-    print(f"--- Preparing Distribution for v{new_version} ---")
+    print(f"--- Preparing Release v{new_version} ---")
 
     # 1. Update version files
     print(f"Updating pyproject.toml to v{new_version}...")
@@ -151,34 +150,22 @@ def main():
     print("Updating CHANGELOG.md...")
     update_changelog(new_version)
 
-    # 3. Clean and Build
-    print("Cleaning old builds...")
-    if os.path.exists("dist"):
-        run_command("rm -rf dist/*")
-    if os.path.exists("tatuagem.egg-info"):
-        run_command("rm -rf tatuagem.egg-info")
-
-    print("Installing/Updating build tools...")
-    run_command("python3 -m pip install --upgrade --break-system-packages build twine")
-
-    print("Building package...")
-    run_command("python3 -m build")
-
-    # 4. Twine Upload
-    print("Uploading to PyPI...")
-    # Note: Twine will prompt for credentials unless configured in ~/.pypirc or env vars
-    run_command("python3 -m twine upload dist/*")
-
-    # 5. Git Tag and Push
-    print("Tagging and pushing to git...")
+    # 3. Git commit, tag, and push
+    # PyPI publishing is handled by GitHub Actions on release/tag creation
     tag_version = new_version if new_version.startswith("v") else f"v{new_version}"
+    print("Committing version bump...")
     run_command(f"git add pyproject.toml tatuagem/__init__.py CHANGELOG.md")
     run_command(f'git commit -m "Release {tag_version}"')
+
+    print(f"Tagging {tag_version}...")
     run_command(f"git tag {tag_version}")
+
+    print("Pushing to remote...")
     run_command(f"git push origin main")
     run_command(f"git push origin --tags")
 
-    print(f"\nDone! {tag_version} has been built, uploaded, and tagged.")
+    print(f"\nDone! {tag_version} has been committed, tagged, and pushed.")
+    print("PyPI publish will be triggered automatically by GitHub Actions.")
 
 
 if __name__ == "__main__":

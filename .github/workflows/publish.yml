@@ -53,11 +53,12 @@
 # \ \._,\ '/                   \ \._,\ '/                   \ \._,\ '/ `'--'     |  |   |  |             `   
 #  `--'  `"                     `--'  `"                     `--'  `"            '--'   '--'                 
 
-name: Upload Python Package to PyPI when a Release is Created
+name: Upload Python Package to PyPI on Tag Push
 
 on:
-  release:
-    types: [created]
+  push:
+    tags:
+      - "v*"
 
 jobs:
   pypi-publish:
