@@ -197,7 +197,9 @@ def main():
     parser.add_argument(
         "--margin", default=MARGIN, help="Margin top and bottom for text"
     )
-    parser.add_argument("--recurse-path", help="Path to recurse and apply tattoo")
+    parser.add_argument(
+        "--recurse-path", "--recurse_path", help="Path to recurse and apply tattoo"
+    )
     parser.add_argument("--file", "-f", help="Read text from file")
     parser.add_argument(
         "--overwrite", action="store_true", help="Overwrite existing tattoos in files"
@@ -218,6 +220,9 @@ def main():
     if args.file:
         with open(args.file, "r") as f:
             arg0_frase = f.read()
+        if not arg0_frase.strip():
+            print("Error: File is empty or contains only whitespace.")
+            exit(1)
     elif positional_args:
         arg0_frase = positional_args[0]
     else:

@@ -1,0 +1,20 @@
+# Ignore test files and directories
+tests/**
+test_tattoo/**
+test_input.txt
+
+# Ignore build artifacts and metadata
+dist/
+__pycache__/
+tatuagem.egg-info/
+*.egg-info/
+
+# Ignore config and non-source files
+pyproject.toml
+setup.py
+MANIFEST.in
+CHANGELOG.md
+README.md
+LICENSE
+coverage.svg
+*.png

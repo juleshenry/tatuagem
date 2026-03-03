@@ -772,7 +772,26 @@
         "start": "{-",
         "end": "-}"
     },
-    "Html": null,
+    "Html": {
+        "start": "<!--",
+        "end": "-->"
+    },
+    "HTML": {
+        "start": "<!--",
+        "end": "-->"
+    },
+    "SVG": {
+        "start": "<!--",
+        "end": "-->"
+    },
+    "XHTML": {
+        "start": "<!--",
+        "end": "-->"
+    },
+    "Angular Component": {
+        "start": "<!--",
+        "end": "-->"
+    },
     "Language": {
         "start": "/*",
         "end": "*/"

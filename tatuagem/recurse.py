@@ -1,3 +1,60 @@
+"""
+                       ▋▄▄▄▄▂▉▋▎                                   ▏▎▋▉▂▄▄▄▃▌                       
+                       ▇█████▅▅█▇▃▉▍      ▏▌            ▌       ▍▉▃▆▆▄▆█████▄                       
+                       ▁███▆▇▃▇███▅▅▅▁▌▏   ▍▍          ▌▍   ▏▌▂▆▅▅███▆▄▆▆███▋                       
+                        ▄██▂▄████▅▊▃███▇▁▍  ▏▍▎      ▎▍▏  ▍▂▇███▁▉▆████▄▃██▁                        
+                        ▏▂█▇██▉▍▍▌▊▅▁▍▍▁▇█▅▊▏ ▏▍▎  ▎▍▏ ▏▊▅█▆▁▍▌▂▅▊▌▍▍▁██▇▇▉                         
+                          ▉██▇▃▌▌▍▍▌▋▌▏ ▏▋▇█▇▉▏ ▎▋▋▎ ▏▉▇█▆▋▏ ▏▌▋▌▍▍▍▋▄▇██▋                          
+                          ▏▇█▇▊▍▍▍▍▍▍▌▋▋▌▍▆███▇▊▂██▉▉▇██▇▂▌▋▋▊▌▍▍▍▍▍▍▁▇█▅                           
+                           ▍██▃▎   ▏▍▍▌▋▂▆▇█████▇▇████████▆▄▋▍▍▍▏  ▏▍▄██▎                           
+                            ▁█▇▁▌▍▍▎▏    ▏▊▇█████▆▇█████▂▎     ▏▎▍▍▋▂██▊                            
+                            ▏▃█▆▊▋▉▂▄▆▇▇████████████████████▇▇▆▄▂▉▋▉▇█▉                             
+                              ▋▃▆▇▇▇██▄▁▁▁▄▊▉█████████▇▊▋▃▁▂▂▄██▆▇▇▆▃▌                              
+                                  ▉██▂▍▍▍▊▎  ▁████████▉  ▎▋▍▍▍▄█▇▊                                  
+                                 ▌██▇▌▍▍▎▊▏▍▊▎▃▇█████▂▎▋▍▏▋▎▍▍▌███▎                                 
+                                 ▋███▋▎▌▎▊▍▌▏▍▎▆████▅▌▎▏▌▍▋▎▌▍▂███▍                                 
+                                  ▆█▇█▄▎▊▏▏▋ ▋ █████▅▏▋ ▋▏▎▊▌▅█▇█▄                                  
+                                  ▏▄████▅▋▂▏ ▊ ▇████▅ ▊ ▎▁▋▅████▃                                   
+                                    ▌▅█▇█▇█▆▅▅▊▇████▇▉▆▅▆█▇▇██▅▎                                    
+                                      ▎▃▅▇█▇▇██████████▇▇█▇▅▃▎                                      
+                                         ▍▄▆████████████▆▃▎                                         
+                                       ▏▉▇▂▏▉▇████████▇▉▏▂▇▉▏                                       
+                                    ▎▊▃███▄  ▏▊▅████▅▊▏  ▃███▃▊▎                                    
+                               ▏▍▊▃▆██████▅▊   ▏▉▇▇▊    ▋▅██████▆▃▊▍▏                               
+                           ▏▌▁▄▇██████████▆▎▊▏▎▊▅██▅▊▎▏▊▎▆███████████▄▁▌▏                           
+                         ▏▄████████████████▏▏▊▌ ▍██▍ ▍▊▏▎████████████████▄                          
+                         ▌█████████████████▊    ▃██▃    ▊█████████████████▌                         
+                         ▃█████████████████▄   ▏████▏   ▄█████████████████▂                         
+                        ▏▇██████████████████▎  ▌████▍  ▎██████████████████▆                         
+                        ▍███████████████████▁  ▊████▊  ▁███████████████████▏                        
+                        ▊███████████████████▇▏ ▁████▁ ▏▇███████▆▃▉▄████████▌                        
+                        ▁████████████████████▉ ▂████▂ ▉█████▄▁▊▉▁▂▆████████▊                        
+                        ▃████████████████████▇▏▄████▄▏▇████████████████████▁                        
+                        ▄█████████████████████▁▄████▄▁█████████████████████▃                        
+                        ▅██████████████████████▇████▇██████████████████████▄                        
+                        ▆██████████████████████████████████████████████████▅                        
+                        ▇██████████████████████████████████████████████████▅                        
+                        ▇████████▂████████████████████████████████▂████████▅                        
+                        ▇███████▆▍████████████████████████████████▎▆███████▅                        
+                        ▇███████▁ ▆██████████████████████████████▆ ▁███████▅                        
+                        ▇███████▅ ▅██████████████████████████████▅ ▄███████▇                        
+                        ████████▉ ▅██████████████████████████████▄ ▉████████                        
+                        ▄▄▄▄▄▄▄▅▂ ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▂ ▂▄▄▄▄▄▄▄▃                        
+                                                                                                 _..._     
+                                                                                              .-'_..._''.  
+               __.....__                    __.....__                      .--.   _..._     .' .'      '.\ 
+           .-''         '.              .-''         '.                    |__| .'     '.  / .'            
+          /     .-''"'-.  `.           /     .-''"'-.  `.                  .--..   .-.   .. '              
+    __   /     /________\   \    __   /     /________\   \    __           |  ||  '   '  || |              
+ .:--.'. |                  | .:--.'. |                  | .:--.'.         |  ||  |   |  || |              
+/ |   \ |\    .-------------'/ |   \ |\    .-------------'/ |   \ |        |  ||  |   |  |. '              
+`" __ | | \    '-.____...---.`" __ | | \    '-.____...---.`" __ | |  ,.--. |  ||  |   |  | \ '.          . 
+ .'.''| |  `.             .'  .'.''| |  `.             .'  .'.''| | //    \|__||  |   |  |  '. `._____.-'/ 
+/ /   | |_   `''-...... -'   / /   | |_   `''-...... -'   / /   | |_\\    /    |  |   |  |    `-.______ /  
+\ \._,\ '/                   \ \._,\ '/                   \ \._,\ '/ `'--'     |  |   |  |             `   
+ `--'  `"                     `--'  `"                     `--'  `"            '--'   '--'                 
+"""
+
 import os
 import sys
 import argparse
@@ -354,6 +411,38 @@ def extract_first_comment(content: str, start: str, end: str) -> Optional[str]:
         return None
 
 
+def _needs_raw_string(text: str) -> bool:
+    """
+    Check if tattoo text contains characters that require a raw string
+    block comment in Python (single/double quotes or backslashes).
+    """
+    return "'" in text or '"' in text or "\\" in text
+
+
+def _pick_python_delimiters(text: str) -> tuple:
+    """
+    Pick the best Python block comment delimiters for the given tattoo text.
+    If the text contains problematic characters (' " \\), use raw strings.
+    Returns (start, end) delimiter pair.
+    """
+    if not _needs_raw_string(text):
+        return '"""', '"""'
+
+    # Prefer r""" but if the text contains """, fall back to r'''
+    if '"""' not in text:
+        return 'r"""', '"""'
+    elif "'''" not in text:
+        return "r'''", "'''"
+    else:
+        # Extremely rare: text contains both """ and '''
+        # Use r""" and escape the triple quotes in the text by splitting
+        # This is a best-effort fallback
+        return 'r"""', '"""'
+
+
+PYTHON_TRIPLE_QUOTE_DELIMITERS = {'"""', "'''", 'r"""', "r'''"}
+
+
 def comment_text(filepath, text) -> Optional[str]:
     """Return commented text based on file extension and language syntax."""
     ext = os.path.splitext(os.path.basename(filepath))[1].lower()
@@ -372,12 +461,15 @@ def comment_text(filepath, text) -> Optional[str]:
         return None
 
     if start != end:
-        # Block comment
+        # Block comment (e.g., /* */ or <!-- -->)
         return f"{start}\n{text}\n{end}"
     else:
         # Start == End
         if len(start) >= 3:
-            # Likely block delimiter like """
+            # Likely block delimiter like """ or '''
+            # Check if we need raw strings for Python-style triple-quote blocks
+            if start in ('"""', "'''"):
+                start, end = _pick_python_delimiters(text)
             return f"{start}\n{text}\n{end}"
         else:
             # Likely line comment
@@ -390,6 +482,9 @@ def comment_text(filepath, text) -> Optional[str]:
 
 
 def apply_tattoo_to_directory(target_path, tattoo, overwrite=False):
+    if not tattoo or not tattoo.strip():
+        print("Error: Tattoo content is empty or contains only whitespace. Aborting.")
+        return
     print(f"Tattooing into {target_path}...")
 
     # Load .tatignore patterns
@@ -446,8 +541,25 @@ def apply_tattoo_to_directory(target_path, tattoo, overwrite=False):
                     # Check if body starts with an existing tattoo
                     has_existing_tattoo = False
                     first_comment = None
-                    if content_body.strip().startswith(start):
-                        first_comment = extract_first_comment(content_body, start, end)
+                    # Build list of possible comment starters to check
+                    # (includes raw string variants for Python-style triple quotes)
+                    starters_to_check = [start]
+                    if start in ('"""', "'''"):
+                        starters_to_check.extend([f"r{start}"])
+                    stripped_body = content_body.strip()
+                    detected_start = None
+                    detected_end = end
+                    for s in starters_to_check:
+                        if stripped_body.startswith(s):
+                            detected_start = s
+                            # The end delimiter is always the non-raw version
+                            detected_end = s.lstrip("r")
+                            break
+
+                    if detected_start:
+                        first_comment = extract_first_comment(
+                            content_body, detected_start, detected_end
+                        )
                         if first_comment and is_tattoo_comment(first_comment):
                             has_existing_tattoo = True
 
@@ -455,9 +567,9 @@ def apply_tattoo_to_directory(target_path, tattoo, overwrite=False):
                         if overwrite:
                             # Replace existing tattoo
                             try:
-                                parts = content_body.split(start, 1)
+                                parts = content_body.split(detected_start, 1)
                                 if len(parts) > 1:
-                                    rest = parts[1].split(end, 1)
+                                    rest = parts[1].split(detected_end, 1)
                                     if len(rest) > 1:
                                         body_without_tattoo = rest[1].lstrip()
                                         new_content = (
