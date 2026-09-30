@@ -5,7 +5,6 @@ Test the --overwrite flag functionality.
 import os
 import sys
 import tempfile
-import shutil
 
 # Add parent directory to path to import tatuagem modules
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))

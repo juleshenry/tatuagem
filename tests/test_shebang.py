@@ -3,19 +3,18 @@ Test shebang detection and preservation when tattooing files.
 """
 
 import os
+import subprocess
 import sys
 import tempfile
-import shutil
-import subprocess
 
 # Add parent directory to path to import tatuagem modules
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from tatuagem.recurse import (
-    has_shebang,
-    get_shebang,
     apply_tattoo_to_directory,
+    get_shebang,
     get_tattoo,
+    has_shebang,
 )
 
 

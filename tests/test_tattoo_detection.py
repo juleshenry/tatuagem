@@ -10,10 +10,10 @@ import tempfile
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from tatuagem.recurse import (
-    is_tattoo_comment,
-    extract_first_comment,
     apply_tattoo_to_directory,
+    extract_first_comment,
     get_tattoo,
+    is_tattoo_comment,
 )
 
 
