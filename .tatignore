@@ -16,5 +16,4 @@ MANIFEST.in
 CHANGELOG.md
 README.md
 LICENSE
-coverage.svg
 *.png

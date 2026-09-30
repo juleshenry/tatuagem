@@ -27,7 +27,32 @@ jobs:
           python-version: ${{ matrix.python-version }}
       - run: python -m pip install --upgrade pip
       - run: pip install -e ".[dev]"
-      - run: pytest -q
+      - run: pytest -q --cov=tatuagem --cov-report=term-missing
+
+  languages:
+    name: Language coverage >= 87%
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.14"
+      - run: pip install -e .
+      - run: python scripts/lang_coverage.py --min 87 --summary "$GITHUB_STEP_SUMMARY"
+
+  compile:
+    name: Tattooed corpus still compiles
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.14"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - run: pip install -e .
+      - run: python scripts/compile_check.py
 
   lint:
     runs-on: ubuntu-latest

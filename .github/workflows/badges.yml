@@ -1,0 +1,53 @@
+name: Coverage badges
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: badges
+  cancel-in-progress: true
+
+jobs:
+  badges:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.14"
+      - run: pip install -e ".[dev]"
+
+      - name: Language coverage over tests/hello_worlds
+        run: |
+          mkdir -p out
+          python scripts/lang_coverage.py --json out/lang-coverage.json \
+            --badge out/languages.json --summary "$GITHUB_STEP_SUMMARY"
+
+      - name: Unit test coverage
+        run: |
+          pytest -q --cov=tatuagem --cov-report=json:out/coverage.json --cov-report=term
+          python - <<'PY'
+          import json, sys
+          sys.path.insert(0, "scripts")
+          from lang_coverage import shields
+          pct = json.load(open("out/coverage.json"))["totals"]["percent_covered"]
+          json.dump(shields("tests", pct), open("out/tests.json", "w"))
+          with open(__import__("os").environ["GITHUB_STEP_SUMMARY"], "a") as f:
+              f.write(f"\n## Unit test coverage: {pct:.1f}%\n")
+          PY
+          rm out/coverage.json
+
+      - name: Publish to the badges branch
+        run: |
+          cd out
+          git init -q -b badges
+          git add .
+          git -c user.name="github-actions[bot]" \
+              -c user.email="41898282+github-actions[bot]@users.noreply.github.com" \
+              commit -q -m "chore(badges): ${GITHUB_SHA::7}"
+          git push -q -f "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}" badges
