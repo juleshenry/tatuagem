@@ -1,5 +1,6 @@
 # Tatuagem, the boastful code signature suite
-![coverage](coverage.svg)
+[![languages](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/juleshenry/tatuagem/badges/languages.json)](https://github.com/juleshenry/tatuagem/blob/badges/lang-coverage.json)
+[![tests](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/juleshenry/tatuagem/badges/tests.json)](https://github.com/juleshenry/tatuagem/actions/workflows/badges.yml)
 
 Tatuagem is a tool to generate ASCII art signatures (tattoos) and apply them to your code files recursively.
 
@@ -95,6 +96,8 @@ tatuagem "New Tattoo" --recurse-path test_tattoo/ --overwrite
 
 ✓ **Skips hidden directories** - `.git`, `.venv` and friends are never touched
 
+✓ **Hundreds of languages, safely** - block comments where the tattoo can't break out of them, line comments otherwise; files are skipped rather than corrupted. `<?php`, `<?xml ?>`, shebangs, encoding cookies and Dockerfile directives stay on top. Shared extensions (`.pl`, `.m`, `.pro`) are told apart by content, and extensionless scripts by their shebang
+
 ## .tatignore
 
 Using the same matching rules as `.gitignore`, you can create a `.tatignore` file in the root of the directory you want to tattoo to specify patterns of files and directories to exclude from tattooing.
@@ -149,6 +152,17 @@ pip install -e ".[dev]"
 pytest
 ruff check .
 ```
+
+### Coverage
+
+- **Languages** — `python scripts/lang_coverage.py` tattoos every folder of the
+  `tests/hello_worlds` corpus and counts the languages that get a comment valid in
+  *that* language. Languages that can't hold a comment at all (Brainfuck, Piet, JSON…)
+  are listed in the report but left out of the figure. CI fails if it drops below 87%.
+- **Tests** — `pytest --cov`.
+
+Both badges are computed by the [Coverage badges](.github/workflows/badges.yml)
+workflow on every push to `main` and published to the `badges` branch.
 
 This repo dogfoods itself: every source file carries a tattoo, and CI runs
 `tatuagem --file test_input.txt --recurse-path . --check` to keep it that way.
