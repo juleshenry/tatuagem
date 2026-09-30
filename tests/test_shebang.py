@@ -3,9 +3,12 @@ Test shebang detection and preservation when tattooing files.
 """
 
 import os
+import shutil
 import subprocess
 import sys
 import tempfile
+
+import pytest
 
 # Add parent directory to path to import tatuagem modules
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -90,6 +93,9 @@ def test_tattoo_python_with_shebang():
 
 def test_tattoo_npm_project():
     """Test that npm project with shebang works after tattooing."""
+    npm = shutil.which("npm")
+    if npm is None:
+        pytest.skip("npm not installed")
     with tempfile.TemporaryDirectory() as tmpdir:
         # Create package.json
         package_json = os.path.join(tmpdir, "package.json")
@@ -122,8 +128,9 @@ def test_tattoo_npm_project():
         )
 
         # Run npm test
+        # npm is npm.cmd on Windows, which subprocess cannot find by bare name
         result = subprocess.run(
-            ["npm", "test"], cwd=tmpdir, capture_output=True, text=True
+            [npm, "test"], cwd=tmpdir, capture_output=True, text=True
         )
         assert result.returncode == 0, f"npm test should succeed, got: {result.stderr}"
         assert "Hello from npm!" in result.stdout, (

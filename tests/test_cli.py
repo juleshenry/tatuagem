@@ -10,11 +10,12 @@ import warnings
 import pytest
 
 # Add parent directory to path to import tatuagem modules
-ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-sys.path.insert(0, ROOT)
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from tatuagem.core import main
 from tatuagem.recurse import apply_tattoo_to_directory, get_tattoo, is_tattoo_comment
+
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
 def test_stdout_is_only_the_tattoo(capsys):
