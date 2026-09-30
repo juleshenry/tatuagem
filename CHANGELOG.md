@@ -1,6 +1,6 @@
 # Changelog
 
-## v0.1.15 (unreleased)
+## v0.1.15 (2026-09-30)
 
 * Fix: version was set to `v0.0.15`, lower than the published 0.1.14; `publish.py` now refuses non-increasing versions
 * Glyphs are rendered in memory: no more PNG templates written into site-packages, any Unicode character works, `--font` accepts a path to any `.ttf`/`.otf`
