@@ -1,4 +1,4 @@
-"""
+r"""
                        ▋▄▄▄▄▂▉▋▎                                   ▏▎▋▉▂▄▄▄▃▌                       
                        ▇█████▅▅█▇▃▉▍      ▏▌            ▌       ▍▉▃▆▆▄▆█████▄                       
                        ▁███▆▇▃▇███▅▅▅▁▌▏   ▍▍          ▌▍   ▏▌▂▆▅▅███▆▄▆▆███▋                       
@@ -55,20 +55,20 @@
  `--'  `"                     `--'  `"                     `--'  `"            '--'   '--'                 
 """
 
-__version__ = "v0.0.15"
+__version__ = "0.1.15"
 
 from .core import (
+    DEFAULT_BACKSPLASH_CHAR,
+    DEFAULT_TEXT_CHAR,
+    FONT_DEFAULT,
+    MARGIN,
+    SPACE_MARGIN,
+    concat,
+    get_tattoo_string,
     main,
     tatuagem,
-    get_tattoo_string,
-    yield_char_matrix,
     tatuar,
-    concat,
-    SPACE_MARGIN,
-    FONT_DEFAULT,
-    DEFAULT_TEXT_CHAR,
-    DEFAULT_BACKSPLASH_CHAR,
-    MARGIN,
+    yield_char_matrix,
 )
 
 __all__ = [

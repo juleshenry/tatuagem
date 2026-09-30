@@ -1,4 +1,4 @@
-"""
+r"""
                        ▋▄▄▄▄▂▉▋▎                                   ▏▎▋▉▂▄▄▄▃▌                       
                        ▇█████▅▅█▇▃▉▍      ▏▌            ▌       ▍▉▃▆▆▄▆█████▄                       
                        ▁███▆▇▃▇███▅▅▅▁▌▏   ▍▍          ▌▍   ▏▌▂▆▅▅███▆▄▆▆███▋                       
@@ -55,8 +55,8 @@
  `--'  `"                     `--'  `"                     `--'  `"            '--'   '--'                 
 """
 
-import os
 import json
+import os
 import subprocess
 
 cache = {}
@@ -154,18 +154,18 @@ ext_lang = {
     ".ipynb": "Jupyter Notebook",
 }
 
-import time
 
-data = {}
-for root, dirs, files in os.walk("tests/hello_worlds"):
-    for file in files:
-        if file == "ovo.yaml":
-            continue
-        filepath = os.path.join(root, file)
+if __name__ == "__main__":
+    data = {}
+    for root, _dirs, files in os.walk("tests/hello_worlds"):
+        for file in files:
+            if file == "ovo.yaml":
+                continue
+            filepath = os.path.join(root, file)
 
-        comment = get_block_comment(filepath)
-        lang = filepath.replace("tests/hello_worlds/", "").split("/")[0]
-        data[lang] = comment
+            comment = get_block_comment(filepath)
+            lang = filepath.replace("tests/hello_worlds/", "").split("/")[0]
+            data[lang] = comment
 
-with open("comment_block_syntax.json", "w") as f:
-    json.dump(data, f, indent=4)
+    with open("comment_block_syntax.json", "w") as f:
+        json.dump(data, f, indent=4)

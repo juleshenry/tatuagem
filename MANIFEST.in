@@ -1,6 +1,6 @@
-include tatuagem/extension_to_lang.json
-include tatuagem/lang_to_block_syntax.json
-recursive-include tatuagem/fonts *
+include tatuagem/*.json
+include tatuagem/py.typed
+include tatuagem/fonts/*.ttf
 include README.md
 include LICENSE
 include CHANGELOG.md
