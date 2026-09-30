@@ -1,2 +1,12 @@
-__pycache__/*
-__pycache__
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.venv/
+venv/
+.pytest_cache/
+.ruff_cache/
+.coverage
+.DS_Store
+comment_block_syntax.json

@@ -1,4 +1,4 @@
-"""
+r"""
                        ▋▄▄▄▄▂▉▋▎                                   ▏▎▋▉▂▄▄▄▃▌                       
                        ▇█████▅▅█▇▃▉▍      ▏▌            ▌       ▍▉▃▆▆▄▆█████▄                       
                        ▁███▆▇▃▇███▅▅▅▁▌▏   ▍▍          ▌▍   ▏▌▂▆▅▅███▆▄▆▆███▋                       
@@ -55,79 +55,59 @@
  `--'  `"                     `--'  `"                     `--'  `"            '--'   '--'                 
 """
 
-import os
-import sys
 import argparse
-import shutil
 import json
-import fnmatch
-from . import core
-from .core import (
-    yield_char_matrix,
-    tatuar,
-    concat,
-    SPACE_MARGIN,
-    FONT_DEFAULT,
-    DEFAULT_TEXT_CHAR,
-    DEFAULT_BACKSPLASH_CHAR,
-    MARGIN,
-)
-from .params import TEMPLATE_SIZE, BASE_DIR
-from typing import Optional, List
+import os
+from functools import lru_cache
+from typing import List, Optional
+
+import pathspec
+
+from .core import get_tattoo_string
+from .params import BASE_DIR
 
 
-# Load mappings once
 def load_json_mappings():
     try:
-        ext_to_lang_path = os.path.join(BASE_DIR, "extension_to_lang.json")
-        lang_to_syntax_path = os.path.join(BASE_DIR, "lang_to_block_syntax.json")
-
-        with open(ext_to_lang_path, "r", encoding="utf-8") as f:
+        with open(os.path.join(BASE_DIR, "extension_to_lang.json"), "r", encoding="utf-8") as f:
             ext_to_lang = json.load(f)
-        with open(lang_to_syntax_path, "r", encoding="utf-8") as f:
+        with open(os.path.join(BASE_DIR, "lang_to_block_syntax.json"), "r", encoding="utf-8") as f:
             lang_to_syntax = json.load(f)
         return ext_to_lang, lang_to_syntax
     except FileNotFoundError:
-        # Try relative to this file if BASE_DIR fails or is weird
-        try:
-            current_dir = os.path.dirname(os.path.abspath(__file__))
-            ext_to_lang_path = os.path.join(current_dir, "extension_to_lang.json")
-            lang_to_syntax_path = os.path.join(current_dir, "lang_to_block_syntax.json")
-            with open(ext_to_lang_path, "r", encoding="utf-8") as f:
-                ext_to_lang = json.load(f)
-            with open(lang_to_syntax_path, "r", encoding="utf-8") as f:
-                lang_to_syntax = json.load(f)
-            return ext_to_lang, lang_to_syntax
-        except FileNotFoundError:
-            print("Warning: JSON mapping files not found.")
-            return {}, {}
+        print("Warning: JSON mapping files not found.")
+        return {}, {}
 
 
 EXT_TO_LANG, LANG_TO_SYNTAX = load_json_mappings()
 
 
-def get_tattoo(phrase):
-    kwargs = {
-        "text": DEFAULT_TEXT_CHAR,
-        "backsplash": DEFAULT_BACKSPLASH_CHAR,
-        "font": FONT_DEFAULT,
-        "pattern": None,
-        "margin": MARGIN,
-    }
-    j = []
-    oxo = [[] for _ in range(TEMPLATE_SIZE)]
-    for x in phrase:
-        cmat = yield_char_matrix(x, **kwargs)
-        if not j:
-            j = concat(oxo, cmat)
-        else:
-            j = concat(j, cmat, sep=(kwargs["backsplash"]) * SPACE_MARGIN)
-    return tatuar(
-        j,
-        pattern=kwargs["pattern"],
-        backsplash=kwargs["backsplash"],
-        margin=kwargs["margin"],
-    )
+def get_tattoo(phrase: str) -> str:
+    """Renders `phrase` with the default settings."""
+    return get_tattoo_string(phrase)
+
+
+@lru_cache(maxsize=64)
+def _compile_patterns(patterns: tuple) -> pathspec.PathSpec:
+    return pathspec.GitIgnoreSpec.from_lines(patterns)
+
+
+def should_ignore(filepath: str, target_path: str, patterns: List[str]) -> bool:
+    """
+    Check if a path should be ignored based on .tatignore patterns,
+    using the same semantics as .gitignore ("*.log", "node_modules/", "build/**", ...).
+    """
+    if not patterns:
+        return False
+    try:
+        rel_path = os.path.relpath(filepath, target_path)
+    except ValueError:
+        # If paths are on different drives (Windows), use absolute comparison
+        rel_path = filepath
+    rel_path = rel_path.replace(os.sep, "/")
+    if os.path.isdir(filepath):
+        rel_path += "/"
+    return _compile_patterns(tuple(patterns)).match_file(rel_path)
 
 
 def clean_syntax(s):
@@ -173,90 +153,6 @@ def load_tatignore_patterns(target_path: str) -> List[str]:
             print(f"Warning: Could not read .tatignore file: {e}")
 
     return patterns
-
-
-def should_ignore(filepath: str, target_path: str, patterns: List[str]) -> bool:
-    """
-    Check if a file should be ignored based on .tatignore patterns.
-    Similar to .gitignore, supports:
-    - Simple filenames: "file.txt"
-    - Wildcards: "*.log"
-    - Directory patterns: "node_modules/"
-    - Path patterns: "build/**"
-    """
-    if not patterns:
-        return False
-
-    # Get relative path from target directory
-    try:
-        rel_path = os.path.relpath(filepath, target_path)
-    except ValueError:
-        # If paths are on different drives (Windows), use absolute comparison
-        rel_path = filepath
-
-    # Normalize path separators
-    rel_path = rel_path.replace(os.sep, "/")
-
-    for pattern in patterns:
-        # Remove trailing slash for directory patterns
-        pattern = pattern.rstrip("/")
-
-        # Check for exact match
-        if rel_path == pattern:
-            return True
-
-        # Check if pattern matches filename
-        filename = os.path.basename(filepath)
-        if _match_pattern(filename, pattern):
-            return True
-
-        # Check if pattern matches any part of the path
-        if _match_pattern(rel_path, pattern):
-            return True
-
-        # Check if any directory in the path matches the pattern
-        path_parts = rel_path.split("/")
-        for i in range(len(path_parts)):
-            partial_path = "/".join(path_parts[: i + 1])
-            if _match_pattern(partial_path, pattern):
-                return True
-
-            # Check directory names
-            if _match_pattern(path_parts[i], pattern):
-                return True
-
-    return False
-
-
-def _match_pattern(path: str, pattern: str) -> bool:
-    """
-    Match a path against a pattern using fnmatch-like behavior.
-    Supports wildcards (* and ?) and ** for recursive matching.
-    """
-    # Handle ** for recursive directory matching
-    if "**" in pattern:
-        # Convert ** pattern to regex-like matching
-        parts = pattern.split("**")
-        if len(parts) == 2:
-            prefix, suffix = parts
-            prefix = prefix.rstrip("/")
-            suffix = suffix.lstrip("/")
-
-            # Check if path matches the pattern with ** in between
-            if (
-                not prefix
-                or path.startswith(prefix)
-                or fnmatch.fnmatch(path, prefix + "*")
-            ):
-                if (
-                    not suffix
-                    or path.endswith(suffix)
-                    or fnmatch.fnmatch(path, "*" + suffix)
-                ):
-                    return True
-
-    # Standard fnmatch for simple patterns
-    return fnmatch.fnmatch(path, pattern)
 
 
 def is_tattoo_comment(text: str, min_lines: int = 5) -> bool:
@@ -481,168 +377,118 @@ def comment_text(filepath, text) -> Optional[str]:
             return "\n".join(commented_lines)
 
 
-def apply_tattoo_to_directory(target_path, tattoo, overwrite=False):
+def _tattoo_file(filepath: str, tattoo: str, overwrite: bool) -> Optional[str]:
+    """
+    Returns the new content for `filepath` with `tattoo` applied,
+    or None if the file should be left alone.
+    """
+    commented_tattoo = comment_text(filepath, tattoo)
+    if not commented_tattoo:
+        return None  # unknown language
+    with open(filepath, "r", encoding="utf-8") as f:
+        content = f.read()
+
+    # Avoid double tattooing: the first line of the tattoo is already in the file
+    tattoo_lines = commented_tattoo.split("\n")
+    if not overwrite and len(tattoo_lines) > 1 and tattoo_lines[1].strip() in content:
+        print(f"Skipping {filepath} (already tattooed?)")
+        return None
+
+    ext = os.path.splitext(os.path.basename(filepath))[1].lower()
+    syntax = LANG_TO_SYNTAX.get(EXT_TO_LANG.get(ext))
+    start = clean_syntax(syntax.get("start"))
+    end = clean_syntax(syntax.get("end"))
+
+    # Preserve the shebang, if any
+    shebang = get_shebang(content)
+    if shebang:
+        content_body = content.split("\n", 1)[1] if "\n" in content else ""
+    else:
+        content_body = content
+    prefix = (shebang + "\n" if shebang else "") + commented_tattoo + "\n\n"
+
+    # Check if body starts with an existing tattoo
+    # (includes raw string variants for Python-style triple quotes)
+    starters_to_check = [start] + ([f"r{start}"] if start in ('"""', "'''") else [])
+    stripped_body = content_body.strip()
+    detected_start = next((s for s in starters_to_check if stripped_body.startswith(s)), None)
+    # The end delimiter is always the non-raw version
+    detected_end = detected_start.lstrip("r") if detected_start else end
+
+    first_comment = (
+        extract_first_comment(content_body, detected_start, detected_end) if detected_start else None
+    )
+    if not (first_comment and is_tattoo_comment(first_comment)):
+        print(f"Tattooed {filepath}")
+        return prefix + content_body
+
+    if not overwrite:
+        print(f"Skipping {filepath} (already tattooed, use --overwrite to replace)")
+        return None
+
+    rest = content_body.split(detected_start, 1)[1].split(detected_end, 1)
+    body_without_tattoo = rest[1].lstrip() if len(rest) > 1 else content_body
+    print(f"Re-tattooed {filepath} (replaced existing tattoo)")
+    return prefix + body_without_tattoo
+
+
+def apply_tattoo_to_directory(target_path, tattoo, overwrite=False, dry_run=False) -> List[str]:
+    """
+    Tattoos every recognised source file under `target_path`.
+    Returns the files that were (or, with dry_run, would be) changed.
+    """
+    changed: List[str] = []
     if not tattoo or not tattoo.strip():
         print("Error: Tattoo content is empty or contains only whitespace. Aborting.")
-        return
-    print(f"Tattooing into {target_path}...")
+        return changed
+    print(f"{'Checking' if dry_run else 'Tattooing into'} {target_path}...")
 
-    # Load .tatignore patterns
     ignore_patterns = load_tatignore_patterns(target_path)
     if ignore_patterns:
         print(f"Loaded {len(ignore_patterns)} ignore pattern(s) from .tatignore")
 
     for root, dirs, files in os.walk(target_path):
-        for file in files:
+        # Skip hidden directories (.git, .venv, ...) and ignored ones without descending
+        dirs[:] = sorted(
+            d
+            for d in dirs
+            if not d.startswith(".")
+            and not should_ignore(os.path.join(root, d), target_path, ignore_patterns)
+        )
+        for file in sorted(files):
             filepath = os.path.join(root, file)
-            # Skip if it's likely a binary or hidden file or the script itself
             if file.startswith("."):
                 continue
-
-            # Check if file should be ignored based on .tatignore
             if should_ignore(filepath, target_path, ignore_patterns):
                 print(f"Skipping {filepath} (matched .tatignore)")
                 continue
-
             try:
-                # Check if we can comment this file
-                commented_tattoo = comment_text(filepath, tattoo)
-                if commented_tattoo:
-                    with open(filepath, "r", encoding="utf-8") as f:
-                        content = f.read()
-                    # Avoid double tattooing if possible (simple check)
-                    # We check if the first line of the tattoo is already in the file
-                    tattoo_lines = commented_tattoo.split("\n")
-                    if (
-                        not overwrite
-                        and len(tattoo_lines) > 1
-                        and tattoo_lines[1].strip() in content
-                    ):
-                        print(f"Skipping {filepath} (already tattooed?)")
-                        continue
-                    ext = os.path.splitext(os.path.basename(filepath))[1].lower()
-                    lang = EXT_TO_LANG.get(ext)
-                    syntax = LANG_TO_SYNTAX.get(lang)
-                    if not syntax:
-                        continue
-                    start = clean_syntax(syntax.get("start"))
-                    end = clean_syntax(syntax.get("end"))
-
-                    # Check for shebang and preserve it
-                    shebang = get_shebang(content)
-                    if shebang:
-                        if "\n" in content:
-                            content_body = content.split("\n", 1)[1]
-                        else:
-                            content_body = ""
-                    else:
-                        content_body = content
-
-                    # Check if body starts with an existing tattoo
-                    has_existing_tattoo = False
-                    first_comment = None
-                    # Build list of possible comment starters to check
-                    # (includes raw string variants for Python-style triple quotes)
-                    starters_to_check = [start]
-                    if start in ('"""', "'''"):
-                        starters_to_check.extend([f"r{start}"])
-                    stripped_body = content_body.strip()
-                    detected_start = None
-                    detected_end = end
-                    for s in starters_to_check:
-                        if stripped_body.startswith(s):
-                            detected_start = s
-                            # The end delimiter is always the non-raw version
-                            detected_end = s.lstrip("r")
-                            break
-
-                    if detected_start:
-                        first_comment = extract_first_comment(
-                            content_body, detected_start, detected_end
-                        )
-                        if first_comment and is_tattoo_comment(first_comment):
-                            has_existing_tattoo = True
-
-                    if has_existing_tattoo:
-                        if overwrite:
-                            # Replace existing tattoo
-                            try:
-                                parts = content_body.split(detected_start, 1)
-                                if len(parts) > 1:
-                                    rest = parts[1].split(detected_end, 1)
-                                    if len(rest) > 1:
-                                        body_without_tattoo = rest[1].lstrip()
-                                        new_content = (
-                                            (shebang + "\n" if shebang else "")
-                                            + commented_tattoo
-                                            + "\n\n"
-                                            + body_without_tattoo
-                                        )
-                                    else:
-                                        # Fallback if split fails weirdly
-                                        new_content = (
-                                            (shebang + "\n" if shebang else "")
-                                            + commented_tattoo
-                                            + "\n\n"
-                                            + content_body
-                                        )
-                                else:
-                                    new_content = (
-                                        (shebang + "\n" if shebang else "")
-                                        + commented_tattoo
-                                        + "\n\n"
-                                        + content_body
-                                    )
-                            except (IndexError, ValueError):
-                                new_content = (
-                                    (shebang + "\n" if shebang else "")
-                                    + commented_tattoo
-                                    + "\n\n"
-                                    + content_body
-                                )
-                            print(f"Re-tattooed {filepath} (replaced existing tattoo)")
-                        else:
-                            print(
-                                f"Skipping {filepath} (already tattooed, use --overwrite to replace)"
-                            )
-                            continue
-                    else:
-                        # Prepend tattoo (preserving shebang if present)
-                        new_content = (
-                            (shebang + "\n" if shebang else "")
-                            + commented_tattoo
-                            + "\n\n"
-                            + content_body
-                        )
-                        print(f"Tattooed {filepath}")
-
-                    with open(filepath, "w", encoding="utf-8") as f:
-                        f.write(new_content)
-                else:
-                    # print(f"Skipping {filepath} (unknown language)")
-                    pass
+                new_content = _tattoo_file(filepath, tattoo, overwrite)
             except (UnicodeDecodeError, IsADirectoryError, PermissionError):
-                pass
+                continue  # binary or unreadable
             except Exception as e:
                 print(f"Error processing {filepath}: {e}")
+                continue
+            if new_content is None:
+                continue
+            changed.append(filepath)
+            if not dry_run:
+                with open(filepath, "w", encoding="utf-8") as f:
+                    f.write(new_content)
+    return changed
 
 
 def main():
-    parser = argparse.ArgumentParser(
-        description="Recurse directory and add tattoo comments"
-    )
+    parser = argparse.ArgumentParser(description="Recurse directory and add tattoo comments")
     parser.add_argument("--text", required=True, help="Text to tattoo")
     parser.add_argument("--path", required=True, help="Path to recurse")
-
     args = parser.parse_args()
 
     target_path = os.path.expanduser(args.path)
     if not os.path.exists(target_path):
         print(f"Path not found: {target_path}")
         return
-
-    tattoo = get_tattoo(args.text).strip()
-    apply_tattoo_to_directory(target_path, tattoo)
+    apply_tattoo_to_directory(target_path, get_tattoo(args.text).strip())
 
 
 if __name__ == "__main__":

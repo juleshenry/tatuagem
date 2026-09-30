@@ -1,8 +1,16 @@
 # Changelog
 
-## v0.0.15 (2026-03-03)
+## v0.1.15 (2026-09-30)
 
-* Automated release update
+* Fix: version was set to `v0.0.15`, lower than the published 0.1.14; `publish.py` now refuses non-increasing versions
+* Glyphs are rendered in memory: no more PNG templates written into site-packages, any Unicode character works, `--font` accepts a path to any `.ttf`/`.otf`
+* Output is byte-identical to 0.1.14 for printable ASCII
+* Drop the deprecated `Image.getdata()` (removed in Pillow 14)
+* Tattoo headers in the package are raw strings, fixing `SyntaxWarning: invalid escape sequence` on Python 3.12+
+* CLI: unknown flags are errors; settings print only with `--verbose` (to stderr) so stdout is just the tattoo; new `--dry-run` and `--check`
+* `.tatignore` uses real gitignore semantics (via `pathspec`); hidden directories are skipped
+* Dev scripts moved out of the package into `scripts/`
+* CI: tests on Python 3.12–3.14 (+ macOS/Windows), ruff, dogfood check, wheel smoke test; publishing waits for CI and checks the tag matches the version
 
 ## v0.1.14 (2026-03-03)
 

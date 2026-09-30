@@ -69,179 +69,186 @@
 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
 """
 
-from .params import TEMPLATE_SIZE, Image, ImageDraw, ImageFont, BASE_DIR
-from .initi import get_font_png_path, init_and_create_templates
+import argparse
+import os
+import sys
+from functools import lru_cache
+
+import numpy as np
+from PIL import Image, ImageDraw, ImageFont
+
+from .params import BASE_DIR, TEMPLATE_SIZE
 from . import __version__
-import argparse, os
 
 MARGIN = 3  # top and bottom margin of text
 KWARGS_LIST = {"text", "backsplash", "font", "pattern", "margin"}
 SPACE_MARGIN = 4  # This defines what a space should be in the font, because the space file is a solid sheet
 FONT_DEFAULT = "unicode-arial.ttf"
+FONT_SIZE = 32
+GLYPH_ORIGIN = (24, 8)
 DEFAULT_TEXT_CHAR = "1"
 DEFAULT_BACKSPLASH_CHAR = "0"
 
 
-# 3. Analyze RGB of Templates -> Produce Text Mask
-def yield_char_matrix(char: str, font: str = FONT_DEFAULT, **kwargs):
-    new_dir = os.path.join(BASE_DIR, "fonts", font[:-4])
-    fpp = get_font_png_path(char, new_dir)
-    imat = Image.open(fpp).quantize().getdata()
-    o = [[] for _ in range(imat.size[1])]
-    # fmt: off
-    for ix, h in enumerate(range(imat.size[1])):
-        for w in range(imat.size[0]):
-            if char == " " and (SPACE_MARGIN < w < TEMPLATE_SIZE - SPACE_MARGIN):
-                continue
-            if (
-                not sum([o - imat.getpixel((0,0,)) for o in [imat.getpixel((w,i,)) for i in range(imat.size[1])]])
-                and char != " "
-            ):
-                continue
-            o[ix].append(
-                kwargs.get("text", DEFAULT_TEXT_CHAR)
-                if imat.getpixel((w, h,)) - imat.getpixel((0, 0,))
-                else kwargs.get("backsplash", DEFAULT_BACKSPLASH_CHAR)
-            )
-        # fmt: on
-    return o
-
-
-def tatuar(mat, pattern=None, backsplash=DEFAULT_BACKSPLASH_CHAR, margin=None):
-    # prints a `matrix`
-    backsplash = backsplash if backsplash is not None else DEFAULT_BACKSPLASH_CHAR
-    pure_mat = list(
-        filter(lambda x: x and not all(c == backsplash for c in "".join(x)), mat)
+def resolve_font_path(font: str) -> str:
+    """Accepts a bundled font name (e.g. "Poppins-Medium.ttf") or a path to any .ttf/.otf file."""
+    if os.path.isfile(font):
+        return font
+    bundled = os.path.join(BASE_DIR, "fonts", font)
+    if os.path.isfile(bundled):
+        return bundled
+    available = sorted(
+        f for f in os.listdir(os.path.join(BASE_DIR, "fonts")) if f.endswith((".ttf", ".otf"))
     )
+    raise FileNotFoundError(f"font {font!r} not found; bundled fonts: {', '.join(available)}")
+
+
+@lru_cache(maxsize=None)
+def _load_font(font_path: str) -> "ImageFont.FreeTypeFont":
+    return ImageFont.truetype(font_path, FONT_SIZE)
+
+
+@lru_cache(maxsize=4096)
+def _glyph_mask(char: str, font: str) -> np.ndarray:
+    """Renders `char` in memory and returns a boolean (rows x kept columns) ink mask."""
+    img = Image.new("RGB", (TEMPLATE_SIZE, TEMPLATE_SIZE))
+    ImageDraw.Draw(img).text(
+        GLYPH_ORIGIN, char, anchor="la", font=_load_font(resolve_font_path(font)), fill=(255, 255, 0)
+    )
+    ink = np.asarray(img.quantize(), dtype=np.int64)
+    ink = ink - ink[0, 0]
+    if char == " ":
+        cols = np.arange(TEMPLATE_SIZE)
+        keep = (cols <= SPACE_MARGIN) | (cols >= TEMPLATE_SIZE - SPACE_MARGIN)
+    else:
+        # drop blank columns so glyphs sit tight against each other
+        keep = ink.sum(axis=0) != 0
+    mask = ink[:, keep] != 0
+    mask.setflags(write=False)
+    return mask
+
+
+# 3. Analyze RGB of Templates -> Produce Text Mask
+def yield_char_matrix(char: str, font: str = FONT_DEFAULT, **kwargs) -> list[list[str]]:
+    text = kwargs.get("text", DEFAULT_TEXT_CHAR)
+    backsplash = kwargs.get("backsplash", DEFAULT_BACKSPLASH_CHAR)
+    return [[text if ink else backsplash for ink in row] for row in _glyph_mask(char, font)]
+
+
+def tatuar(mat, pattern=None, backsplash=DEFAULT_BACKSPLASH_CHAR, margin=None) -> str:
+    # renders a `matrix` to a string
+    backsplash = backsplash if backsplash is not None else DEFAULT_BACKSPLASH_CHAR
+    pure_mat = [x for x in mat if x and not all(c == backsplash for c in "".join(x))]
     margin = int(margin) if margin is not None else MARGIN
     if not pure_mat:
         return ""
-    pure_mat = (
-        (
-            marg := [
-                [backsplash * sum([len(x) for x in pure_mat[0]])] for _ in range(margin)
-            ]
-        )
-        + pure_mat
-        + marg
-    )
-    tatuagem = ""
-    for text_list in pure_mat:
+    marg = [[backsplash * sum(len(x) for x in pure_mat[0])] for _ in range(margin)]
+    lines = []
+    for text_list in marg + pure_mat + marg:
         out = "".join(text_list)
         if pattern:
-            for i, c in enumerate(out):
-                tatuagem += pattern[i % len(pattern)] if c == backsplash else c
-        else:
-            for i, c in enumerate(out):
-                tatuagem += c
-        tatuagem += "\n"
-    return tatuagem
+            out = "".join(
+                pattern[i % len(pattern)] if c == backsplash else c for i, c in enumerate(out)
+            )
+        lines.append(out + "\n")
+    return "".join(lines)
 
 
 def expose(mat, pattern=None, backsplash=DEFAULT_BACKSPLASH_CHAR, margin=None):
     # prints a `matrix`
-    tatu = tatuar(mat, pattern=pattern, backsplash=backsplash, margin=margin)
-    print(tatu)
+    print(tatuar(mat, pattern=pattern, backsplash=backsplash, margin=margin))
 
 
 def concat(cmat, amat, sep: str = ""):
     # concatenates character matrices
     if not len(cmat) == len(amat):
         raise ValueError("equal len required")
-
-    x = [[] for _ in range(len(cmat))]
-    for ix, ab in enumerate(zip(cmat, amat)):
-        a, b = ab
-        x[ix] = a + ([sep] if a and b else []) + b
-    return x
+    return [a + ([sep] if a and b else []) + b for a, b in zip(cmat, amat, strict=True)]
 
 
-def get_tattoo_string(frase: str, space_count: int = SPACE_MARGIN, **kwargs):
+def get_tattoo_string(frase: str, space_count: int = SPACE_MARGIN, **kwargs) -> str:
     # space_count, number of backsplash chars defining a 'space'
-    j = []
-    oxo = [[] for _ in range(TEMPLATE_SIZE)]
-    for x in frase:
-        cmat = yield_char_matrix(x, **kwargs)
-        if not j:
-            j = concat(oxo, cmat)
-        else:
-            j = concat(
-                j,
-                cmat,
-                sep=(kwargs.get("backsplash", DEFAULT_BACKSPLASH_CHAR)) * space_count,
-            )
+    backsplash = kwargs.get("backsplash", DEFAULT_BACKSPLASH_CHAR)
+    j = [[] for _ in range(TEMPLATE_SIZE)]
+    for ix, x in enumerate(frase):
+        j = concat(j, yield_char_matrix(x, **kwargs), sep=backsplash * space_count if ix else "")
     return tatuar(
         j,
         pattern=kwargs.get("pattern"),
-        backsplash=kwargs.get("backsplash", DEFAULT_BACKSPLASH_CHAR),
+        backsplash=backsplash,
         margin=kwargs.get("margin"),
     )
 
 
 def tatuagem(frase: str, space_count: int = SPACE_MARGIN, **kwargs):
-    tatu = get_tattoo_string(frase, space_count, **kwargs)
-    print(tatu)
+    print(get_tattoo_string(frase, space_count, **kwargs))
 
 
-def main():
-    # Create the parser
-    parser = argparse.ArgumentParser(description="Tatuagem")
-    parser.add_argument(
-        "--version", action="version", version=f"%(prog)s {__version__}"
+def build_parser() -> argparse.ArgumentParser:
+    parser = argparse.ArgumentParser(
+        prog="tatuagem",
+        description="Render text as ASCII art and tattoo it onto source files.",
     )
-    # text is the char for the printout
-    parser.add_argument("--text", default=DEFAULT_TEXT_CHAR, help="Set the text")  # fmt: skip
-    parser.add_argument("--backsplash", default=DEFAULT_BACKSPLASH_CHAR, help="Choose backsplash")  # fmt: skip
-    parser.add_argument("--font", default=FONT_DEFAULT, metavar="FONT", help="Set the font")  # fmt: skip
-    parser.add_argument("--pattern", default=None, metavar="PATTERN", help="Set the pattern for backsplash")  # fmt: skip
-    parser.add_argument(
-        "--margin", default=MARGIN, help="Margin top and bottom for text"
-    )
-    parser.add_argument(
-        "--recurse-path", "--recurse_path", help="Path to recurse and apply tattoo"
-    )
+    parser.add_argument("--version", action="version", version=f"%(prog)s {__version__}")
+    parser.add_argument("phrase", nargs="?", help="Text to render")
     parser.add_argument("--file", "-f", help="Read text from file")
-    parser.add_argument(
-        "--overwrite", action="store_true", help="Overwrite existing tattoos in files"
-    )
+    # text is the char for the printout
+    parser.add_argument("--text", default=DEFAULT_TEXT_CHAR, help="Character used for the glyphs")  # fmt: skip
+    parser.add_argument("--backsplash", default=DEFAULT_BACKSPLASH_CHAR, help="Character used for the background")  # fmt: skip
+    parser.add_argument("--font", default=FONT_DEFAULT, metavar="FONT", help="Bundled font name or path to a .ttf/.otf")  # fmt: skip
+    parser.add_argument("--pattern", default=None, metavar="PATTERN", help="Set the pattern for backsplash")  # fmt: skip
+    parser.add_argument("--margin", type=int, default=MARGIN, help="Margin top and bottom for text")  # fmt: skip
+    parser.add_argument("--recurse-path", "--recurse_path", help="Path to recurse and apply tattoo")  # fmt: skip
+    parser.add_argument("--overwrite", action="store_true", help="Overwrite existing tattoos in files")  # fmt: skip
+    parser.add_argument("--dry-run", action="store_true", help="With --recurse-path: report changes without writing")  # fmt: skip
+    parser.add_argument("--check", action="store_true", help="With --recurse-path: exit 1 if any file is missing its tattoo")  # fmt: skip
+    parser.add_argument("--verbose", "-v", action="store_true", help="Print settings to stderr")  # fmt: skip
+    return parser
 
-    args, positional_args = parser.parse_known_args()
-    font_dir = os.path.join(BASE_DIR, "fonts", args.font[:-4])
-    if not os.path.exists(font_dir):
-        # Ensure fonts directory exists
-        os.makedirs(os.path.join(BASE_DIR, "fonts"), exist_ok=True)
-        init_and_create_templates(args.font)
-    print(f"text: {args.text}")
-    print(f"backsplash: {args.backsplash}")
-    print(f"font: {args.font}")
-    print(f"pattern: {args.pattern}")
-    print(f"margin: {args.margin}")
+
+def main(argv=None):
+    parser = build_parser()
+    args = parser.parse_args(argv)
+
+    try:
+        resolve_font_path(args.font)
+    except FileNotFoundError as e:
+        parser.error(str(e))
+    if (args.dry_run or args.check) and not args.recurse_path:
+        parser.error("--dry-run/--check require --recurse-path")
+
+    if args.verbose:
+        for a in sorted(KWARGS_LIST):
+            print(f"{a}: {getattr(args, a)}", file=sys.stderr)
 
     if args.file:
-        with open(args.file, "r") as f:
+        with open(args.file, "r", encoding="utf-8") as f:
             arg0_frase = f.read()
         if not arg0_frase.strip():
-            print("Error: File is empty or contains only whitespace.")
-            exit(1)
-    elif positional_args:
-        arg0_frase = positional_args[0]
+            parser.error("file is empty or contains only whitespace")
+    elif args.phrase is not None:
+        arg0_frase = args.phrase
     else:
-        print("Error: No text provided. Use positional argument or --file.")
-        exit(1)
+        parser.error("no text provided; pass a phrase or --file")
 
-    if args.recurse_path:
-        from .recurse import apply_tattoo_to_directory
-
-        if not args.file:
-            tattoo = get_tattoo_string(
-                arg0_frase, **{a: getattr(args, a) for a in KWARGS_LIST}
-            )
-        else:
-            tattoo = arg0_frase
-        apply_tattoo_to_directory(args.recurse_path, tattoo, overwrite=args.overwrite)
-    else:
+    kwargs = {a: getattr(args, a) for a in KWARGS_LIST}
+    if not args.recurse_path:
         # prints to screen
-        tatuagem(arg0_frase, **{a: getattr(args, a) for a in KWARGS_LIST})
+        tatuagem(arg0_frase, **kwargs)
+        return
+
+    from .recurse import apply_tattoo_to_directory
+
+    tattoo = arg0_frase if args.file else get_tattoo_string(arg0_frase, **kwargs)
+    changed = apply_tattoo_to_directory(
+        args.recurse_path,
+        tattoo,
+        overwrite=args.overwrite,
+        dry_run=args.dry_run or args.check,
+    )
+    if args.check and changed:
+        print(f"{len(changed)} file(s) missing a tattoo", file=sys.stderr)
+        sys.exit(1)
 
 
 if __name__ == "__main__":

@@ -1,4 +1,4 @@
-"""
+r"""
                        ▋▄▄▄▄▂▉▋▎                                   ▏▎▋▉▂▄▄▄▃▌                       
                        ▇█████▅▅█▇▃▉▍      ▏▌            ▌       ▍▉▃▆▆▄▆█████▄                       
                        ▁███▆▇▃▇███▅▅▅▁▌▏   ▍▍          ▌▍   ▏▌▂▆▅▅███▆▄▆▆███▋                       
@@ -56,9 +56,9 @@
 """
 
 import os
+import re
 import subprocess
 import sys
-import re
 from datetime import datetime
 
 
@@ -83,7 +83,10 @@ def update_file(file_path, old_pattern, new_text):
     with open(file_path, "r") as f:
         content = f.read()
 
-    new_content = re.sub(old_pattern, new_text, content)
+    new_content, n = re.subn(old_pattern, new_text, content, count=1, flags=re.M)
+    if n != 1:
+        print(f"Error: version line not found in {file_path}.")
+        sys.exit(1)
 
     with open(file_path, "w") as f:
         f.write(new_content)
@@ -118,8 +121,22 @@ def get_current_version():
         return "0.0.0"
     with open("pyproject.toml", "r") as f:
         content = f.read()
-    match = re.search(r'version = "(.*)"', content)
+    match = re.search(r'^version = "v?(.*)"', content, flags=re.M)
     return match.group(1) if match else "0.0.0"
+
+
+def parse_version(version):
+    """'v0.1.15' -> (0, 1, 15). Exits on anything that isn't MAJOR.MINOR.PATCH."""
+    match = re.fullmatch(r"v?(\d+)\.(\d+)\.(\d+)", version.strip())
+    if not match:
+        print(f"Error: {version!r} is not a MAJOR.MINOR.PATCH version.")
+        sys.exit(1)
+    return tuple(int(x) for x in match.groups())
+
+
+def suggest_next(version):
+    major, minor, patch = parse_version(version)
+    return f"{major}.{minor}.{patch + 1}"
 
 
 def main():
@@ -127,7 +144,7 @@ def main():
     if len(sys.argv) < 2:
         print(f"Current version: {current_version}")
         new_version = input(
-            f"Enter new version (suggested: {current_version[:-1]}{int(current_version[-1]) + 1 if current_version[-1].isdigit() else '?'}): "
+            f"Enter new version (suggested: {suggest_next(current_version)}): "
         )
         if not new_version:
             print("Aborted.")
@@ -135,15 +152,26 @@ def main():
     else:
         new_version = sys.argv[1]
 
+    # PyPI orders releases by version, so a lower number would never be installed
+    if parse_version(new_version) <= parse_version(current_version):
+        print(f"Error: {new_version} must be greater than current {current_version}.")
+        sys.exit(1)
+    new_version = new_version.strip().lstrip("v")
+
     print(f"--- Preparing Release v{new_version} ---")
+
+    print("Running tests...")
+    run_command(f"{sys.executable} -m pytest -q")
+    print("Checking every source file carries its tattoo...")
+    run_command(f"{sys.executable} -m tatuagem --file test_input.txt --recurse-path . --check")
 
     # 1. Update version files
     print(f"Updating pyproject.toml to v{new_version}...")
-    update_file("pyproject.toml", r'version = ".*"', f'version = "{new_version}"')
+    update_file("pyproject.toml", r'^version = ".*"', f'version = "{new_version}"')
 
     print(f"Updating tatuagem/__init__.py to v{new_version}...")
     update_file(
-        "tatuagem/__init__.py", r'__version__ = ".*"', f'__version__ = "{new_version}"'
+        "tatuagem/__init__.py", r'^__version__ = ".*"', f'__version__ = "{new_version}"'
     )
 
     # 2. Update CHANGELOG.md
@@ -154,15 +182,15 @@ def main():
     # PyPI publishing is handled by GitHub Actions on release/tag creation
     tag_version = new_version if new_version.startswith("v") else f"v{new_version}"
     print("Committing version bump...")
-    run_command(f"git add pyproject.toml tatuagem/__init__.py CHANGELOG.md")
-    run_command(f'git commit -m "Release {tag_version}"')
+    run_command("git add pyproject.toml tatuagem/__init__.py CHANGELOG.md")
+    run_command(f'git commit -m "chore(release): {tag_version}"')
 
     print(f"Tagging {tag_version}...")
     run_command(f"git tag {tag_version}")
 
     print("Pushing to remote...")
-    run_command(f"git push origin main")
-    run_command(f"git push origin --tags")
+    run_command("git push origin main")
+    run_command("git push origin --tags")
 
     print(f"\nDone! {tag_version} has been committed, tagged, and pushed.")
     print("PyPI publish will be triggered automatically by GitHub Actions.")

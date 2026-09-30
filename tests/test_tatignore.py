@@ -10,10 +10,10 @@ import tempfile
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from tatuagem.recurse import (
-    load_tatignore_patterns,
-    should_ignore,
     apply_tattoo_to_directory,
     get_tattoo,
+    load_tatignore_patterns,
+    should_ignore,
 )
 
 
