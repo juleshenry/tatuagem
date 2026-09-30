@@ -55,7 +55,7 @@ r"""
  `--'  `"                     `--'  `"                     `--'  `"            '--'   '--'                 
 """
 
-__version__ = "0.1.16"
+__version__ = "0.1.17"
 
 from .core import (
     DEFAULT_BACKSPLASH_CHAR,

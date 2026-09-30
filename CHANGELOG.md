@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.1.17 (2026-09-30)
+
+* Fix: README images now render on PyPI (absolute raw GitHub URLs instead of repo-relative paths), with real alt text
+
 ## v0.1.16 (2026-09-30)
 
 * Language data rebuilt for all 468 corpus languages (the old table was LLM-generated and had broken entries like `(* *)` / `(*)`)
