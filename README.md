@@ -3,10 +3,16 @@
 
 Tatuagem is a tool to generate ASCII art signatures (tattoos) and apply them to your code files recursively.
 
+## Install
+
+```bash
+pip install tatuagem
+```
+
 ## Usage
 
 ```bash
-python3 tatuagem.py [text_input] [options]
+tatuagem [text_input] [options]
 ```
 
 ### Arguments
@@ -15,27 +21,30 @@ python3 tatuagem.py [text_input] [options]
 |----------|-------------|---------|
 | `text_input` | The string you want to convert into a tattoo. Required if `--file` is not provided. | None |
 | `--text` | The character used to draw the text pixels. | `1` |
-| `--backsplash` | The character used to fill the background. | `0$*~` |
-| `--font` | The TrueType font file (.ttf) to use for generating the text shape. | `unicode-arial.ttf` |
+| `--backsplash` | The character used to fill the background. | `0` |
+| `--font` | A bundled font (`unicode-arial.ttf`, `Poppins-Medium.ttf`) or a path to any `.ttf`/`.otf` file. | `unicode-arial.ttf` |
 | `--pattern` | A repeating string pattern to use for the background. Overrides `--backsplash`. | None |
 | `--margin` | Number of empty lines (margin) to add above and below the text. | `3` |
 | `--recurse-path` | Path to a directory. Tatuagem will walk through this directory and prepend the tattoo to every file found. | None |
 | `--file`, `-f` | Path to a file containing text. <br>• **Standard Mode**: The content of the file is converted into the tattoo art.<br>• **Recurse Mode** (with `--recurse-path`): The content of the file is used *as-is* for the tattoo (useful for pre-generated art). | None |
 | `--overwrite` | When using `--recurse-path`, this flag allows overwriting existing tattoos in files. Without this flag, files that are already tattooed will be skipped. | `False` |
+| `--dry-run` | With `--recurse-path`: list the files that would be tattooed without writing anything. | `False` |
+| `--check` | With `--recurse-path`: like `--dry-run`, but exit with status 1 if any file is missing its tattoo. Handy in CI. | `False` |
+| `--verbose`, `-v` | Print the settings in use to stderr. | `False` |
 
 ## Examples
 
 ### Basic Example
 Generate a simple tattoo.
 ```bash
-python3 tatuagem.py "tatuagem"
+tatuagem "tatuagem"
 ```
 *Defaults: '1' for text, '0' for background, unicode-arial.ttf for font*
 
 ### Elaborate Syntax Example
 Customizing the text and background characters.
 ```bash
-python3 tatuagem.py "L'appel du vide" --font 'unicode-arial.ttf' --backsplash '!' --text '@'
+tatuagem "L'appel du vide" --font 'unicode-arial.ttf' --backsplash '!' --text '@'
 ```
 
 ![alt text](lappel.png)
@@ -43,7 +52,7 @@ python3 tatuagem.py "L'appel du vide" --font 'unicode-arial.ttf' --backsplash '!
 ### Wallpaper: Pattern-Argument Syntax Example
 Using a pattern string for the background.
 ```bash
-python3 tatuagem.py "Tatuagem" --pattern '`':,:''
+tatuagem "Tatuagem" --pattern '`':,:''
 ```
 
 ![alt text](tatu.png)
@@ -51,19 +60,25 @@ python3 tatuagem.py "Tatuagem" --pattern '`':,:''
 ### Recurse your project
 Apply the generated tattoo to all files in `test_tattoo/`.
 ```bash
-python tatuagem.py "Tatuagem" --pattern '`':,:''  --recurse-path test_tattoo/
+tatuagem "Tatuagem" --pattern '`':,:''  --recurse-path test_tattoo/
 ```
 
 ### Recurse your project with a text file
 Apply the contents of `tests/aeaea.inc` as a header to all files in `test_tattoo/`.
 ```bash
-python3 tatuagem.py --file tests/aeaea.inc --recurse-path test_tattoo/
+tatuagem --file tests/aeaea.inc --recurse-path test_tattoo/
+```
+
+### Preview, or enforce in CI
+```bash
+tatuagem "Tatuagem" --recurse-path test_tattoo/ --dry-run   # show what would change
+tatuagem --file test_input.txt --recurse-path . --check      # fail if anything is untattooed
 ```
 
 ### Replace existing tattoos with --overwrite
 Update existing tattoos in files that were already tattooed. Without this flag, already-tattooed files will be skipped.
 ```bash
-python3 tatuagem.py "New Tattoo" --recurse-path test_tattoo/ --overwrite
+tatuagem "New Tattoo" --recurse-path test_tattoo/ --overwrite
 ```
 
 ## Features
@@ -76,9 +91,13 @@ python3 tatuagem.py "New Tattoo" --recurse-path test_tattoo/ --overwrite
 
 ✓ **.tatignore support** - Exclude specific files and directories from tattooing
 
+✓ **Any character, any font** - glyphs are rendered in memory, so accents, symbols and your own `.ttf` files all work
+
+✓ **Skips hidden directories** - `.git`, `.venv` and friends are never touched
+
 ## .tatignore
 
-Similar to `.gitignore`, you can create a `.tatignore` file in the root of the directory you want to tattoo to specify patterns of files and directories to exclude from tattooing.
+Using the same matching rules as `.gitignore`, you can create a `.tatignore` file in the root of the directory you want to tattoo to specify patterns of files and directories to exclude from tattooing.
 
 ### .tatignore Syntax
 
@@ -120,5 +139,20 @@ tests/**
 
 ```bash
 # This will respect patterns in .tatignore
-python3 tatuagem.py "MyProject" --recurse-path ./my-project/
+tatuagem "MyProject" --recurse-path ./my-project/
 ```
+
+## Development
+
+```bash
+pip install -e ".[dev]"
+pytest
+ruff check .
+```
+
+This repo dogfoods itself: every source file carries a tattoo, and CI runs
+`tatuagem --file test_input.txt --recurse-path . --check` to keep it that way.
+New files can be tattooed with the same command minus `--check`.
+
+Releases: `python publish.py 0.1.16` runs the tests and the dogfood check, bumps the version,
+tags, and pushes; the tag triggers the PyPI publish workflow.
