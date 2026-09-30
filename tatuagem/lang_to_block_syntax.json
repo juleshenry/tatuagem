@@ -1,1705 +1,3422 @@
 {
-    "MSF4J": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "svg": {
-        "start": "<!--",
-        "end": "-->"
-    },
-    "Nintendo Entertainment System": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "Ocaml": {
-        "start": "(*",
-        "end": "*)"
-    },
-    "shrug or not": {
-        "start": "<!--",
-        "end": "-->"
-    },
-    "BETA": {
-        "start": "(*",
-        "end": "*)"
-    },
-    "SL": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "Scheme": {
-        "start": "#|",
-        "end": "|#"
-    },
-    "Shell Script": {
-        "start": "#",
-        "end": "#"
-    },
-    "IDL": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "vic": {
-        "start": "(*",
-        "end": "*)"
-    },
-    "Kusto": {
-        "start": "`/*`",
-        "end": "`*/`"
-    },
-    "adding-two-numbers": null,
-    "ant": {
-        "start": "<!--",
-        "end": "-->"
-    },
-    "Ada": {
-        "start": "--",
-        "end": "--"
-    },
-    "Pike": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "PlantUML": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "proj": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "Vim": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "GML": {
-        "start": "//",
-        "end": "//"
-    },
-    "Bro": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "ModulaTwo": {
-        "start": "(* ... *)",
-        "end": "(*)"
-    },
-    "SpringBoot": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "Terraform": {
-        "start": "#",
-        "end": "#"
-    },
-    "speedTester": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "Korean": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "Pascal": {
-        "start": "(*)",
-        "end": "(*)"
-    },
-    "gerlang-1": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "AppleScript": {
-        "start": "'--'",
-        "end": "'--'"
-    },
-    "abc": null,
-    "geode": {
-        "start": "`/*`",
-        "end": "`*/`"
-    },
-    "HQ9": {
-        "start": "`/*`",
-        "end": "`*/`"
-    },
-    "ASCII": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "Pixie": {
-        "start": "<!--",
-        "end": "-->"
-    },
-    "Ceylon": {
-        "start": "`/*`",
-        "end": "`*/`"
-    },
-    "Prolog": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "Web-CSS": {
-        "start": "/* */",
-        "end": "*/"
-    },
-    "thotpatrol": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "ACPI": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "Portugol": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "Common Lisp": {
-        "start": "(#|",
-        "end": "|#)"
-    },
-    "NodeJS": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "NewtonScript": {
-        "start": "(*  *)",
-        "end": "(*  *)"
-    },
-    "C++": {
-        "start": "`/*`",
-        "end": "`*/`"
-    },
-    "React-Redux": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "spammy": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "pony": {
-        "start": "`/*`",
-        "end": "`*/`"
-    },
-    "YoptaScript": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "Emojicode": {
-        "start": "💭",
-        "end": "💭"
-    },
-    "Lean": {
-        "start": "(*",
-        "end": "*)"
-    },
-    "RubberDucky": null,
-    "Nadeshiko": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "Zig": {
-        "start": "//",
-        "end": "//"
-    },
-    "Actually": {
-        "start": "`(*`",
-        "end": "`*)`"
-    },
-    "WarayLang": null,
-    "CMS EXEC": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "AngularJS": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "p5": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "FiM++": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "CherryBlossom": null,
-    "expression2": null,
-    "Lisp": {
-        "start": "#|",
-        "end": "|#"
-    },
-    "Docker": {
-        "start": "#",
-        "end": "#"
-    },
-    "KennySpeak": null,
-    "Apex": {
-        "start": "//",
-        "end": "//"
-    },
-    "ASM_NASM_X86": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "Calculatrice": null,
-    "asm": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "UnrealScript": {
-        "start": "`//`",
-        "end": "`//`"
-    },
-    "GO": {
-        "start": "`/*`",
-        "end": "`*/`"
-    },
-    "Brain-Flak": {
-        "start": "((",
-        "end": "))"
-    },
-    "asciidots": {
-        "start": "//",
-        "end": "//"
-    },
-    "Racket": {
-        "start": "(comment-out ...)",
-        "end": "none"
-    },
-    "APL": {
-        "start": "``",
-        "end": "``"
-    },
-    "LOLCODE": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "TI-84 Basic": {
-        "start": "'\"',",
-        "end": "'\"'"
-    },
-    "Zephir": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "pondthaitay": {
-        "start": "#",
-        "end": "#"
-    },
-    "Vyper": {
-        "start": "#",
-        "end": "#"
-    },
-    "hello_in_java": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "yo-lang": null,
-    "fstar": {
-        "start": "(* )",
-        "end": "(*)"
-    },
-    "RouterOS": {
-        "start": "//",
-        "end": "//"
-    },
-    "ImageFuck": {
-        "start": "#",
-        "end": "#"
-    },
-    "Morpho": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "NIM": {
-        "start": "(*",
-        "end": "*)"
-    },
-    "Mint": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "Hy": {
-        "start": "#|",
-        "end": "|#"
-    },
-    "HAL-S": {
-        "start": "(*",
-        "end": "*)"
-    },
-    "SystemVerilog": {
-        "start": "`",
-        "end": "'"
-    },
-    "Lucee": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "NeutralinoJs": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "CLIPS": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "VietName": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "Omgrofl": null,
-    "C ++": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "Axway_Appcelerator": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "Bliss": null,
-    "Progress": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "ReactNative-image": {
-        "start": "//",
-        "end": "//"
-    },
-    "INTERCAL": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "Battlestar": {
-        "start": "<!--",
-        "end": "-->"
-    },
-    "Libarary database": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "TrumpScript": null,
-    "DOG": {
-        "start": "(* *)",
-        "end": "(*)"
-    },
-    "Expressjs": {
-        "start": "`/*`",
-        "end": "`*/`"
-    },
-    "React-Native": {
-        "start": "`/*`",
-        "end": "`*/`"
-    },
-    "Hindi": null,
-    "MACRO11": {
-        "start": "(*)",
-        "end": "(*)"
-    },
-    "GLSL-Frag": {
-        "start": "//",
-        "end": "//"
-    },
-    "GDScript": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "xquery": {
-        "start": "(: :)",
-        "end": "(: :)"
-    },
-    "AL": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "Python": {
-        "start": "\"\"\"",
-        "end": "\"\"\""
-    },
-    "EPL": {
-        "start": "<!--",
-        "end": "-->"
-    },
-    "MyFirstApplication": null,
-    "CSS": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "Clojure": {
-        "start": ";",
-        "end": ";"
-    },
-    "AIML": {
-        "start": "<!-- -->",
-        "end": "-->"
-    },
-    "Sveltejs": {
-        "start": "`/*`",
-        "end": "`*/`"
-    },
-    "shortcut-linux-code": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "ReactJSStarlyn": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "ASP": {
-        "start": "'<%--'",
-        "end": "'--%>'"
-    },
-    "Elixir": {
-        "start": "#",
-        "end": "#"
-    },
-    "katrinasilver": null,
-    "Z80": {
-        "start": "'/*'",
-        "end": "'*/'"
-    },
-    "sed": {
-        "start": "#",
-        "end": "#"
-    },
-    "Fantom": {
-        "start": "`//`",
-        "end": "`//`"
-    },
-    "Processing": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "Golang": {
-        "start": "`/*`",
-        "end": "`*/`"
-    },
-    "AWK": {
-        "start": "#",
-        "end": "#"
-    },
-    "ZPL": {
-        "start": "(*),",
-        "end": "(*)"
-    },
-    "Chapel": {
-        "start": "`(*`",
-        "end": "`*)`"
-    },
-    "Zombie": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "HolyC": null,
-    "MoveCursor": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "Thai": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "JS": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "SageMath": {
-        "start": "#",
-        "end": "#"
-    },
-    "Ionic_Cordova": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "Dart": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "Grass": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "Indonesia": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "DBase": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "Inform6": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "MoscowML": null,
-    "Markdown": {
-        "start": "none",
-        "end": "none"
-    },
-    "Haxe": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "Zebra": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "LaTeX": {
-        "start": "% start_bloc\\begin{comment}",
-        "end": "\\end{comment}"
-    },
-    "Chef": {
-        "start": "#",
-        "end": "#"
-    },
-    "VueJS": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "Assembly": {
-        "start": ";",
-        "end": ";"
-    },
-    "J#": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "CUDA": {
-        "start": "/* */",
-        "end": "*/"
-    },
-    "Whirl": null,
-    "SCSS": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "Reactjs-hello_world": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "Perl": {
-        "start": "=pod",
-        "end": "=cut"
-    },
-    "Typescript": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "TSX": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "Kivy": {
-        "start": "`#` ... `#`",
-        "end": "`#`"
-    },
-    "Linotte": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "Smalltalk": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "C#": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "Pawn": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "ASM_ARM": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "Visual Basic": {
-        "start": "' start_bloc\"*\"",
-        "end": "\"*\""
-    },
-    "Visual Jpp": {
-        "start": "`/*`",
-        "end": "`*/`"
-    },
-    "Rust": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "quasar": null,
-    "dogescript": {
-        "start": "`/*`",
-        "end": "`*/`"
-    },
-    "jQuery": {
-        "start": "//",
-        "end": "//"
-    },
-    "Braille": null,
-    "Purescript": null,
-    "AlgoPy": {
-        "start": "'''",
-        "end": "'''"
-    },
-    "IO": null,
-    "001": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "Advpl": {
-        "start": "(*",
-        "end": "*)"
-    },
-    "factorial": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "Erlang": {
-        "start": "%%",
-        "end": "%%"
-    },
-    "ReactTypescript": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "Prolog-2": {
-        "start": "%{ %}.",
-        "end": "%}"
-    },
-    "VBA": {
-        "start": "'",
-        "end": "'"
-    },
-    "FSharp": {
-        "start": "`(*`",
-        "end": "`*)`"
-    },
-    "PascalLanguage": {
-        "start": "(*);",
-        "end": "(*)"
-    },
-    "Pharo": {
-        "start": "````",
-        "end": "`````"
-    },
-    "R": {
-        "start": "#",
-        "end": "#"
-    },
-    "TrollScript": null,
-    "Hi_the_simplest_way": null,
-    "Basic": {
-        "start": "rem",
-        "end": "endr"
-    },
-    "Pikachu": null,
-    "Legoscript": null,
-    "Wyvern": {
-        "start": "`begin_comment`",
-        "end": "`end_comment`"
-    },
-    "GolfScript": {
-        "start": "`/*`",
-        "end": "`*/`"
-    },
-    "Wolfram": {
-        "start": "(* *)",
-        "end": "(*)"
-    },
-    "Caml": {
-        "start": "(*  *)",
-        "end": "(*)"
-    },
-    "Tk": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "NASM": {
-        "start": ";",
-        "end": ";"
-    },
-    "TorqueScript": {
-        "start": "//",
-        "end": ""
-    },
-    "Mathematica": {
-        "start": "(*  *)",
-        "end": "(*)"
-    },
-    "Hack": {
-        "start": "`#`",
-        "end": "`#`"
-    },
-    "Angular": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "ClojureScript": {
-        "start": ";",
-        "end": ";"
-    },
-    "OpenSCAD": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "BCPL": {
-        "start": "(*",
-        "end": "*)"
-    },
-    "Java": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "enriquezm": null,
-    "java998": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "EJS": {
-        "start": "<!--",
-        "end": "-->"
-    },
-    "ProjectEuler": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "Reactjs": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "Ook": null,
-    "mahek": null,
-    "Elm": {
-        "start": "{-",
-        "end": "-}"
-    },
-    "Html": {
-        "start": "<!--",
-        "end": "-->"
-    },
-    "HTML": {
-        "start": "<!--",
-        "end": "-->"
-    },
-    "SVG": {
-        "start": "<!--",
-        "end": "-->"
-    },
-    "XHTML": {
-        "start": "<!--",
-        "end": "-->"
-    },
-    "Angular Component": {
-        "start": "<!--",
-        "end": "-->"
-    },
-    "Language": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "ABAP": {
-        "start": "`*`,",
-        "end": "`*`"
-    },
-    "DjangoMinimalist": null,
-    "Kotlin": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "z": {
-        "start": "(` `",
-        "end": ")`"
-    },
-    "CRYSTAL": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "C Language": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "Cuneiform": null,
-    "ASPECTJ": {
-        "start": "/*",
-        "end": "*/"
-    },
-    ".vs": {
-        "start": "'//*'",
-        "end": "'*//'"
-    },
-    "WolframScript": {
-        "start": "(*  *)",
-        "end": "(*)"
-    },
-    "X++": {
-        "start": "//",
-        "end": "//"
-    },
-    "Stuck": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "Battleship": null,
-    "Turkish": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "Haskell": {
-        "start": "{- start_",
-        "end": "-}"
-    },
-    "Factor": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "Inspec": {
-        "start": "#",
-        "end": "#"
-    },
-    "Hangman-Game": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "PHP": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "WeekNumber": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "Ro": {
-        "start": "(*",
-        "end": "*)```"
-    },
-    "dsu": {
-        "start": "`(*`",
-        "end": "`*)`"
-    },
-    "GNU Make": {
-        "start": "#",
-        "end": "#"
-    },
-    "Ook!": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "F": {
-        "start": "(* *)",
-        "end": "(*)"
-    },
-    "OOC": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "ReactNativeExpo": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "QuickBASIC": {
-        "start": "`'",
-        "end": "`'"
-    },
-    "Robot": {
-        "start": "`//`",
-        "end": "`//`"
-    },
-    "Lua": {
-        "start": "--[[ ]]--",
-        "end": "--]]"
-    },
-    "Unlambda": {
-        "start": "(#)",
-        "end": "(#)"
-    },
-    "XML": {
-        "start": "<!--",
-        "end": "-->"
-    },
-    "Bash": {
-        "start": "#",
-        "end": "#"
-    },
-    "jocaml": {
-        "start": "(*",
-        "end": "*)"
-    },
-    "Deep_Learning": {
-        "start": "#",
-        "end": "#"
-    },
-    "Solidity": {
-        "start": "`/*`",
-        "end": "`*/`"
-    },
-    "Antlr4": {
-        "start": "`/*`",
-        "end": "`*/`"
-    },
-    "EDSAC": {
-        "start": "(*",
-        "end": "*)"
-    },
-    "Potigol": null,
-    "monicelli": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "Gradle": {
-        "start": "//",
-        "end": "\\"
-    },
-    "PhotoShop": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "Ansible": {
-        "start": "#",
-        "end": "#"
-    },
-    "Skip": {
-        "start": "(*",
-        "end": "*)"
-    },
-    "QuakeC": {
-        "start": "//",
-        "end": "//"
-    },
-    "Red": {
-        "start": "{",
-        "end": "}"
-    },
-    "Objective C": {
-        "start": "`/*`",
-        "end": "`*/`"
-    },
-    "Shakespeare": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "VisualJ++": {
-        "start": "//",
-        "end": "//"
-    },
-    "Mohitaaa": null,
-    "Malbolge": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "PowerShell": {
-        "start": "`#`",
-        "end": "```` (or none)"
-    },
-    "MIPS": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "Faust": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "SH": {
-        "start": "(* )",
-        "end": "(*)"
-    },
-    "Glass": null,
-    "tea": null,
-    "Arduino": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "AmazonAlexa": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "Harbour": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "VHDL": {
-        "start": "-- begin_end --",
-        "end": "-- end --"
-    },
-    "BIRL": null,
-    "Emmental": null,
-    "pong": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "Tcl": {
-        "start": "#",
-        "end": "#"
-    },
-    "05AB1E": {
-        "start": "``",
-        "end": "``"
-    },
-    "Delphi": {
-        "start": "(* *)",
-        "end": "(*)"
-    },
-    "Jupyter Notebook": {
-        "start": "# start_",
-        "end": "#"
-    },
-    "Scratch": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "English": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "JS_Hello_Everyone": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "~English": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "01": {
-        "start": "`/*`",
-        "end": "`*/`"
-    },
-    "JSON": {
-        "start": null,
-        "end": null
-    },
-    "Brainfuck": {
-        "start": null,
-        "end": null
-    },
-    "Raghav": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "Rexx": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "PureBasic": {
-        "start": "`",
-        "end": "`"
-    },
-    "Fortress": {
-        "start": "(*",
-        "end": "*)"
-    },
-    "LLVM-IR": {
-        "start": ";",
-        "end": ";"
-    },
-    "Autohotkey": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "\u0420\u0410\u041f\u0418\u0420\u0410": null,
-    "Automator": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "Octave": {
-        "start": "%",
-        "end": "%"
-    },
-    "WebAssembly": {
-        "start": "//",
-        "end": "//"
-    },
-    "JavaFX_Script": {
-        "start": "<!--",
-        "end": "-->"
-    },
-    "Logo": {
-        "start": "{ }",
-        "end": "{ }"
-    },
-    "Coconut": {
-        "start": "--",
-        "end": "--"
-    },
-    "Picky": {
-        "start": "# start",
-        "end": "# end"
-    },
-    "hola-mundo": null,
-    "RusPython": {
-        "start": "#",
-        "end": "#"
-    },
-    "Verilog": {
-        "start": "` /*",
-        "end": "*/`"
-    },
-    "Cool": null,
-    "AsciiDoc": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "Walt": {
-        "start": "//*",
-        "end": "*/"
-    },
-    "Hello world python": {
-        "start": "#",
-        "end": "#"
-    },
-    "BigosLang": null,
-    "ML": {
-        "start": "(*",
-        "end": "*)"
-    },
-    "wml": {
-        "start": "<!-- -->",
-        "end": "-->"
-    },
-    "Scala": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "Portuguese": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "Vala": {
-        "start": "`/*`",
-        "end": "`*/`"
-    },
-    "Cpp": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "Swift": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "GraphQL": {
-        "start": "`#`",
-        "end": "`#`"
-    },
-    "Whitespace": null,
-    "Hypercard": {
-        "start": "(*)",
-        "end": "(*)"
-    },
-    "x86": null,
-    "MATLAB": {
-        "start": "%",
-        "end": "%"
-    },
-    "VB.NET": {
-        "start": "'''",
-        "end": "'''"
-    },
-    "Befunge93": {
-        "start": "none",
-        "end": "none"
-    },
-    "Sas": {
-        "start": "`/*`;",
-        "end": "`*/`"
-    },
-    "Turing": null,
-    "Android": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "SAP ABAP": {
-        "start": "\"",
-        "end": "\""
-    },
-    "CPP Programs": {
-        "start": "`/*`",
-        "end": "`*/`"
-    },
-    "ModiScript": null,
-    "Magical_programs": null,
-    "Nemerle": {
-        "start": "//",
-        "end": "//"
-    },
-    "BrainLanguage": {
-        "start": "`[[",
-        "end": "]`"
-    },
-    "LiveScript": {
-        "start": "`= (`",
-        "end": "`)`"
-    },
-    "8th": {
-        "start": "`--`",
-        "end": "`--`"
-    },
-    "Fetlang": null,
-    "CodeForJava": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "engineering java projects": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "Amiga": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "Small Basic": {
-        "start": "'//'",
-        "end": "'//'"
-    },
-    "Boo": {
-        "start": "'//[<--]'",
-        "end": "'-->')"
-    },
-    "nuxt": null,
-    "Agda": {
-        "start": "{- start -}",
-        "end": "{- end -}"
-    },
-    "Chicken": {
-        "start": "(#)",
-        "end": "(#)"
-    },
-    "Ksh": {
-        "start": "{",
-        "end": "} "
-    },
-    "Phing": {
-        "start": "<!--",
-        "end": "-->"
-    },
-    "m4": {
-        "start": "# begin",
-        "end": "# end"
-    },
-    "NextJS": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "YAML": {
-        "start": "#",
-        "end": "#"
-    },
-    "Fortran": {
-        "start": "C",
-        "end": "C"
-    },
-    "JSFuck": {
-        "start": "//==",
-        "end": "==//"
-    },
-    "C-plus": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "Monkey": {
-        "start": "( start",
-        "end": ")"
-    },
-    "From India": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "SML": {
-        "start": "(*",
-        "end": "*)"
-    },
-    "Rockstar": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "Egison": null,
-    "fibonacci": {
-        "start": "(*)",
-        "end": "(*)"
-    },
-    "CSharp": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "Julia": {
-        "start": "#",
-        "end": "#"
-    },
-    "Eta": {
-        "start": "`/*`",
-        "end": "`*/`"
-    },
-    "PHILIPPINES": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "NewRelic": {
-        "start": "//",
-        "end": "//"
-    },
-    "D3JS": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "bat": {
-        "start": "(*",
-        "end": "*)"
-    },
-    "enginnering java projects": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "oz": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "VSL": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "Foxpro": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "cmd-windows": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "Hello-world-Java": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "SourcePawn": {
-        "start": "//",
-        "end": "\\*"
-    },
-    "Hello": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "Batch Script": {
-        "start": "",
-        "end": ""
-    },
-    "Groovy": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "ArnoldC": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "CoffeeScript": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "reMorse": null,
-    "Idris": {
-        "start": "--",
-        "end": "--"
-    },
-    "ring": {
-        "start": ";",
-        "end": ";"
-    },
-    "XPL": {
-        "start": "<!--",
-        "end": "-->"
-    },
-    "Taxi": {
-        "start": "(*",
-        "end": "*)"
-    },
-    "SELECT": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "Machine Code": null,
-    "password_generator": {
-        "start": "#",
-        "end": "#"
-    },
-    "Socket Program in python": {
-        "start": "#",
-        "end": "#"
-    },
-    "XSLT": {
-        "start": "<!--",
-        "end": "-->"
-    },
-    "JavaScript": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "Zimbu": null,
-    "MORSE": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "ECMAScript": {
-        "start": "`/*`",
-        "end": "`*/`"
-    },
-    "SELECT.": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "Jenkins": {
-        "start": "#",
-        "end": "#"
-    },
-    "ImageBlog": null,
-    "F#": {
-        "start": "<!-- -->",
-        "end": "-->"
-    },
-    "Twig": {
-        "start": "{%",
-        "end": "%}"
-    },
-    "Sakshi": null,
-    "gerlang2-0": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "Ballerina": {
-        "start": "`//`",
-        "end": "`//`"
-    },
-    "l33tsp34k": {
-        "start": "`/*`",
-        "end": "`*/"
-    },
-    "JADE": {
-        "start": "{",
-        "end": "}"
-    },
-    "Zsh": {
-        "start": "#",
-        "end": "#"
-    },
-    "Python_codes": {
-        "start": "#",
-        "end": "#"
-    },
-    "jq": {
-        "start": "`#`",
-        "end": "`#`"
-    },
-    "Befunge": {
-        "start": "`#`",
-        "end": "`#`"
-    },
-    "slashslashslash": {
-        "start": "`/*`",
-        "end": "`*/`"
-    },
-    "Labyrinth": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "Eiffel": {
-        "start": "--",
-        "end": "--"
-    },
-    "shellkore": null,
-    "Electron": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "COBOL": {
-        "start": "*",
-        "end": "*"
-    },
-    "p5js": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "SASS": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "SMLNJ": {
-        "start": "(* )",
-        "end": "(*)"
-    },
-    "Argh": {
-        "start": "`/*`",
-        "end": "`*/`"
-    },
-    "RaffaLang": {
-        "start": "#",
-        "end": "#"
-    },
-    "M": {
-        "start": "(*",
-        "end": "*)"
-    },
-    "Cobra": {
-        "start": "'//{'",
-        "end": "'}'"
-    },
-    "Quack": null,
-    "VBScript": {
-        "start": "'<%'",
-        "end": "'%>'"
-    },
-    "J": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "KnockoutJS": {
-        "start": "<!-- -->",
-        "end": "-->"
-    },
-    "FLEX": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "PugJS": null,
-    "MeteorJS": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "ACTLS": {
-        "start": "{ start_bloc}",
-        "end": "}"
-    },
-    "Forth": {
-        "start": "(:",
-        "end": ":)"
-    },
-    "SIMSCRIPT": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "Puppet": {
-        "start": "`#`",
-        "end": "`#`"
-    },
-    "c programming": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "Django": {
-        "start": "'''",
-        "end": "'''"
-    },
-    "C": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "Fish": {
-        "start": "`##`",
-        "end": "`##`"
-    },
-    "D": {
-        "start": "(* *)",
-        "end": "(*)"
-    },
-    "DoubleFuck": null,
-    "FALSE": null,
-    "reStructuredText": {
-        "start": "`..`",
-        "end": "`..`"
-    },
-    "Squirrel": {
-        "start": "//",
-        "end": "//"
-    },
-    "AnyaBasic": {
-        "start": "rem",
-        "end": "endrem"
-    },
-    "SortInJS": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "PyGObject": {
-        "start": "#**",
-        "end": "**#"
-    },
-    "Terraform_Cloudflare": {
-        "start": "`#`",
-        "end": "`#`"
-    },
-    "COW": {
-        "start": "/*",
-        "end": "*/ "
-    },
-    "NotePad": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "Ruby": {
-        "start": "#",
-        "end": "#"
-    },
-    "Koka": null,
-    "Objective C++": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "1C": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "anonymousChatServer": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "B": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "acidic": {
-        "start": "`/*`",
-        "end": "`*/`"
-    },
-    "Pikalang": {
-        "start": "`/*`",
-        "end": "`*/`"
-    },
-    "customer": {
-        "start": "//",
-        "end": "//"
-    },
-    "Reason": {
-        "start": "(///)",
-        "end": "(///)"
-    },
-    "BeanShell": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "Spring": {
-        "start": "<!-- -->",
-        "end": "-->"
-    },
-    "Algol": {
-        "start": "(*",
-        "end": "*)"
-    },
-    "Python_tornado_hello_world": null,
-    "Efene": {
-        "start": "`do`",
-        "end": "`end`"
-    },
-    "Piet": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "JSP": {
-        "start": "<!--",
-        "end": "-->"
-    },
-    "Onsen UI": {
-        "start": "/*",
-        "end": "*/"
-    },
-    "prakhar": null,
-    "Flow": {
-        "start": "`/*`",
-        "end": "`*/`"
-    },
-    "SQL": {
-        "start": "/*",
-        "end": "*/"
-    }
+  ".vs": {
+    "block": null,
+    "line": null,
+    "mixed": true,
+    "note": "folder of several languages"
+  },
+  "001": {
+    "block": {
+      "start": "\"\"\"",
+      "end": "\"\"\""
+    },
+    "line": "#"
+  },
+  "01": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "//"
+  },
+  "05AB1E": {
+    "block": null,
+    "line": null,
+    "no_comments": true,
+    "note": "golfing language: every character is a command; no comment syntax"
+  },
+  "1C": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "//"
+  },
+  "8th": {
+    "block": null,
+    "line": "\\"
+  },
+  "ABAP": {
+    "block": null,
+    "line": "\""
+  },
+  "abc": {
+    "block": {
+      "start": "=begin",
+      "end": "=end"
+    },
+    "line": "#"
+  },
+  "acidic": {
+    "block": null,
+    "line": null,
+    "no_comments": true,
+    "note": "esolangs.org: no system of comments"
+  },
+  "ACPI": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "//"
+  },
+  "ActionScript": {
+    "block": null,
+    "line": null
+  },
+  "Ada": {
+    "block": null,
+    "line": "--"
+  },
+  "adding-two-numbers": {
+    "block": {
+      "start": "<!--",
+      "end": "-->"
+    },
+    "line": null
+  },
+  "Advpl": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "//"
+  },
+  "Agda": {
+    "block": {
+      "start": "{-",
+      "end": "-}"
+    },
+    "line": "--"
+  },
+  "AIML": {
+    "block": {
+      "start": "<!--",
+      "end": "-->"
+    },
+    "line": null,
+    "keep_first": [
+      "<?xml"
+    ],
+    "forbid": [
+      "--"
+    ]
+  },
+  "AL": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "//"
+  },
+  "Algol": {
+    "block": null,
+    "line": null,
+    "note": "dialect-dependent: ALGOL 60 'COMMENT ... ;' only after begin/; and ends at any ';'; Burroughs uses %; no safe universal "
+  },
+  "AlgoPy": {
+    "block": {
+      "start": "\"\"\"",
+      "end": "\"\"\""
+    },
+    "line": "#"
+  },
+  "AmazonAlexa": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "//"
+  },
+  "Amiga": {
+    "block": null,
+    "line": null,
+    "no_comments": true,
+    "note": "not a real language (pseudo-code)"
+  },
+  "Android": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "//",
+    "forbid": [
+      "\\u"
+    ]
+  },
+  "Angular": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "//"
+  },
+  "Angular Component": {
+    "block": {
+      "start": "<!--",
+      "end": "-->"
+    },
+    "line": null
+  },
+  "AngularJS": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "//"
+  },
+  "anonymousChatServer": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "//",
+    "forbid": [
+      "\\u"
+    ]
+  },
+  "Ansible": {
+    "block": null,
+    "line": "#"
+  },
+  "ant": {
+    "block": {
+      "start": "<!--",
+      "end": "-->"
+    },
+    "line": null,
+    "keep_first": [
+      "<?xml"
+    ],
+    "forbid": [
+      "--"
+    ]
+  },
+  "ANTLR": {
+    "block": {
+      "end": "*/",
+      "start": "/*"
+    },
+    "line": "//"
+  },
+  "Antlr4": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "//"
+  },
+  "AnyaBasic": {
+    "block": {
+      "start": "#",
+      "end": "#"
+    },
+    "line": null
+  },
+  "Apex": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "//"
+  },
+  "APL": {
+    "block": null,
+    "line": "⍝"
+  },
+  "AppleScript": {
+    "block": {
+      "start": "(*",
+      "end": "*)"
+    },
+    "line": "--"
+  },
+  "Arduino": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "//"
+  },
+  "Argh": {
+    "block": null,
+    "line": null,
+    "no_comments": true,
+    "note": "esoteric: nearly every character is significant/ASCII art would contain commands; no safe comment syntax (2D grid langua"
+  },
+  "ArnoldC": {
+    "block": null,
+    "line": null,
+    "no_comments": true,
+    "note": "ArnoldC has no comment syntax"
+  },
+  "ASCII": {
+    "block": {
+      "start": "\"\"\"",
+      "end": "\"\"\""
+    },
+    "line": "#"
+  },
+  "AsciiDoc": {
+    "block": {
+      "start": "////",
+      "end": "////"
+    },
+    "line": "//"
+  },
+  "asciidots": {
+    "block": null,
+    "line": "``"
+  },
+  "asm": {
+    "block": null,
+    "line": ";"
+  },
+  "ASM_ARM": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "@"
+  },
+  "ASM_NASM_X86": {
+    "block": null,
+    "line": ";"
+  },
+  "ASP": {
+    "block": null,
+    "line": null,
+    "note": "text before <% is sent to the browser"
+  },
+  "ASP.NET": {
+    "block": null,
+    "line": null
+  },
+  "ASPECTJ": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "//"
+  },
+  "Assembly": {
+    "block": null,
+    "line": ";"
+  },
+  "Autohotkey": {
+    "block": null,
+    "line": ";"
+  },
+  "AutoHotkey": {
+    "block": null,
+    "line": ";"
+  },
+  "Automator": {
+    "block": {
+      "start": "<!--",
+      "end": "-->"
+    },
+    "line": null,
+    "keep_first": [
+      "<?xml"
+    ],
+    "forbid": [
+      "--"
+    ]
+  },
+  "AWK": {
+    "block": null,
+    "line": "#"
+  },
+  "Awk": {
+    "block": null,
+    "line": "#"
+  },
+  "Axway_Appcelerator": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "//"
+  },
+  "B": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": null
+  },
+  "Ballerina": {
+    "block": null,
+    "line": "//"
+  },
+  "Bash": {
+    "block": null,
+    "line": "#"
+  },
+  "Basic": {
+    "block": null,
+    "line": "REM"
+  },
+  "BASIC": {
+    "block": null,
+    "line": "'"
+  },
+  "bat": {
+    "block": null,
+    "line": "::"
+  },
+  "Batch": {
+    "block": null,
+    "line": "::"
+  },
+  "Batch Script": {
+    "block": null,
+    "line": "::"
+  },
+  "Battleship": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "//"
+  },
+  "Battlestar": {
+    "block": null,
+    "line": "//"
+  },
+  "BCPL": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "//"
+  },
+  "BeanShell": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "//"
+  },
+  "Befunge": {
+    "block": null,
+    "line": null,
+    "no_comments": true,
+    "note": "2D esolang; every cell is code, no comment syntax. (.bf also collides with Brainfuck.)"
+  },
+  "Befunge93": {
+    "block": null,
+    "line": null,
+    "no_comments": true,
+    "note": "No comment syntax; every cell of the 2D grid is potentially executable"
+  },
+  "BETA": {
+    "block": {
+      "start": "(*",
+      "end": "*)"
+    },
+    "line": null
+  },
+  "BigosLang": {
+    "block": null,
+    "line": null,
+    "note": "obscure language; comment syntax not verifiable"
+  },
+  "BIRL": {
+    "block": null,
+    "line": "//"
+  },
+  "Bliss": {
+    "block": {
+      "start": "%(",
+      "end": ")%"
+    },
+    "line": "!"
+  },
+  "BlitzBasic": {
+    "block": null,
+    "line": null
+  },
+  "BNF": {
+    "block": null,
+    "line": null
+  },
+  "Boo": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "#"
+  },
+  "Braille": {
+    "block": null,
+    "line": null,
+    "no_comments": true,
+    "note": "not a programming language"
+  },
+  "Brain-Flak": {
+    "block": null,
+    "line": null,
+    "no_comments": true,
+    "note": "esoteric: nearly every character is significant/ASCII art would contain commands; no safe comment syntax (brackets in ar"
+  },
+  "Brainfuck": {
+    "block": null,
+    "line": null,
+    "no_comments": true,
+    "note": "Non-command chars are ignored but ASCII art contains command chars (+-<>.,[])."
+  },
+  "BrainLanguage": {
+    "block": {
+      "start": "{-",
+      "end": "-}"
+    },
+    "line": "--"
+  },
+  "Bro": {
+    "block": null,
+    "line": "#"
+  },
+  "C": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "//"
+  },
+  "C ++": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "//"
+  },
+  "C Language": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "//"
+  },
+  "c programming": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "//"
+  },
+  "C#": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "//"
+  },
+  "C++": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "//"
+  },
+  "C-plus": {
+    "block": null,
+    "line": null,
+    "note": "joke/esoteric language; no known comment syntax"
+  },
+  "Calculatrice": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "//",
+    "forbid": [
+      "\\u"
+    ]
+  },
+  "Camel": {
+    "block": null,
+    "line": null,
+    "note": "no source files in corpus; language unclear"
+  },
+  "Caml": {
+    "block": {
+      "start": "(*",
+      "end": "*)"
+    },
+    "line": null,
+    "forbid": [
+      "\""
+    ]
+  },
+  "Ceylon": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "//"
+  },
+  "Chapel": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "//"
+  },
+  "Chef": {
+    "block": null,
+    "line": null,
+    "no_comments": true,
+    "note": "Chef recipe: title must be first; comments are free paragraphs, not a prefix syntax"
+  },
+  "CherryBlossom": {
+    "block": null,
+    "line": null,
+    "note": "esoteric (poetry-based) language; no known comment syntax"
+  },
+  "Chicken": {
+    "block": null,
+    "line": null,
+    "no_comments": true,
+    "note": "Esolang where each line is an instruction (count of 'chicken'); no comment syntax."
+  },
+  "Clean": {
+    "block": null,
+    "line": null
+  },
+  "CLIPS": {
+    "block": null,
+    "line": ";"
+  },
+  "Clojure": {
+    "block": null,
+    "line": ";"
+  },
+  "ClojureScript": {
+    "block": null,
+    "line": ";"
+  },
+  "CMake": {
+    "block": null,
+    "line": "#"
+  },
+  "cmd-windows": {
+    "block": null,
+    "line": "::"
+  },
+  "CMS EXEC": {
+    "block": null,
+    "line": "*"
+  },
+  "COBOL": {
+    "block": null,
+    "line": "      *>",
+    "note": "'*' in column 7 comments fixed-form code; '*>' comments free-form code"
+  },
+  "Cobra": {
+    "block": {
+      "start": "/#",
+      "end": "#/"
+    },
+    "line": "#"
+  },
+  "Coconut": {
+    "block": null,
+    "line": "#"
+  },
+  "CodeForJava": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "//",
+    "forbid": [
+      "\\u"
+    ]
+  },
+  "CoffeeScript": {
+    "block": {
+      "start": "###",
+      "end": "###"
+    },
+    "line": "#"
+  },
+  "ColdFusion": {
+    "block": {
+      "end": "--->",
+      "start": "<!---"
+    },
+    "line": null
+  },
+  "Common Lisp": {
+    "block": {
+      "start": "#|",
+      "end": "|#"
+    },
+    "line": ";"
+  },
+  "Config": {
+    "block": {
+      "start": "<!--",
+      "end": "-->"
+    },
+    "line": null,
+    "keep_first": [
+      "<?xml"
+    ],
+    "forbid": [
+      "--"
+    ]
+  },
+  "Cool": {
+    "block": {
+      "start": "(*",
+      "end": "*)"
+    },
+    "line": "--"
+  },
+  "COW": {
+    "block": null,
+    "line": null,
+    "no_comments": true,
+    "note": "esoteric language where non-command text is ignored/commands can appear anywhere; ASCII art could contain commands"
+  },
+  "Cpp": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "//"
+  },
+  "CPP Programs": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "//"
+  },
+  "CRYSTAL": {
+    "block": null,
+    "line": "#"
+  },
+  "Crystal": {
+    "block": null,
+    "line": "#"
+  },
+  "CSharp": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "//"
+  },
+  "CSS": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": null
+  },
+  "CSV": {
+    "block": null,
+    "line": null
+  },
+  "CUDA": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "//"
+  },
+  "customer": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "//",
+    "keep_first": [
+      "<?php",
+      "<?hh"
+    ],
+    "require_first": true
+  },
+  "CWeb": {
+    "block": null,
+    "line": null
+  },
+  "Cython": {
+    "block": null,
+    "line": null
+  },
+  "D": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "//"
+  },
+  "D3JS": {
+    "block": {
+      "start": "<!--",
+      "end": "-->"
+    },
+    "line": null
+  },
+  "Dart": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "//"
+  },
+  "DBase": {
+    "block": null,
+    "line": null,
+    "note": ".dbf is a binary table format"
+  },
+  "Deep_Learning": {
+    "block": null,
+    "line": null,
+    "no_comments": true,
+    "note": "Jupyter notebooks are JSON; no comment syntax."
+  },
+  "Delphi": {
+    "block": {
+      "start": "(*",
+      "end": "*)"
+    },
+    "line": "//"
+  },
+  "Diff": {
+    "block": null,
+    "line": null
+  },
+  "Django": {
+    "block": {
+      "start": "\"\"\"",
+      "end": "\"\"\""
+    },
+    "line": "#"
+  },
+  "DjangoMinimalist": {
+    "block": {
+      "start": "\"\"\"",
+      "end": "\"\"\""
+    },
+    "line": "#"
+  },
+  "Docker": {
+    "block": null,
+    "line": "#"
+  },
+  "Dockerfile": {
+    "block": null,
+    "line": "#"
+  },
+  "dogescript": {
+    "block": {
+      "start": "quiet",
+      "end": "loud"
+    },
+    "line": "shh"
+  },
+  "DoubleFuck": {
+    "block": null,
+    "line": null,
+    "no_comments": true,
+    "note": "Esolang: non-command chars ignored but ASCII art contains command chars"
+  },
+  "dsu": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "//",
+    "forbid": [
+      "\\u"
+    ]
+  },
+  "DTD": {
+    "block": null,
+    "line": null
+  },
+  "Dylan": {
+    "block": null,
+    "line": null
+  },
+  "ECL": {
+    "block": null,
+    "line": null
+  },
+  "ECMAScript": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "//"
+  },
+  "EDSAC": {
+    "block": null,
+    "line": null,
+    "no_comments": true,
+    "note": "initial-orders tape, no comment syntax"
+  },
+  "Efene": {
+    "block": null,
+    "line": "#"
+  },
+  "Egison": {
+    "block": {
+      "start": "#|",
+      "end": "|#"
+    },
+    "line": ";"
+  },
+  "Eiffel": {
+    "block": {
+      "start": "<!--",
+      "end": "-->"
+    },
+    "line": null,
+    "keep_first": [
+      "<?xml"
+    ],
+    "forbid": [
+      "--"
+    ]
+  },
+  "EJS": {
+    "block": {
+      "start": "<%#",
+      "end": "%>"
+    },
+    "line": null
+  },
+  "Electron": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "//"
+  },
+  "Elixir": {
+    "block": null,
+    "line": "#"
+  },
+  "Elm": {
+    "block": {
+      "start": "{-",
+      "end": "-}"
+    },
+    "line": "--"
+  },
+  "Emacs Lisp": {
+    "block": null,
+    "line": null
+  },
+  "Emmental": {
+    "block": null,
+    "line": null,
+    "no_comments": true,
+    "note": "Esolang with no comment syntax; nearly every char is an instruction."
+  },
+  "Emojicode": {
+    "block": {
+      "start": "💭🔜",
+      "end": "🔚💭"
+    },
+    "line": "💭"
+  },
+  "engineering java projects": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "//",
+    "forbid": [
+      "\\u"
+    ]
+  },
+  "enginnering java projects": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "//",
+    "forbid": [
+      "\\u"
+    ]
+  },
+  "English": {
+    "block": null,
+    "line": null,
+    "no_comments": true,
+    "note": "natural language plain text; no comment syntax"
+  },
+  "enriquezm": {
+    "block": {
+      "start": "<!--",
+      "end": "-->"
+    },
+    "line": null
+  },
+  "EPL": {
+    "block": null,
+    "line": null,
+    "no_comments": true,
+    "note": "EPL (Easy Programming Language) source is a binary file; cannot prepend text"
+  },
+  "Erlang": {
+    "block": null,
+    "line": "%"
+  },
+  "Eta": {
+    "block": {
+      "start": "{-",
+      "end": "-}"
+    },
+    "line": "--"
+  },
+  "expression2": {
+    "block": {
+      "start": "#[",
+      "end": "]#"
+    },
+    "line": "#"
+  },
+  "Expressjs": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "//"
+  },
+  "F": {
+    "block": null,
+    "line": "//"
+  },
+  "F#": {
+    "block": null,
+    "line": "//"
+  },
+  "Factor": {
+    "block": null,
+    "line": "!"
+  },
+  "factorial": {
+    "block": {
+      "start": "\"\"\"",
+      "end": "\"\"\""
+    },
+    "line": "#"
+  },
+  "FALSE": {
+    "block": {
+      "start": "{",
+      "end": "}"
+    },
+    "line": null
+  },
+  "Fantom": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "//"
+  },
+  "Faust": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "//"
+  },
+  "Fetlang": {
+    "block": {
+      "start": "(",
+      "end": ")"
+    },
+    "line": null,
+    "forbid": [
+      "I have a fetish for"
+    ]
+  },
+  "FiM++": {
+    "block": null,
+    "line": "P.S."
+  },
+  "Fish": {
+    "block": null,
+    "line": "#"
+  },
+  "FLEX": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": null
+  },
+  "Flow": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "//"
+  },
+  "Forth": {
+    "block": null,
+    "line": "\\"
+  },
+  "Fortran": {
+    "block": null,
+    "line": "!"
+  },
+  "Fortress": {
+    "block": {
+      "start": "(*",
+      "end": "*)"
+    },
+    "line": null
+  },
+  "Foxpro": {
+    "block": null,
+    "line": "*"
+  },
+  "From India": {
+    "block": {
+      "start": "\"\"\"",
+      "end": "\"\"\""
+    },
+    "line": "#"
+  },
+  "FSharp": {
+    "block": null,
+    "line": "//"
+  },
+  "fstar": {
+    "block": {
+      "start": "(*",
+      "end": "*)"
+    },
+    "line": "//"
+  },
+  "GameMaker Language": {
+    "block": {
+      "end": "*/",
+      "start": "/*"
+    },
+    "line": "//"
+  },
+  "GDScript": {
+    "block": null,
+    "line": "#"
+  },
+  "Gentoo Ebuild": {
+    "block": null,
+    "line": null
+  },
+  "geode": {
+    "block": null,
+    "line": "#"
+  },
+  "Geode": {
+    "block": null,
+    "line": "#"
+  },
+  "gerlang2-0": {
+    "block": null,
+    "line": "//"
+  },
+  "Gettext": {
+    "block": null,
+    "line": null
+  },
+  "Gherkin": {
+    "block": null,
+    "line": null
+  },
+  "Glass": {
+    "block": {
+      "start": "'",
+      "end": "'"
+    },
+    "line": null,
+    "forbid": [
+      "'"
+    ]
+  },
+  "GLSL": {
+    "block": null,
+    "line": null
+  },
+  "GLSL-Frag": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "//"
+  },
+  "GML": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "//"
+  },
+  "GNU Assembler": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": null,
+    "note": "`;` separates statements on x86; /* */ works on every target"
+  },
+  "GNU Make": {
+    "block": null,
+    "line": "#"
+  },
+  "GO": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "//"
+  },
+  "Go": {
+    "block": {
+      "end": "*/",
+      "start": "/*"
+    },
+    "line": "//"
+  },
+  "Golang": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "//"
+  },
+  "GolfScript": {
+    "block": null,
+    "line": "#"
+  },
+  "Gradle": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "//"
+  },
+  "GraphQL": {
+    "block": null,
+    "line": "#"
+  },
+  "Grass": {
+    "block": null,
+    "line": null,
+    "no_comments": true,
+    "note": "Esolang: only w/W/v are commands, others ignored, but ASCII art contains w/W/v"
+  },
+  "Groovy": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "//",
+    "forbid": [
+      "\\u"
+    ]
+  },
+  "Hack": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "//",
+    "keep_first": [
+      "<?php",
+      "<?hh"
+    ],
+    "require_first": true
+  },
+  "HAL-S": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": null
+  },
+  "Haml": {
+    "block": null,
+    "line": null
+  },
+  "Handlebars": {
+    "block": null,
+    "line": null
+  },
+  "Hangman-Game": {
+    "block": null,
+    "line": null,
+    "mixed": true,
+    "note": "folder of several languages"
+  },
+  "Harbour": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "*",
+    "note": "Clipper-style * comment lines; // and && also work"
+  },
+  "Haskell": {
+    "block": {
+      "start": "{-",
+      "end": "-}"
+    },
+    "line": "--"
+  },
+  "Haxe": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "//"
+  },
+  "Hello": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "//",
+    "forbid": [
+      "\\u"
+    ]
+  },
+  "Hello world python": {
+    "block": {
+      "start": "\"\"\"",
+      "end": "\"\"\""
+    },
+    "line": "#"
+  },
+  "Hello-world-Java": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "//",
+    "forbid": [
+      "\\u"
+    ]
+  },
+  "hello_in_java": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "//",
+    "forbid": [
+      "\\u"
+    ]
+  },
+  "Hi_the_simplest_way": {
+    "block": {
+      "start": "\"\"\"",
+      "end": "\"\"\""
+    },
+    "line": "#"
+  },
+  "Hindi": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": null
+  },
+  "hola-mundo": {
+    "block": {
+      "start": "<!--",
+      "end": "-->"
+    },
+    "line": null
+  },
+  "HolyC": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "//"
+  },
+  "HQ9": {
+    "block": null,
+    "line": null,
+    "no_comments": true,
+    "note": "HQ9+ has no comment syntax; art contains H/Q/9/+ commands."
+  },
+  "Html": {
+    "block": {
+      "start": "<!--",
+      "end": "-->"
+    },
+    "line": null
+  },
+  "HTML": {
+    "block": {
+      "end": "-->",
+      "start": "<!--"
+    },
+    "line": null
+  },
+  "Hy": {
+    "block": null,
+    "line": ";"
+  },
+  "Hypercard": {
+    "block": null,
+    "line": "--"
+  },
+  "IDL": {
+    "block": null,
+    "line": ";"
+  },
+  "Idris": {
+    "block": null,
+    "line": "--"
+  },
+  "ImageBlog": {
+    "block": {
+      "start": "<!--",
+      "end": "-->"
+    },
+    "line": null
+  },
+  "ImageFuck": {
+    "block": null,
+    "line": null,
+    "no_comments": true,
+    "note": "Program is an image (.png); no text source."
+  },
+  "Indonesia": {
+    "block": {
+      "start": "\"\"\"",
+      "end": "\"\"\""
+    },
+    "line": "#"
+  },
+  "Inform 7": {
+    "block": null,
+    "line": null
+  },
+  "Inform6": {
+    "block": null,
+    "line": "!"
+  },
+  "INI": {
+    "block": null,
+    "line": null
+  },
+  "Inspec": {
+    "block": {
+      "start": "=begin",
+      "end": "=end"
+    },
+    "line": "#"
+  },
+  "INTERCAL": {
+    "block": null,
+    "line": null,
+    "no_comments": true,
+    "note": "no true comments (PLEASE NOTE statements still parse)"
+  },
+  "IO": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "//"
+  },
+  "Io": {
+    "block": {
+      "end": "*/",
+      "start": "/*"
+    },
+    "line": "//"
+  },
+  "Ionic_Cordova": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "//"
+  },
+  "J": {
+    "block": null,
+    "line": "NB."
+  },
+  "J#": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "//"
+  },
+  "JADE": {
+    "block": null,
+    "line": "//-"
+  },
+  "Java": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "//",
+    "forbid": [
+      "\\u"
+    ]
+  },
+  "Java Properties": {
+    "block": null,
+    "line": null
+  },
+  "java998": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "//",
+    "forbid": [
+      "\\u"
+    ]
+  },
+  "JavaFX_Script": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "//",
+    "forbid": [
+      "\\u"
+    ]
+  },
+  "JavaScript": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "//"
+  },
+  "Jenkins": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "//"
+  },
+  "jocaml": {
+    "block": {
+      "start": "(*",
+      "end": "*)"
+    },
+    "line": null
+  },
+  "jq": {
+    "block": null,
+    "line": "#"
+  },
+  "jQuery": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "//"
+  },
+  "JS": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "//"
+  },
+  "JS_Hello_Everyone": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "//"
+  },
+  "JSFuck": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "//"
+  },
+  "JSON": {
+    "block": null,
+    "line": null,
+    "no_comments": true,
+    "note": "JSON has no comment syntax"
+  },
+  "JSON5": {
+    "block": null,
+    "line": null
+  },
+  "JSP": {
+    "block": {
+      "start": "<%--",
+      "end": "--%>"
+    },
+    "line": null
+  },
+  "JSX": {
+    "block": null,
+    "line": null
+  },
+  "Julia": {
+    "block": {
+      "start": "#=",
+      "end": "=#"
+    },
+    "line": "#"
+  },
+  "Jupyter Notebook": {
+    "block": null,
+    "line": null,
+    "no_comments": true,
+    "note": "notebooks are JSON; no comment syntax"
+  },
+  "katrinasilver": {
+    "block": {
+      "start": "{% comment %}",
+      "end": "{% endcomment %}"
+    },
+    "line": null
+  },
+  "KennySpeak": {
+    "block": null,
+    "line": null,
+    "no_comments": true,
+    "note": "KennySpeak is a letter cipher; no comment syntax"
+  },
+  "Kivy": {
+    "block": {
+      "start": "\"\"\"",
+      "end": "\"\"\""
+    },
+    "line": "#"
+  },
+  "KnockoutJS": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "//"
+  },
+  "Koka": {
+    "block": null,
+    "line": "//"
+  },
+  "Korean": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "//"
+  },
+  "Kotlin": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "//",
+    "forbid": [
+      "\\u"
+    ]
+  },
+  "Ksh": {
+    "block": null,
+    "line": "#"
+  },
+  "Kusto": {
+    "block": null,
+    "line": "//"
+  },
+  "l33tsp34k": {
+    "block": null,
+    "line": null,
+    "no_comments": true,
+    "note": "l33t: letters are ignored but digits are commands; ASCII art could contain digits"
+  },
+  "Labyrinth": {
+    "block": null,
+    "line": null,
+    "no_comments": true,
+    "note": "esoteric: nearly every character is significant/ASCII art would contain commands; no safe comment syntax (2D grid langua"
+  },
+  "Language": {
+    "block": null,
+    "line": null,
+    "mixed": true,
+    "note": "folder of several languages"
+  },
+  "LaTeX": {
+    "block": null,
+    "line": "%"
+  },
+  "Lean": {
+    "block": {
+      "start": "/-",
+      "end": "-/"
+    },
+    "line": "--"
+  },
+  "Legoscript": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "//",
+    "forbid": [
+      "\\u"
+    ]
+  },
+  "Less": {
+    "block": null,
+    "line": null
+  },
+  "Lex": {
+    "block": {
+      "end": "*/",
+      "start": "/*"
+    },
+    "line": null
+  },
+  "Libarary database": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "--"
+  },
+  "Linotte": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "//"
+  },
+  "Lisp": {
+    "block": {
+      "start": "#|",
+      "end": "|#"
+    },
+    "line": ";"
+  },
+  "Literate Haskell": {
+    "block": null,
+    "line": null
+  },
+  "LiveScript": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "#"
+  },
+  "LLVM": {
+    "block": null,
+    "line": ";"
+  },
+  "LLVM-IR": {
+    "block": null,
+    "line": ";"
+  },
+  "Log": {
+    "block": null,
+    "line": null
+  },
+  "Logo": {
+    "block": null,
+    "line": ";"
+  },
+  "Logos": {
+    "block": null,
+    "line": null
+  },
+  "LOLCODE": {
+    "block": {
+      "start": "OBTW",
+      "end": "TLDR"
+    },
+    "line": "BTW"
+  },
+  "Lua": {
+    "block": {
+      "start": "--[[",
+      "end": "]]"
+    },
+    "line": "--"
+  },
+  "Lucee": {
+    "block": {
+      "start": "<!---",
+      "end": "--->"
+    },
+    "line": null
+  },
+  "M": {
+    "block": null,
+    "line": null,
+    "note": "MUMPS comments depend on columns; .m is Objective-C/MATLAB"
+  },
+  "m4": {
+    "block": null,
+    "line": "dnl"
+  },
+  "M4": {
+    "block": null,
+    "line": "dnl"
+  },
+  "Machine Code": {
+    "block": {
+      "start": "<!--",
+      "end": "-->"
+    },
+    "line": null
+  },
+  "MACRO11": {
+    "block": null,
+    "line": ";"
+  },
+  "Magical_programs": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "//"
+  },
+  "mahek": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "//"
+  },
+  "Makefile": {
+    "block": null,
+    "line": "#"
+  },
+  "Malbolge": {
+    "block": null,
+    "line": null,
+    "no_comments": true,
+    "note": "esoteric: nearly every character is significant/ASCII art would contain commands; no safe comment syntax"
+  },
+  "Man Page": {
+    "block": null,
+    "line": null
+  },
+  "Markdown": {
+    "block": {
+      "start": "<!--",
+      "end": "-->"
+    },
+    "line": null
+  },
+  "Mathematica": {
+    "block": null,
+    "line": null,
+    "note": "notebook cache stores byte offsets"
+  },
+  "MATLAB": {
+    "block": null,
+    "line": "%"
+  },
+  "MDX": {
+    "block": null,
+    "line": null
+  },
+  "MeteorJS": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "//"
+  },
+  "Mint": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": null
+  },
+  "MIPS": {
+    "block": null,
+    "line": "#"
+  },
+  "ML": {
+    "block": {
+      "start": "(*",
+      "end": "*)"
+    },
+    "line": null
+  },
+  "ModiScript": {
+    "block": null,
+    "line": null,
+    "no_comments": true,
+    "note": "README: no comments are allowed"
+  },
+  "Modula-2": {
+    "block": null,
+    "line": null
+  },
+  "ModulaTwo": {
+    "block": {
+      "start": "(*",
+      "end": "*)"
+    },
+    "line": null
+  },
+  "Module-Definition": {
+    "block": null,
+    "line": null
+  },
+  "Mohitaaa": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "//"
+  },
+  "monicelli": {
+    "block": null,
+    "line": "#"
+  },
+  "Monkey": {
+    "block": null,
+    "line": null,
+    "no_comments": true,
+    "note": "interpreter-book Monkey has no comments"
+  },
+  "Morpho": {
+    "block": null,
+    "line": ";;;"
+  },
+  "MORSE": {
+    "block": null,
+    "line": null,
+    "no_comments": true,
+    "note": "Morse code text; no comment syntax"
+  },
+  "MoscowML": {
+    "block": {
+      "start": "(*",
+      "end": "*)"
+    },
+    "line": null
+  },
+  "MoveCursor": {
+    "block": {
+      "start": "<#",
+      "end": "#>"
+    },
+    "line": "#"
+  },
+  "MSF4J": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "//",
+    "forbid": [
+      "\\u"
+    ]
+  },
+  "Mustache": {
+    "block": null,
+    "line": null
+  },
+  "MXML": {
+    "block": null,
+    "line": null
+  },
+  "MyFirstApplication": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "//",
+    "forbid": [
+      "\\u"
+    ]
+  },
+  "Nadeshiko": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "//"
+  },
+  "NASM": {
+    "block": null,
+    "line": ";"
+  },
+  "Nemerle": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "//"
+  },
+  "NeutralinoJs": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "//"
+  },
+  "NewRelic": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "--"
+  },
+  "NewtonScript": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "//"
+  },
+  "NextJS": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "//"
+  },
+  "NIM": {
+    "block": {
+      "start": "#[",
+      "end": "]#"
+    },
+    "line": "#"
+  },
+  "Nim": {
+    "block": {
+      "end": "]#",
+      "start": "#["
+    },
+    "line": "#"
+  },
+  "Nintendo Entertainment System": {
+    "block": null,
+    "line": ";"
+  },
+  "Nix": {
+    "block": null,
+    "line": null
+  },
+  "NodeJS": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "//"
+  },
+  "NotePad": {
+    "block": null,
+    "line": null,
+    "no_comments": true,
+    "note": "Plain text; no comment syntax"
+  },
+  "NSIS": {
+    "block": null,
+    "line": null
+  },
+  "Nu": {
+    "block": null,
+    "line": null
+  },
+  "nuxt": {
+    "block": {
+      "start": "<!--",
+      "end": "-->"
+    },
+    "line": null
+  },
+  "Objective C": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "//"
+  },
+  "Objective C++": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "//"
+  },
+  "Objective-C": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "//"
+  },
+  "Objective-C++": {
+    "block": {
+      "end": "*/",
+      "start": "/*"
+    },
+    "line": "//"
+  },
+  "Ocaml": {
+    "block": {
+      "start": "(*",
+      "end": "*)"
+    },
+    "line": null,
+    "forbid": [
+      "\""
+    ]
+  },
+  "OCaml": {
+    "block": {
+      "start": "(*",
+      "end": "*)"
+    },
+    "line": null,
+    "forbid": [
+      "\""
+    ]
+  },
+  "Octave": {
+    "block": null,
+    "line": "%"
+  },
+  "Omgrofl": {
+    "block": null,
+    "line": "w00t"
+  },
+  "Onsen UI": {
+    "block": {
+      "start": "<!--",
+      "end": "-->"
+    },
+    "line": null
+  },
+  "OOC": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "//"
+  },
+  "Ook": {
+    "block": null,
+    "line": null,
+    "no_comments": true,
+    "note": "Esolang (short Ook uses . ? ! tokens); ASCII art contains command characters"
+  },
+  "Ook!": {
+    "block": null,
+    "line": null,
+    "no_comments": true,
+    "note": "esoteric: nearly every character is significant/ASCII art would contain commands; no safe comment syntax"
+  },
+  "OpenSCAD": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "//"
+  },
+  "oz": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "%"
+  },
+  "Oz": {
+    "block": {
+      "end": "*/",
+      "start": "/*"
+    },
+    "line": "%"
+  },
+  "p5": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "//"
+  },
+  "p5js": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "//"
+  },
+  "Pascal": {
+    "block": {
+      "start": "(*",
+      "end": "*)"
+    },
+    "line": null
+  },
+  "PascalLanguage": {
+    "block": {
+      "start": "{",
+      "end": "}"
+    },
+    "line": null
+  },
+  "password_generator": {
+    "block": {
+      "start": "\"\"\"",
+      "end": "\"\"\""
+    },
+    "line": "#"
+  },
+  "Pawn": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "//"
+  },
+  "Perl": {
+    "block": null,
+    "line": "#"
+  },
+  "Pharo": {
+    "block": {
+      "start": "\"",
+      "end": "\""
+    },
+    "line": null
+  },
+  "PHILIPPINES": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "//",
+    "keep_first": [
+      "<?php",
+      "<?hh"
+    ],
+    "require_first": true
+  },
+  "Phing": {
+    "block": {
+      "start": "<!--",
+      "end": "-->"
+    },
+    "line": null,
+    "keep_first": [
+      "<?xml"
+    ],
+    "forbid": [
+      "--"
+    ]
+  },
+  "PhotoShop": {
+    "block": null,
+    "line": null,
+    "no_comments": true,
+    "note": "Only a .jpg image; no source."
+  },
+  "PHP": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "//",
+    "keep_first": [
+      "<?php",
+      "<?hh"
+    ],
+    "require_first": true
+  },
+  "Picky": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": null
+  },
+  "Piet": {
+    "block": null,
+    "line": null,
+    "no_comments": true,
+    "note": "Piet programs are images; no text comments"
+  },
+  "Pikachu": {
+    "block": null,
+    "line": null,
+    "no_comments": true,
+    "note": "esoteric language made of pikachu words; no comment syntax"
+  },
+  "Pikalang": {
+    "block": null,
+    "line": null,
+    "no_comments": true,
+    "note": "Brainfuck derivative using word tokens (pi, pika, ...); non-tokens ignored but art could contain tokens. No safe comment"
+  },
+  "Pike": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "//"
+  },
+  "Pixie": {
+    "block": null,
+    "line": ";"
+  },
+  "PlantUML": {
+    "block": {
+      "start": "/'",
+      "end": "'/"
+    },
+    "line": "'"
+  },
+  "pondthaitay": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "//"
+  },
+  "pong": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "//"
+  },
+  "pony": {
+    "block": null,
+    "line": "//"
+  },
+  "Portugol": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "//"
+  },
+  "Portuguese": {
+    "block": {
+      "start": "\"\"\"",
+      "end": "\"\"\""
+    },
+    "line": "#"
+  },
+  "Potigol": {
+    "block": null,
+    "line": "#"
+  },
+  "PowerShell": {
+    "block": {
+      "start": "<#",
+      "end": "#>"
+    },
+    "line": "#"
+  },
+  "prakhar": {
+    "block": {
+      "start": "\"\"\"",
+      "end": "\"\"\""
+    },
+    "line": "#"
+  },
+  "Processing": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "//"
+  },
+  "Progress": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": null
+  },
+  "proj": {
+    "block": {
+      "start": "<%--",
+      "end": "--%>"
+    },
+    "line": null
+  },
+  "ProjectEuler": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "//",
+    "forbid": [
+      "\\u"
+    ]
+  },
+  "Prolog": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "%"
+  },
+  "Prolog-2": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "%"
+  },
+  "Property List": {
+    "block": {
+      "end": "-->",
+      "start": "<!--"
+    },
+    "forbid": [
+      "--"
+    ],
+    "keep_first": [
+      "<?xml"
+    ],
+    "line": null
+  },
+  "Protocol Buffers": {
+    "block": null,
+    "line": null
+  },
+  "Public Key": {
+    "block": null,
+    "line": null
+  },
+  "Pug": {
+    "block": null,
+    "line": "//-"
+  },
+  "PugJS": {
+    "block": null,
+    "line": "//-"
+  },
+  "Puppet": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "#"
+  },
+  "PureBasic": {
+    "block": null,
+    "line": ";"
+  },
+  "Purescript": {
+    "block": {
+      "start": "{-",
+      "end": "-}"
+    },
+    "line": "--"
+  },
+  "PureScript": {
+    "block": {
+      "end": "-}",
+      "start": "{-"
+    },
+    "line": "--"
+  },
+  "PyGObject": {
+    "block": {
+      "start": "\"\"\"",
+      "end": "\"\"\""
+    },
+    "line": "#"
+  },
+  "Python": {
+    "block": {
+      "start": "\"\"\"",
+      "end": "\"\"\""
+    },
+    "line": "#"
+  },
+  "Python Bytecode": {
+    "block": null,
+    "line": null
+  },
+  "Python_codes": {
+    "block": {
+      "start": "\"\"\"",
+      "end": "\"\"\""
+    },
+    "line": "#"
+  },
+  "Python_tornado_hello_world": {
+    "block": {
+      "start": "\"\"\"",
+      "end": "\"\"\""
+    },
+    "line": "#"
+  },
+  "QML": {
+    "block": null,
+    "line": null
+  },
+  "Quack": {
+    "block": null,
+    "line": null,
+    "note": "Unknown esolang semantics; no known comment syntax"
+  },
+  "QuakeC": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "//"
+  },
+  "quasar": {
+    "block": {
+      "start": "<!--",
+      "end": "-->"
+    },
+    "line": null
+  },
+  "QuickBASIC": {
+    "block": null,
+    "line": "'"
+  },
+  "R": {
+    "block": null,
+    "line": "#"
+  },
+  "Racket": {
+    "block": {
+      "start": "#|",
+      "end": "|#"
+    },
+    "line": ";"
+  },
+  "Raghav": {
+    "block": {
+      "start": "<!--",
+      "end": "-->"
+    },
+    "line": null
+  },
+  "React-Native": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "//"
+  },
+  "React-Redux": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "//"
+  },
+  "Reactjs": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "//"
+  },
+  "Reactjs-hello_world": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "//"
+  },
+  "ReactJSStarlyn": {
+    "block": {
+      "start": "<!--",
+      "end": "-->"
+    },
+    "line": null
+  },
+  "ReactNative-image": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "//"
+  },
+  "ReactNativeExpo": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "//"
+  },
+  "ReactTypescript": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "//"
+  },
+  "Reason": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": null
+  },
+  "Red": {
+    "block": null,
+    "line": ";"
+  },
+  "reMorse": {
+    "block": null,
+    "line": null,
+    "no_comments": true,
+    "note": "esoteric: nearly every character is significant/ASCII art would contain commands; no safe comment syntax"
+  },
+  "reStructuredText": {
+    "block": null,
+    "line": ".."
+  },
+  "Rexx": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "--"
+  },
+  "ring": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "#"
+  },
+  "Ro": {
+    "block": {
+      "start": "\"\"\"",
+      "end": "\"\"\""
+    },
+    "line": "#"
+  },
+  "Robot": {
+    "block": null,
+    "line": "#"
+  },
+  "RobotFramework": {
+    "block": null,
+    "line": "#"
+  },
+  "Rockstar": {
+    "block": {
+      "start": "(",
+      "end": ")"
+    },
+    "line": null
+  },
+  "RouterOS": {
+    "block": null,
+    "line": "#"
+  },
+  "RubberDucky": {
+    "block": null,
+    "line": "REM"
+  },
+  "Ruby": {
+    "block": {
+      "start": "=begin",
+      "end": "=end"
+    },
+    "line": "#"
+  },
+  "RusPython": {
+    "block": null,
+    "line": null,
+    "no_comments": true,
+    "note": "lexer has no comment token"
+  },
+  "Rust": {
+    "block": null,
+    "line": "//"
+  },
+  "SageMath": {
+    "block": null,
+    "line": "#"
+  },
+  "Sakshi": {
+    "block": {
+      "start": "\"\"\"",
+      "end": "\"\"\""
+    },
+    "line": "#"
+  },
+  "SAP ABAP": {
+    "block": null,
+    "line": "\""
+  },
+  "Sas": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": null
+  },
+  "SASS": {
+    "block": null,
+    "line": "//"
+  },
+  "Sass": {
+    "block": null,
+    "line": "//"
+  },
+  "Scala": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "//",
+    "forbid": [
+      "\\u"
+    ]
+  },
+  "Scheme": {
+    "block": {
+      "start": "#|",
+      "end": "|#"
+    },
+    "line": ";"
+  },
+  "Scratch": {
+    "block": null,
+    "line": null,
+    "no_comments": true,
+    "note": "Scratch projects are binary archives; no text comments"
+  },
+  "SCSS": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "//"
+  },
+  "sed": {
+    "block": null,
+    "line": "#"
+  },
+  "SELECT": {
+    "block": null,
+    "line": null,
+    "no_comments": true,
+    "note": "no comment syntax; file must start with the buffer header"
+  },
+  "SELECT.": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": null
+  },
+  "SH": {
+    "block": null,
+    "line": "#"
+  },
+  "Shakespeare": {
+    "block": null,
+    "line": null,
+    "no_comments": true,
+    "note": "only the play title up to the first period is ignored; no general comment syntax"
+  },
+  "Shell": {
+    "block": null,
+    "line": "#"
+  },
+  "Shell Script": {
+    "block": null,
+    "line": "#"
+  },
+  "Shen": {
+    "block": null,
+    "line": null
+  },
+  "shortcut-linux-code": {
+    "block": null,
+    "line": "#"
+  },
+  "shrug or not": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "//"
+  },
+  "SIMSCRIPT": {
+    "block": null,
+    "line": "''"
+  },
+  "Skip": {
+    "block": null,
+    "line": "//"
+  },
+  "SL": {
+    "block": null,
+    "line": null,
+    "no_comments": true,
+    "note": "Corpus file is binary; cannot prepend text"
+  },
+  "slashslashslash": {
+    "block": null,
+    "line": null,
+    "no_comments": true,
+    "note": "/// prints any text that is not a pattern; no comment syntax"
+  },
+  "Small Basic": {
+    "block": null,
+    "line": "'"
+  },
+  "Smalltalk": {
+    "block": {
+      "start": "\"",
+      "end": "\""
+    },
+    "line": null
+  },
+  "Smarty": {
+    "block": null,
+    "line": null
+  },
+  "SML": {
+    "block": {
+      "start": "(*",
+      "end": "*)"
+    },
+    "line": null
+  },
+  "SMLNJ": {
+    "block": {
+      "start": "(*",
+      "end": "*)"
+    },
+    "line": null
+  },
+  "Socket Program in python": {
+    "block": {
+      "start": "\"\"\"",
+      "end": "\"\"\""
+    },
+    "line": "#"
+  },
+  "Solidity": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "//"
+  },
+  "SortInJS": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "//"
+  },
+  "Source Map": {
+    "block": null,
+    "line": null
+  },
+  "SourcePawn": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "//"
+  },
+  "spammy": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "//"
+  },
+  "speedTester": {
+    "block": null,
+    "line": null,
+    "mixed": true,
+    "note": "folder of several languages"
+  },
+  "Spring": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "//",
+    "forbid": [
+      "\\u"
+    ]
+  },
+  "SpringBoot": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "//",
+    "forbid": [
+      "\\u"
+    ]
+  },
+  "SQL": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "--"
+  },
+  "SQLite": {
+    "block": null,
+    "line": null
+  },
+  "Squirrel": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "//"
+  },
+  "Standard ML": {
+    "block": {
+      "end": "*)",
+      "start": "(*"
+    },
+    "line": null
+  },
+  "Starlark": {
+    "block": null,
+    "line": "#"
+  },
+  "Stylus": {
+    "block": null,
+    "line": null
+  },
+  "Sveltejs": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "//"
+  },
+  "svg": {
+    "block": {
+      "start": "<!--",
+      "end": "-->"
+    },
+    "line": null,
+    "keep_first": [
+      "<?xml"
+    ],
+    "forbid": [
+      "--"
+    ]
+  },
+  "SVG": {
+    "block": {
+      "end": "-->",
+      "start": "<!--"
+    },
+    "forbid": [
+      "--"
+    ],
+    "keep_first": [
+      "<?xml"
+    ],
+    "line": null
+  },
+  "Swift": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "//"
+  },
+  "SWIG": {
+    "block": null,
+    "line": null
+  },
+  "SystemVerilog": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "//"
+  },
+  "Taxi": {
+    "block": {
+      "start": "[",
+      "end": "]"
+    },
+    "line": null
+  },
+  "Tcl": {
+    "block": null,
+    "line": "#"
+  },
+  "Tcsh": {
+    "block": null,
+    "line": null
+  },
+  "tea": {
+    "block": null,
+    "line": "#"
+  },
+  "Template Toolkit": {
+    "block": null,
+    "line": null
+  },
+  "Terraform": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "#"
+  },
+  "Terraform_Cloudflare": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "#"
+  },
+  "TeX": {
+    "block": null,
+    "line": "%"
+  },
+  "Text": {
+    "block": null,
+    "line": null
+  },
+  "Thai": {
+    "block": null,
+    "line": null,
+    "no_comments": true,
+    "note": "Plain text, not a programming language; no comment syntax."
+  },
+  "thotpatrol": {
+    "block": null,
+    "line": "🔥",
+    "forbid": [
+      "©"
+    ]
+  },
+  "TI-84 Basic": {
+    "block": null,
+    "line": null,
+    "no_comments": true,
+    "note": "TI-BASIC has no comment syntax; real programs are tokenized .8xp (corpus file is empty)"
+  },
+  "Tk": {
+    "block": null,
+    "line": "#"
+  },
+  "TOML": {
+    "block": null,
+    "line": null
+  },
+  "TorqueScript": {
+    "block": null,
+    "line": "//"
+  },
+  "TrollScript": {
+    "block": null,
+    "line": null,
+    "no_comments": true,
+    "note": "esoteric language where non-command text is ignored/commands can appear anywhere; ASCII art could contain commands"
+  },
+  "TrumpScript": {
+    "block": null,
+    "line": null,
+    "no_comments": true,
+    "note": "tokenizer has no comment case"
+  },
+  "TSX": {
+    "block": {
+      "end": "*/",
+      "start": "/*"
+    },
+    "line": "//"
+  },
+  "Turing": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "%"
+  },
+  "Turkish": {
+    "block": null,
+    "line": null,
+    "no_comments": true,
+    "note": "natural language plain text; no comment syntax"
+  },
+  "Twig": {
+    "block": {
+      "start": "{#",
+      "end": "#}"
+    },
+    "line": null
+  },
+  "Typescript": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "//"
+  },
+  "TypeScript": {
+    "block": {
+      "end": "*/",
+      "start": "/*"
+    },
+    "line": "//"
+  },
+  "Unlambda": {
+    "block": null,
+    "line": "#"
+  },
+  "UnrealScript": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "//"
+  },
+  "Vala": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "//"
+  },
+  "VB.NET": {
+    "block": null,
+    "line": "'"
+  },
+  "VBA": {
+    "block": null,
+    "line": "'"
+  },
+  "VBScript": {
+    "block": null,
+    "line": "'"
+  },
+  "Verilog": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "//"
+  },
+  "VHDL": {
+    "block": null,
+    "line": "--"
+  },
+  "vic": {
+    "block": null,
+    "line": null,
+    "mixed": true,
+    "note": "folder of several languages"
+  },
+  "VietName": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "//",
+    "forbid": [
+      "\\u"
+    ]
+  },
+  "Vim": {
+    "block": null,
+    "line": "\""
+  },
+  "Vim script": {
+    "block": null,
+    "line": "\""
+  },
+  "Visual Basic": {
+    "block": null,
+    "line": "'"
+  },
+  "VisualJ++": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "//"
+  },
+  "VSL": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "//"
+  },
+  "Vue": {
+    "block": {
+      "end": "-->",
+      "start": "<!--"
+    },
+    "line": null
+  },
+  "VueJS": {
+    "block": {
+      "start": "<!--",
+      "end": "-->"
+    },
+    "line": null
+  },
+  "Vyper": {
+    "block": null,
+    "line": "#"
+  },
+  "Walt": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "//"
+  },
+  "WarayLang": {
+    "block": null,
+    "line": "#"
+  },
+  "Web-CSS": {
+    "block": {
+      "start": "<!--",
+      "end": "-->"
+    },
+    "line": null
+  },
+  "WebAssembly": {
+    "block": {
+      "start": "(;",
+      "end": ";)"
+    },
+    "line": ";;"
+  },
+  "WeekNumber": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "//"
+  },
+  "Whirl": {
+    "block": null,
+    "line": null,
+    "no_comments": true,
+    "note": "esoteric: nearly every character is significant/ASCII art would contain commands; no safe comment syntax (only 0/1 signi"
+  },
+  "Whitespace": {
+    "block": null,
+    "line": null,
+    "no_comments": true,
+    "note": "spaces, tabs and newlines in ASCII art are commands"
+  },
+  "Wisp": {
+    "block": null,
+    "line": null
+  },
+  "wml": {
+    "block": {
+      "start": "<!--",
+      "end": "-->"
+    },
+    "line": null,
+    "keep_first": [
+      "<?xml"
+    ],
+    "forbid": [
+      "--"
+    ]
+  },
+  "Wolfram": {
+    "block": {
+      "start": "(*",
+      "end": "*)"
+    },
+    "line": null
+  },
+  "WolframScript": {
+    "block": {
+      "start": "(*",
+      "end": "*)"
+    },
+    "line": null
+  },
+  "WSDL": {
+    "block": null,
+    "line": null
+  },
+  "Wyvern": {
+    "block": null,
+    "line": "//"
+  },
+  "X++": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "//"
+  },
+  "x86": {
+    "block": null,
+    "line": ";"
+  },
+  "XAML": {
+    "block": null,
+    "line": null
+  },
+  "XHTML": {
+    "block": {
+      "end": "-->",
+      "start": "<!--"
+    },
+    "forbid": [
+      "--"
+    ],
+    "keep_first": [
+      "<?xml"
+    ],
+    "line": null
+  },
+  "XML": {
+    "block": {
+      "start": "<!--",
+      "end": "-->"
+    },
+    "line": null,
+    "keep_first": [
+      "<?xml"
+    ],
+    "forbid": [
+      "--"
+    ]
+  },
+  "XPL": {
+    "block": null,
+    "line": null,
+    "note": "a backslash in the tattoo ends the comment"
+  },
+  "xquery": {
+    "block": {
+      "start": "(:",
+      "end": ":)"
+    },
+    "line": null
+  },
+  "XQuery": {
+    "block": null,
+    "line": null
+  },
+  "XSD": {
+    "block": null,
+    "line": null
+  },
+  "XSLT": {
+    "block": {
+      "start": "<!--",
+      "end": "-->"
+    },
+    "line": null,
+    "keep_first": [
+      "<?xml"
+    ],
+    "forbid": [
+      "--"
+    ]
+  },
+  "Xtend": {
+    "block": null,
+    "line": null
+  },
+  "Yacc": {
+    "block": null,
+    "line": null
+  },
+  "YAML": {
+    "block": null,
+    "line": "#"
+  },
+  "yo-lang": {
+    "block": null,
+    "line": null,
+    "no_comments": true,
+    "note": "esoteric language where non-command text is ignored/commands can appear anywhere; ASCII art could contain commands"
+  },
+  "YoptaScript": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "//"
+  },
+  "z": {
+    "block": null,
+    "line": null,
+    "note": "Unidentified C-like language; comment syntax unknown."
+  },
+  "Z80": {
+    "block": null,
+    "line": ";"
+  },
+  "Zebra": {
+    "block": null,
+    "line": null,
+    "note": "ZPL has only ^FX field comments inside a label; nothing safe before ^XA"
+  },
+  "Zephir": {
+    "block": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "line": "//"
+  },
+  "Zig": {
+    "block": null,
+    "line": "//"
+  },
+  "Zimbu": {
+    "block": null,
+    "line": "#"
+  },
+  "ZPL": {
+    "block": null,
+    "line": null,
+    "note": "^FX comments end at next ^ command; no safe syntax for arbitrary art"
+  },
+  "Zsh": {
+    "block": null,
+    "line": "#"
+  },
+  "РАПИРА": {
+    "block": {
+      "start": "(*",
+      "end": "*)"
+    },
+    "line": null
+  }
 }
