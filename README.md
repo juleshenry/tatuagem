@@ -48,7 +48,7 @@ Customizing the text and background characters.
 tatuagem "L'appel du vide" --font 'unicode-arial.ttf' --backsplash '!' --text '@'
 ```
 
-![alt text](lappel.png)
+![L'appel du vide rendered in @ on a ! background](https://raw.githubusercontent.com/juleshenry/tatuagem/main/lappel.png)
 
 ### Wallpaper: Pattern-Argument Syntax Example
 Using a pattern string for the background.
@@ -56,7 +56,7 @@ Using a pattern string for the background.
 tatuagem "Tatuagem" --pattern '`':,:''
 ```
 
-![alt text](tatu.png)
+![Tatuagem rendered on a patterned background](https://raw.githubusercontent.com/juleshenry/tatuagem/main/tatu.png)
 
 ### Recurse your project
 Apply the generated tattoo to all files in `test_tattoo/`.
