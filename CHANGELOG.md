@@ -1,6 +1,6 @@
 # Changelog
 
-## v0.1.16 (unreleased)
+## v0.1.16 (2026-09-30)
 
 * Language data rebuilt for all 468 corpus languages (the old table was LLM-generated and had broken entries like `(* *)` / `(*)`)
 * Safe commenting: block comments only when the tattoo can't close or nest into them, otherwise line comments, otherwise skip; per-language `forbid` (`--` in XML, `\u` in Java, `"` in OCaml)
