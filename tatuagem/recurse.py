@@ -58,8 +58,10 @@ r"""
 import argparse
 import json
 import os
+import re
+from collections import Counter
 from functools import lru_cache
-from typing import List, Optional
+from typing import List, Optional, Tuple
 
 import pathspec
 
@@ -110,14 +112,6 @@ def should_ignore(filepath: str, target_path: str, patterns: List[str]) -> bool:
     return _compile_patterns(tuple(patterns)).match_file(rel_path)
 
 
-def clean_syntax(s):
-    if not s:
-        return s
-    if s.startswith("`") and s.endswith("`") and len(s) > 1:
-        return s[1:-1]
-    return s
-
-
 def has_shebang(content: str) -> bool:
     """Check if the content starts with a shebang line."""
     if not content:
@@ -131,6 +125,22 @@ def get_shebang(content: str) -> Optional[str]:
     if has_shebang(content):
         return content.split("\n", 1)[0]
     return None
+
+
+# Lines that only work at the very top of a file and must stay above the tattoo:
+# PEP 263 / Ruby encoding cookies (line 1 or 2) and Dockerfile parser directives.
+_PREAMBLE = re.compile(r"^[ \t\f]*#.*?coding[:=]|^#\s*(syntax|escape|check)\s*=", re.I)
+
+
+def split_preamble(content: str) -> Tuple[str, str]:
+    """Splits off the shebang and any top-of-file directives: (preamble, body)."""
+    lines = content.split("\n")
+    n = 1 if has_shebang(content) else 0
+    while n < min(len(lines), 2) and _PREAMBLE.match(lines[n]):
+        n += 1
+    if n == 0:
+        return "", content
+    return "\n".join(lines[:n]) + "\n", "\n".join(lines[n:])
 
 
 def load_tatignore_patterns(target_path: str) -> List[str]:
@@ -187,17 +197,8 @@ def is_tattoo_comment(text: str, min_lines: int = 5) -> bool:
     non_alnum_chars = 0
 
     for line in lines:
-        if not line:
-            continue
-
-        # Count character frequencies in this line
-        char_counts = {}
-        for char in line:
-            char_counts[char] = char_counts.get(char, 0) + 1
-
         # Check if any single character dominates the line (>70% of characters)
-        max_char_count = max(char_counts.values()) if char_counts else 0
-        if len(line) > 0 and max_char_count / len(line) > 0.7:
+        if Counter(line).most_common(1)[0][1] / len(line) > 0.7:
             repetitive_lines += 1
 
         # Count "tattoo-like" characters (non-alphabetic characters excluding spaces)
@@ -254,57 +255,15 @@ def is_tattoo_comment(text: str, min_lines: int = 5) -> bool:
 
 def extract_first_comment(content: str, start: str, end: str) -> Optional[str]:
     """
-    Extract the content of the first comment block in the file.
-
-    Args:
-        content: The file content
-        start: Comment start delimiter
-        end: Comment end delimiter
+    Extract the content of the comment block at the top of the file.
+    Short delimiters that open and close alike (#, //) are treated as line comments.
 
     Returns:
         The text inside the first comment block, or None if not found
     """
-    if not content.strip().startswith(start):
-        return None
-
-    try:
-        # For line comments where start == end and it's short (like //, #)
-        # vs block comments where start == end but it's long (like """, ''')
-        is_line_comment = (start == end) and len(start) <= 2
-
-        if is_line_comment:
-            # Line comments - extract consecutive commented lines
-            lines = content.split("\n")
-            comment_lines = []
-            for line in lines:
-                stripped = line.strip()
-                if stripped.startswith(start):
-                    # Remove the comment delimiter and add to list
-                    comment_lines.append(line.replace(start, "", 1))
-                elif comment_lines:
-                    # Stop when we hit a non-comment line after starting
-                    break
-            return "\n".join(comment_lines)
-        else:
-            # Block comments
-            # Split by start delimiter
-            parts = content.split(start, 1)
-            if len(parts) <= 1:
-                return None
-
-            # Get the part after start delimiter
-            after_start = parts[1]
-
-            # Split by end delimiter
-            comment_parts = after_start.split(end, 1)
-            if not comment_parts:
-                return None
-
-            # Return the comment content (without delimiters)
-            comment_content = comment_parts[0]
-            return comment_content.strip()
-    except (IndexError, ValueError):
-        return None
+    kind = "line" if start == end and len(start) <= 2 else "block"
+    found = _split_leading_comment(content, kind, start, end)
+    return found[0] if found else None
 
 
 def _needs_raw_string(text: str) -> bool:
@@ -339,42 +298,138 @@ def _pick_python_delimiters(text: str) -> tuple:
 PYTHON_TRIPLE_QUOTE_DELIMITERS = {'"""', "'''", 'r"""', "r'''"}
 
 
+# Interpreters named in a shebang, for scripts without an extension
+SHEBANG_TO_LANG = {
+    "sh": "Shell", "bash": "Shell", "dash": "Shell", "zsh": "Shell", "ksh": "Ksh",
+    "python": "Python", "python3": "Python", "python2": "Python", "ruby": "Ruby",
+    "perl": "Perl", "node": "JavaScript", "lua": "Lua", "Rscript": "R", "tclsh": "Tcl",
+}  # fmt: skip
+
+
+def _shebang_language(filepath: str) -> Optional[str]:
+    first = _head(filepath, 256).split("\n", 1)[0]
+    if not first.startswith("#!"):
+        return None
+    parts = first[2:].split()
+    if not parts:
+        return None
+    prog = os.path.basename(parts[0])
+    if prog == "env" and len(parts) > 1:
+        prog = parts[2] if parts[1] == "-S" and len(parts) > 2 else parts[1]
+    return SHEBANG_TO_LANG.get(prog)
+
+
+# Extensions shared by languages with different comment syntax; first match wins,
+# otherwise EXT_TO_LANG decides (same idea as GitHub Linguist's heuristics).
+CONTENT_HEURISTICS = {
+    ".pl": [(r"^\s*:-|^[a-z]\w*(\(.*\))?\s*:-", "Prolog")],
+    ".pro": [(r"^\s*;|^\s*(pro|function)\s+\w+", "IDL"), (r":-", "Prolog")],
+    ".m": [
+        (r"^\s*(#import|#include|@interface|@implementation|@import)\b", "Objective-C"),
+        (r"^\s*(%|function\b|disp\s*\(|s?printf\s*\(|clc\b|clear\b)", "MATLAB"),
+    ],
+}
+
+
+def _head(filepath: str, size: int = 4096) -> str:
+    try:
+        with open(filepath, encoding="utf-8") as f:
+            return f.read(size)
+    except (OSError, UnicodeDecodeError):
+        return ""
+
+
+def resolve_language(filepath: str) -> Optional[str]:
+    """
+    Language for a file: exact basename first (Makefile, Dockerfile), then extension
+    (disambiguated by content where it's shared), then the shebang interpreter.
+    """
+    base = os.path.basename(filepath)
+    if base in EXT_TO_LANG:
+        return EXT_TO_LANG[base]
+    ext = os.path.splitext(base)[1].lower()
+    if ext in CONTENT_HEURISTICS:
+        head = _head(filepath)
+        for pattern, lang in CONTENT_HEURISTICS[ext]:
+            if re.search(pattern, head, re.M):
+                return lang
+    if ext:
+        return EXT_TO_LANG.get(ext)
+    return _shebang_language(filepath)
+
+
+def _language_syntax(filepath: str) -> Optional[dict]:
+    syntax = LANG_TO_SYNTAX.get(resolve_language(filepath))
+    if not syntax or syntax.get("top_ok") is False:
+        return None
+    return syntax
+
+
+def comment_style(filepath: str, text: str) -> Optional[Tuple[str, str, str]]:
+    """
+    How `text` should be commented in `filepath`:
+    ("block", start, end), ("line", prefix, ""), or None if it can't be done safely.
+    A block comment is only used when `text` can't terminate (or nest into) it.
+    """
+    syntax = _language_syntax(filepath)
+    if not syntax or any(bad in text for bad in syntax.get("forbid", ())):
+        return None
+    block = syntax.get("block")
+    if block:
+        start, end = block["start"], block["end"]
+        if start in ('"""', "'''"):
+            start, end = _pick_python_delimiters(text)
+        if end not in text and start not in text:
+            return ("block", start, end)
+    if syntax.get("line"):
+        return ("line", syntax["line"], "")
+    return None
+
+
 def comment_text(filepath, text) -> Optional[str]:
     """Return commented text based on file extension and language syntax."""
-    ext = os.path.splitext(os.path.basename(filepath))[1].lower()
-    lang = EXT_TO_LANG.get(ext)
-    if not lang:
+    style = comment_style(filepath, text)
+    if not style:
         return None
-
-    syntax = LANG_TO_SYNTAX.get(lang)
-    if not syntax:
-        return None
-
-    start = clean_syntax(syntax.get("start"))
-    end = clean_syntax(syntax.get("end"))
-
-    if not start or not end or start == "none" or end == "none":
-        return None
-
-    if start != end:
-        # Block comment (e.g., /* */ or <!-- -->)
+    kind, start, end = style
+    if kind == "block":
         return f"{start}\n{text}\n{end}"
-    else:
-        # Start == End
-        if len(start) >= 3:
-            # Likely block delimiter like """ or '''
-            # Check if we need raw strings for Python-style triple-quote blocks
-            if start in ('"""', "'''"):
-                start, end = _pick_python_delimiters(text)
-            return f"{start}\n{text}\n{end}"
+    lines = text.split("\n")
+    # Remove empty last line from split if text ends with newline
+    if lines and not lines[-1]:
+        lines.pop()
+    return "\n".join(f"{start} {line}".rstrip() for line in lines)
+
+
+def _existing_comment_styles(filepath: str) -> List[Tuple[str, str, str]]:
+    """Every delimiter a previous tattoo in this file may have been written with."""
+    syntax = _language_syntax(filepath) or {}
+    styles = []
+    block = syntax.get("block")
+    if block:
+        if block["start"] in ('"""', "'''"):
+            styles += [("block", s, s.lstrip("r")) for s in ('r"""', '"""', "r'''", "'''")]
         else:
-            # Likely line comment
-            lines = text.split("\n")
-            # Remove empty last line from split if text ends with newline
-            if lines and not lines[-1]:
-                lines.pop()
-            commented_lines = [f"{start} {line}" for line in lines]
-            return "\n".join(commented_lines)
+            styles.append(("block", block["start"], block["end"]))
+    if syntax.get("line"):
+        styles.append(("line", syntax["line"], ""))
+    return styles
+
+
+def _split_leading_comment(body: str, kind: str, start: str, end: str):
+    """Returns (comment_text, rest_of_body) for a comment at the top of `body`, or None."""
+    stripped = body.lstrip()
+    if not stripped.startswith(start):
+        return None
+    if kind == "block":
+        inner, sep, rest = stripped[len(start) :].partition(end)
+        return (inner.strip(), rest.lstrip()) if sep else None
+    lines = stripped.split("\n")
+    n = 0
+    while n < len(lines) and lines[n].lstrip().startswith(start):
+        n += 1
+    comment = "\n".join(line.lstrip()[len(start) :] for line in lines[:n])
+    return comment, "\n".join(lines[n:]).lstrip()
 
 
 def _tattoo_file(filepath: str, tattoo: str, overwrite: bool) -> Optional[str]:
@@ -384,7 +439,7 @@ def _tattoo_file(filepath: str, tattoo: str, overwrite: bool) -> Optional[str]:
     """
     commented_tattoo = comment_text(filepath, tattoo)
     if not commented_tattoo:
-        return None  # unknown language
+        return None  # unknown language, or no safe comment syntax
     with open(filepath, "r", encoding="utf-8") as f:
         content = f.read()
 
@@ -394,42 +449,35 @@ def _tattoo_file(filepath: str, tattoo: str, overwrite: bool) -> Optional[str]:
         print(f"Skipping {filepath} (already tattooed?)")
         return None
 
-    ext = os.path.splitext(os.path.basename(filepath))[1].lower()
-    syntax = LANG_TO_SYNTAX.get(EXT_TO_LANG.get(ext))
-    start = clean_syntax(syntax.get("start"))
-    end = clean_syntax(syntax.get("end"))
-
-    # Preserve the shebang, if any
-    shebang = get_shebang(content)
-    if shebang:
-        content_body = content.split("\n", 1)[1] if "\n" in content else ""
-    else:
-        content_body = content
-    prefix = (shebang + "\n" if shebang else "") + commented_tattoo + "\n\n"
+    # Keep the shebang and encoding/parser directives above the tattoo
+    preamble, content_body = split_preamble(content)
+    # ...and lines the language needs first, e.g. <?php or an <?xml ?> declaration
+    syntax = _language_syntax(filepath)
+    keep_first = tuple(syntax.get("keep_first", ()))
+    if keep_first:
+        first, sep, rest = content_body.lstrip().partition("\n")
+        if first.startswith(keep_first):
+            preamble, content_body = preamble + first + sep, rest
+        elif syntax.get("require_first"):
+            return None
+    prefix = preamble + commented_tattoo + "\n\n"
 
     # Check if body starts with an existing tattoo
-    # (includes raw string variants for Python-style triple quotes)
-    starters_to_check = [start] + ([f"r{start}"] if start in ('"""', "'''") else [])
-    stripped_body = content_body.strip()
-    detected_start = next((s for s in starters_to_check if stripped_body.startswith(s)), None)
-    # The end delimiter is always the non-raw version
-    detected_end = detected_start.lstrip("r") if detected_start else end
+    rest = None
+    for style in _existing_comment_styles(filepath):
+        found = _split_leading_comment(content_body, *style)
+        if found and is_tattoo_comment(found[0]):
+            rest = found[1]
+            break
 
-    first_comment = (
-        extract_first_comment(content_body, detected_start, detected_end) if detected_start else None
-    )
-    if not (first_comment and is_tattoo_comment(first_comment)):
+    if rest is None:
         print(f"Tattooed {filepath}")
         return prefix + content_body
-
     if not overwrite:
         print(f"Skipping {filepath} (already tattooed, use --overwrite to replace)")
         return None
-
-    rest = content_body.split(detected_start, 1)[1].split(detected_end, 1)
-    body_without_tattoo = rest[1].lstrip() if len(rest) > 1 else content_body
     print(f"Re-tattooed {filepath} (replaced existing tattoo)")
-    return prefix + body_without_tattoo
+    return prefix + rest
 
 
 def apply_tattoo_to_directory(target_path, tattoo, overwrite=False, dry_run=False) -> List[str]:
