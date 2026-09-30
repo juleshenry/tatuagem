@@ -165,3 +165,17 @@ def test_resolve_language_from_shebang(tmp_path):
         f = tmp_path / "script"
         f.write_text(line + "\necho\n")
         assert resolve_language(str(f)) == lang, line
+
+
+@pytest.mark.parametrize(
+    "name, prefix",
+    [
+        ("a.cob", "      *> "),  # column-7 '*' (fixed form) and '*>' (free form)
+        ("a.vb", "' "),
+        ("a.bas", "' "),
+        ("a.applescript", "(*\n"),
+    ],
+)
+def test_real_language_data(name, prefix):
+    assert comment_text(name, "0110\n1001").startswith(prefix)
+    assert comment_text("compiled.scpt", "0110") is None  # binary AppleScript

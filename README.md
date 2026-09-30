@@ -158,7 +158,7 @@ ruff check .
 - **Languages** — `python scripts/lang_coverage.py` tattoos every folder of the
   `tests/hello_worlds` corpus and counts the languages that get a comment valid in
   *that* language. Languages that can't hold a comment at all (Brainfuck, Piet, JSON…)
-  are listed in the report but left out of the figure. CI fails if it drops below 87%.
+  are listed in the report but left out of the figure. CI fails if it drops below 90%.
 - **Tests** — `pytest --cov`.
 
 Both badges are computed by the [Coverage badges](.github/workflows/badges.yml)

@@ -64,16 +64,6 @@
     "block": null,
     "line": null
   },
-  "ACTLS": {
-    "block": null,
-    "line": null,
-    "note": "obscure language; comment syntax unknown"
-  },
-  "Actually": {
-    "block": null,
-    "line": null,
-    "note": "extensionless, corpus file is C++"
-  },
   "Ada": {
     "block": null,
     "line": "--"
@@ -235,9 +225,11 @@
     "line": "⍝"
   },
   "AppleScript": {
-    "block": null,
-    "line": null,
-    "note": "corpus file is compiled .scpt"
+    "block": {
+      "start": "(*",
+      "end": "*)"
+    },
+    "line": "--"
   },
   "Arduino": {
     "block": {
@@ -619,8 +611,8 @@
   },
   "COBOL": {
     "block": null,
-    "line": null,
-    "note": "fixed-form: comments depend on column 7"
+    "line": "      *>",
+    "note": "'*' in column 7 comments fixed-form code; '*>' comments free-form code"
   },
   "Cobra": {
     "block": {
@@ -737,11 +729,6 @@
     },
     "line": "//"
   },
-  "Cuneiform": {
-    "block": null,
-    "line": null,
-    "note": "comment syntax not verifiable; corpus file is .txt"
-  },
   "customer": {
     "block": {
       "start": "/*",
@@ -826,10 +813,6 @@
   "Dockerfile": {
     "block": null,
     "line": "#"
-  },
-  "DOG": {
-    "block": null,
-    "line": "//"
   },
   "dogescript": {
     "block": {
@@ -1059,13 +1042,6 @@
       "I have a fetish for"
     ]
   },
-  "fibonacci": {
-    "block": {
-      "start": "\"\"\"",
-      "end": "\"\"\""
-    },
-    "line": "#"
-  },
   "FiM++": {
     "block": null,
     "line": "P.S."
@@ -1147,11 +1123,6 @@
   "Geode": {
     "block": null,
     "line": "#"
-  },
-  "gerlang-1": {
-    "block": null,
-    "line": null,
-    "note": "obscure language; comment syntax not verifiable"
   },
   "gerlang2-0": {
     "block": null,
@@ -2538,11 +2509,6 @@
     },
     "line": ";"
   },
-  "RaffaLang": {
-    "block": null,
-    "line": null,
-    "note": "obscure language; comment syntax not verifiable"
-  },
   "Raghav": {
     "block": {
       "start": "<!--",
@@ -2783,11 +2749,6 @@
     "block": null,
     "line": "#"
   },
-  "shellkore": {
-    "block": null,
-    "line": null,
-    "note": "obscure language; comment syntax not verifiable"
-  },
   "Shen": {
     "block": null,
     "line": null
@@ -2945,11 +2906,6 @@
   "Starlark": {
     "block": null,
     "line": "#"
-  },
-  "Stuck": {
-    "block": null,
-    "line": null,
-    "note": "esoteric language; comment syntax unknown (corpus file is empty)"
   },
   "Stylus": {
     "block": null,
@@ -3204,11 +3160,6 @@
     "block": null,
     "line": "'"
   },
-  "Visual Jpp": {
-    "block": null,
-    "line": null,
-    "note": "Unknown/obscure language; comment syntax unknown"
-  },
   "VisualJ++": {
     "block": {
       "start": "/*",
@@ -3452,11 +3403,6 @@
     "block": null,
     "line": "#"
   },
-  "Zombie": {
-    "block": null,
-    "line": null,
-    "note": "esoteric language; comment syntax unknown"
-  },
   "ZPL": {
     "block": null,
     "line": null,
@@ -3465,11 +3411,6 @@
   "Zsh": {
     "block": null,
     "line": "#"
-  },
-  "~English": {
-    "block": null,
-    "line": null,
-    "note": "Esolang with natural-language statements; no known comment syntax"
   },
   "РАПИРА": {
     "block": {

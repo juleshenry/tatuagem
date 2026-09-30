@@ -8,7 +8,9 @@
 * Language detection by exact filename (Makefile, Dockerfile…), content heuristics for `.pl` / `.m` / `.pro`, and shebang for extensionless scripts
 * Fix: `--overwrite` on line-comment languages cut the file at the second `#`
 * Fix: `.s` used `;` comments, which are statement separators in GNU as on x86
-* Language and unit-test coverage computed in CI and published as badges; CI fails below 90% language coverage
+* COBOL (`      *>`, valid in fixed and free form), Visual Basic / VBA and text AppleScript (`.applescript`) supported; compiled `.scpt` is never touched
+* Corpus: dropped 17 joke/unidentifiable folders; fixed extensionless VB/VBA samples and a mis-indented COBOL sample
+* Language and unit-test coverage computed in CI and published as badges; CI fails below 90% language coverage (91.9% today)
 
 ## v0.1.15 (2026-09-30)
 

@@ -1,6 +1,0 @@
-def greet( person : Str ) -> <out : Str>
-in Bash *{
-  out="Hello $person"
-}*
-
-( greet( person = "world" )|out );

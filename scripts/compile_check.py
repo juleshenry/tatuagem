@@ -84,6 +84,8 @@ CHECKERS = {
     ".php": ["php", "-l"],
     ".lua": ["luac", "-p"],
     ".swift": ["swiftc", "-parse"],
+    ".cob": ["cobc", "-fsyntax-only"],
+    ".applescript": ["osacompile", "-o", "/dev/null"],
 }
 
 
