@@ -66,6 +66,7 @@ import shutil
 import subprocess
 import sys
 import tempfile
+from concurrent.futures import ThreadPoolExecutor
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
@@ -104,24 +105,29 @@ def main():
         "rendered": get_tattoo("tatuagem"),
         "art": open(os.path.join(ROOT, "test_input.txt"), encoding="utf-8").read(),
     }
+    pool = ThreadPoolExecutor(max_workers=(os.cpu_count() or 2) * 2)
+    files = [
+        os.path.relpath(os.path.join(r, f), args.corpus)
+        for r, _, fs in os.walk(args.corpus)
+        for f in fs
+        if os.path.splitext(f)[1] in available
+    ]
+    # only files that compiled before tattooing count
+    ok = pool.map(check, [os.path.join(args.corpus, f) for f in files])
+    baseline = {f for f, passed in zip(files, ok, strict=True) if passed}
     failures = 0
     for name, tattoo in tattoos.items():
         with tempfile.TemporaryDirectory() as tmp:
             corpus = shutil.copytree(args.corpus, os.path.join(tmp, "corpus"))
-            files = [
-                os.path.join(r, f)
-                for r, _, fs in os.walk(corpus)
-                for f in fs
-                if os.path.splitext(f)[1] in available
-            ]
-            baseline = {f for f in files if check(f)}
             with contextlib.redirect_stdout(io.StringIO()):
-                changed = set(apply_tattoo_to_directory(corpus, tattoo))
-            broken = sorted(f for f in baseline & changed if not check(f))
+                changed = apply_tattoo_to_directory(corpus, tattoo)
+            todo = sorted(baseline & {os.path.relpath(f, corpus) for f in changed})
+            results = pool.map(check, [os.path.join(corpus, f) for f in todo])
+            broken = [f for f, passed in zip(todo, results, strict=True) if not passed]
             failures += len(broken)
-            print(f"{name}: {len(baseline & changed)} tattooed files re-checked, {len(broken)} broken")
+            print(f"{name}: {len(todo)} tattooed files re-checked, {len(broken)} broken")
             for f in broken:
-                print(f"  BROKEN {os.path.relpath(f, corpus)}")
+                print(f"  BROKEN {f}")
     print("checkers:", ", ".join(sorted(available)))
     sys.exit(1 if failures else 0)
 
