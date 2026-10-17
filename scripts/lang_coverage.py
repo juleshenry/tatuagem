@@ -139,8 +139,14 @@ def _why_not(lang: str, files: list, tattoo: str) -> str:
 
 def measure(corpus: str) -> dict:
     tattoo = get_tattoo("tatuagem")
-    art = open(os.path.join(ROOT, "test_input.txt"), encoding="utf-8").read()
-    langs = sorted(d for d in os.listdir(corpus) if os.path.isdir(os.path.join(corpus, d)))
+    with open(os.path.join(ROOT, "test_input.txt"), encoding="utf-8") as f:
+        art = f.read()
+    # hidden folders (.vs, .git, ...) are tooling droppings, not languages
+    langs = sorted(
+        d
+        for d in os.listdir(corpus)
+        if os.path.isdir(os.path.join(corpus, d)) and not d.startswith(".")
+    )
     covered, uncovered = [], {}
     with tempfile.TemporaryDirectory() as tmp:
         for lang in langs:

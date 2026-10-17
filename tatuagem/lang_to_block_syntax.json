@@ -1,10 +1,4 @@
 {
-  ".vs": {
-    "block": null,
-    "line": null,
-    "mixed": true,
-    "note": "folder of several languages"
-  },
   "001": {
     "block": {
       "start": "\"\"\"",

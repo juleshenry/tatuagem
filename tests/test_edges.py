@@ -123,3 +123,19 @@ def test_content_heuristics(tmp_path, name, text, lang):
     f = tmp_path / name
     f.write_text(text)
     assert resolve_language(str(f)) == lang
+
+
+def test_lang_coverage_ignores_hidden_folders(tmp_path):
+    """Regression: the corpus's .vs (Visual Studio state) folder was counted as a language."""
+    sys.path.insert(
+        0, os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "scripts")
+    )
+    from lang_coverage import measure
+
+    (tmp_path / "Python").mkdir()
+    (tmp_path / "Python" / "hello.py").write_text("print('hello')\n")
+    (tmp_path / ".vs").mkdir()
+    (tmp_path / ".vs" / "state.json").write_text("{}\n")
+    result = measure(str(tmp_path))
+    assert result["total"] == 1 and result["covered"] == 1
+    assert ".vs" not in result["uncovered"]
