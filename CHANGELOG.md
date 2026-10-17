@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## v0.1.18 (2026-10-16)
 
 * Fix: a Python module docstring followed by `from __future__` stopped compiling, because the `"""` tattoo took the docstring's place; files that open with a docstring now get `#` line comments
 * Fix: `--overwrite` stacked a second copy of a prose header (a license notice isn't ASCII art, so it wasn't recognised); a leading comment that reads like the new tattoo, or an earlier edit of it, is now replaced, along with any extra copies older versions left
