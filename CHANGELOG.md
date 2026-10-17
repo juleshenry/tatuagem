@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+
+* Fix: a Python module docstring followed by `from __future__` stopped compiling, because the `"""` tattoo took the docstring's place; files that open with a docstring now get `#` line comments
+* Fix: `--overwrite` stacked a second copy of a prose header (a license notice isn't ASCII art, so it wasn't recognised); a leading comment that reads like the new tattoo, or an earlier edit of it, is now replaced, along with any extra copies older versions left
+* Fix: language coverage counted the corpus's hidden `.vs` (Visual Studio state) folder as a language; it is now 91.9% of 394 languages across 450 folders
+
 ## v0.1.17 (2026-09-30)
 
 * Fix: README images now render on PyPI (absolute raw GitHub URLs instead of repo-relative paths), with real alt text

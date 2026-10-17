@@ -60,6 +60,7 @@ import json
 import os
 import re
 from collections import Counter
+from difflib import SequenceMatcher
 from functools import lru_cache
 from typing import List, Optional, Tuple
 
@@ -389,8 +390,10 @@ def comment_style(filepath: str, text: str) -> Optional[Tuple[str, str, str]]:
 def comment_text(filepath, text) -> Optional[str]:
     """Return commented text based on file extension and language syntax."""
     style = comment_style(filepath, text)
-    if not style:
-        return None
+    return _render_comment(style, text) if style else None
+
+
+def _render_comment(style: Tuple[str, str, str], text: str) -> str:
     kind, start, end = style
     if kind == "block":
         return f"{start}\n{text}\n{end}"
@@ -432,14 +435,53 @@ def _split_leading_comment(body: str, kind: str, start: str, end: str):
     return comment, "\n".join(lines[n:]).lstrip()
 
 
+def _is_earlier_version(comment: str, tattoo: str, threshold: float = 0.7) -> bool:
+    """
+    Does `comment` read like `tattoo`, or an earlier edit of it (a license header with
+    last year's date)? Prose headers don't look like ASCII art, so this is how they're found.
+    """
+    a, b = (" ".join(t.split()) for t in (comment, tattoo))
+    if not a or not b or 2 * min(len(a), len(b)) / (len(a) + len(b)) < threshold:
+        return False
+    # Compare the openings only: ratio() is quadratic, and a header shows itself early
+    head = 1000
+    return SequenceMatcher(None, a[:head], b[:head], autojunk=False).ratio() >= threshold
+
+
+def _previous_tattoo(filepath: str, body: str, tattoo: str) -> Optional[Tuple[str, str]]:
+    """(comment, rest) for a tattoo an earlier run left at the top of `body`, or None."""
+    for style in _existing_comment_styles(filepath):
+        found = _split_leading_comment(body, *style)
+        if found and (is_tattoo_comment(found[0]) or _is_earlier_version(found[0], tattoo)):
+            return found
+    return None
+
+
+# Code that opens with a string literal, after any blank lines and `#` comments
+_LEADING_STRING = re.compile(r"""(?:[ \t]*(?:#[^\n]*)?\n)*[ \t]*[rRuUbBfF]{0,2}["']""")
+
+
+def _opens_with_docstring(style: Tuple[str, str, str], body: str) -> bool:
+    """
+    Would a triple-quoted tattoo land in front of a module docstring? It would take the
+    docstring's place, and a `from __future__` import after that is a SyntaxError.
+    """
+    return (
+        style[0] == "block"
+        and style[1].lstrip("r") in ('"""', "'''")
+        and bool(_LEADING_STRING.match(body))
+    )
+
+
 def _tattoo_file(filepath: str, tattoo: str, overwrite: bool) -> Optional[str]:
     """
     Returns the new content for `filepath` with `tattoo` applied,
     or None if the file should be left alone.
     """
-    commented_tattoo = comment_text(filepath, tattoo)
-    if not commented_tattoo:
+    style = comment_style(filepath, tattoo)
+    if not style:
         return None  # unknown language, or no safe comment syntax
+    commented_tattoo = _render_comment(style, tattoo)
     with open(filepath, "r", encoding="utf-8") as f:
         content = f.read()
 
@@ -460,24 +502,33 @@ def _tattoo_file(filepath: str, tattoo: str, overwrite: bool) -> Optional[str]:
             preamble, content_body = preamble + first + sep, rest
         elif syntax.get("require_first"):
             return None
-    prefix = preamble + commented_tattoo + "\n\n"
 
     # Check if body starts with an existing tattoo
     rest = None
-    for style in _existing_comment_styles(filepath):
-        found = _split_leading_comment(content_body, *style)
-        if found and is_tattoo_comment(found[0]):
+    found = _previous_tattoo(filepath, content_body, tattoo)
+    if found:
+        rest = found[1]
+        # Older versions stacked prose headers instead of replacing them; drop those copies too
+        while (found := _previous_tattoo(filepath, rest, tattoo)) and _is_earlier_version(
+            found[0], tattoo
+        ):
             rest = found[1]
-            break
+    if rest is not None and not overwrite:
+        print(f"Skipping {filepath} (already tattooed, use --overwrite to replace)")
+        return None
+
+    body = content_body if rest is None else rest
+    if _opens_with_docstring(style, body):
+        if not syntax.get("line"):
+            return None
+        commented_tattoo = _render_comment(("line", syntax["line"], ""), tattoo)
+    prefix = preamble + commented_tattoo + "\n\n"
 
     if rest is None:
         print(f"Tattooed {filepath}")
-        return prefix + content_body
-    if not overwrite:
-        print(f"Skipping {filepath} (already tattooed, use --overwrite to replace)")
-        return None
-    print(f"Re-tattooed {filepath} (replaced existing tattoo)")
-    return prefix + rest
+    else:
+        print(f"Re-tattooed {filepath} (replaced existing tattoo)")
+    return prefix + body
 
 
 def apply_tattoo_to_directory(target_path, tattoo, overwrite=False, dry_run=False) -> List[str]:

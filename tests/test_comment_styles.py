@@ -179,3 +179,68 @@ def test_resolve_language_from_shebang(tmp_path):
 def test_real_language_data(name, prefix):
     assert comment_text(name, "0110\n1001").startswith(prefix)
     assert comment_text("compiled.scpt", "0110") is None  # binary AppleScript
+
+
+@pytest.mark.parametrize(
+    "head",
+    [
+        '"""Module docs."""\n',
+        "# a comment\n\nr'''Raw docs.'''\n",
+        '#!/usr/bin/env python3\n"Single-quoted docs."\n',
+    ],
+)
+def test_python_docstring_keeps_its_place(langs, tmp_path, head):
+    """Regression: a \"\"\" tattoo displaced the docstring, so `from __future__` stopped compiling."""
+    f = tmp_path / "mod.py"
+    f.write_text(head + "from __future__ import annotations\n\nx: int = 1\n")
+    for text, overwrite in [("one", False), ("two", True)]:
+        f.write_text(_tattoo_file(str(f), get_tattoo(text), overwrite=overwrite))
+        src = f.read_text()
+        compile(src, str(f), "exec")
+        assert get_tattoo(text).split("\n")[3] in src
+        assert "# " + get_tattoo(text).split("\n")[3] in src  # line comments, not a string
+    assert '"""' not in src.replace('"""Module docs."""', "")
+
+
+def test_python_without_docstring_still_uses_block(langs, tmp_path):
+    f = tmp_path / "mod.py"
+    f.write_text("from __future__ import annotations\nx = 1\n")
+    out = _tattoo_file(str(f), get_tattoo("py"), overwrite=False)
+    assert out.startswith('"""\n')
+    compile(out, str(f), "exec")
+
+
+LICENSE = (
+    "Copyright (c) 2025 Acme Corp.\n"
+    "Licensed under the Apache License, Version 2.0.\n"
+    "See LICENSE for the full license text.\n"
+    "This file is part of the Acme project.\n"
+    "All rights reserved by the author.\n"
+)
+
+
+@pytest.mark.parametrize("name", ["a.c", "a.py", "a.sh"])
+def test_overwrite_replaces_prose_header(langs, tmp_path, name):
+    """Regression: a prose header isn't ASCII art, so --overwrite stacked a second copy."""
+    f = tmp_path / name
+    f.write_text("code\n")
+    f.write_text(_tattoo_file(str(f), LICENSE, overwrite=False))
+    new = LICENSE.replace("2025", "2026")
+    assert _tattoo_file(str(f), new, overwrite=False) is None  # already has a header
+    for _ in range(2):  # and re-running is idempotent
+        f.write_text(_tattoo_file(str(f), new, overwrite=True))
+        src = f.read_text()
+        assert src.count("Copyright") == 1 and "2026" in src
+        assert src.endswith("\ncode\n")
+
+
+def test_overwrite_collapses_stacked_headers_but_keeps_other_comments(langs, tmp_path):
+    f = tmp_path / "a.c"
+    f.write_text(
+        "/*\nCopyright (c) 2025 Acme Corp. Licensed under Apache 2.0.\n*/\n\n"
+        "/*\nCopyright (c) 2024 Acme Corp. Licensed under Apache 2.0.\n*/\n\n"
+        "/* Parses the config file and returns a dict. */\nint main(void);\n"
+    )
+    out = _tattoo_file(str(f), "Copyright (c) 2026 Acme Corp. Licensed under Apache 2.0.", True)
+    assert out.count("Copyright") == 1
+    assert out.endswith("*/\n\n/* Parses the config file and returns a dict. */\nint main(void);\n")
